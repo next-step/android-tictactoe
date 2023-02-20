@@ -66,6 +66,105 @@ class TicTacToeTest {
         val actual = ticTacToe.getAllCell()
 
         Truth.assertThat(actual).isEqualTo(empty)
+    }
 
+    @Test
+    fun `모든 값이 채워져 있고, 이긴 상황이 없는 경우 비겨야 한다`() {
+        // given
+        val ticTacToe = TicTacToe(
+            arrayOf(
+                arrayOf(OX.O, OX.X, OX.O),
+                arrayOf(OX.O, OX.X, OX.X),
+                arrayOf(OX.X, OX.O, OX.O)
+            )
+        )
+
+        println(ticTacToe.toString())
+
+        // when
+        val actual = ticTacToe.isDraw
+
+        //then
+        Truth.assertThat(actual).isEqualTo(true)
+    }
+
+    @Test
+    fun `Row로 이긴 경우 draw 함수 같이 체크`() {
+        // given
+        val ticTacToe = TicTacToe(
+            arrayOf(
+                arrayOf(OX.O, OX.O, OX.O),
+                arrayOf(null, null, null),
+                arrayOf(null, null, null)
+            )
+        )
+
+        // when
+        val drawActual = ticTacToe.isDraw
+        val winnerActual = ticTacToe.getWin()
+
+        //then
+        Truth.assertThat(drawActual).isEqualTo(false)
+        Truth.assertThat(winnerActual).isEqualTo((OX.O))
+    }
+
+    @Test
+    fun `Column로 이긴 경우 draw 함수 같이 체크`() {
+        // given
+        val ticTacToe = TicTacToe(
+            arrayOf(
+                arrayOf(OX.O, null, null),
+                arrayOf(OX.O, null, null),
+                arrayOf(OX.O, null, null)
+            )
+        )
+
+        // when
+        val drawActual = ticTacToe.isDraw
+        val winnerActual = ticTacToe.getWin()
+
+        //then
+        Truth.assertThat(drawActual).isEqualTo(false)
+        Truth.assertThat(winnerActual).isEqualTo((OX.O))
+    }
+
+    @Test
+    fun `Diagonal로 이긴 경우 draw 함수 같이 체크`() {
+        // given
+        val ticTacToe = TicTacToe(
+            arrayOf(
+                arrayOf(OX.O, null, null),
+                arrayOf(null, OX.O, null),
+                arrayOf(null, null, OX.O)
+            )
+        )
+
+        // when
+        val drawActual = ticTacToe.isDraw
+        val winnerActual = ticTacToe.getWin()
+
+        //then
+        Truth.assertThat(drawActual).isEqualTo(false)
+        Truth.assertThat(winnerActual).isEqualTo((OX.O))
+    }
+
+    @Test
+    fun `Reverse Diagonal로 이긴 경우 draw 함수 같이 체크`() {
+        // given
+        val ticTacToe = TicTacToe(
+            arrayOf(
+                arrayOf(null, null, OX.O),
+                arrayOf(null, OX.O, null),
+                arrayOf(OX.O, null, null)
+            )
+        )
+
+        // when
+        val drawActual = ticTacToe.isDraw
+        val winnerActual = ticTacToe.getWin()
+
+        //then
+        Truth.assertThat(drawActual).isEqualTo(false)
+        Truth.assertThat(winnerActual).isEqualTo((OX.O))
     }
 }
