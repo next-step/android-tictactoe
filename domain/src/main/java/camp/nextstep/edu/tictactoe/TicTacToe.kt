@@ -3,26 +3,33 @@ package camp.nextstep.edu.tictactoe
 typealias TicTacToeType = Array<Array<OX?>>
 
 class TicTacToe(
-    private var ticTacToe: TicTacToeType = Array(3) { Array(3) { null } }
+    private var ticTacToe: TicTacToeType = Array(3) { Array(3) { null } },
 ) {
 
-    val currentGameStatus: TicTacToeStatus
-        get() { return getGameStatus() }
+    var currentGameStatus: TicTacToeStatus = TicTacToeStatus.PLAYING
+        private set
+
+    init {
+        currentGameStatus = getGameStatus()
+    }
 
     fun put(x: Int, y: Int) {
         if (currentGameStatus != TicTacToeStatus.PLAYING) return
+        if (isNotExistedPosition(x, y)) return
 
         if (ticTacToe[x][y] == null) {
             ticTacToe[x][y] = isX
             isX = isX.change()
+            currentGameStatus = getGameStatus()
         }
     }
 
     private fun getGameStatus(): TicTacToeStatus {
+        val winner = getWinner()
         return when {
-            isDraw -> TicTacToeStatus.DRAW
-            getWinner() == OX.X -> TicTacToeStatus.X_WIN
-            getWinner() == OX.O -> TicTacToeStatus.O_WIN
+            isDraw(winner == null) -> TicTacToeStatus.DRAW
+            winner == OX.X -> TicTacToeStatus.X_WIN
+            winner == OX.O -> TicTacToeStatus.O_WIN
             else -> TicTacToeStatus.PLAYING
         }
     }
@@ -35,6 +42,12 @@ class TicTacToe(
 
     fun reset() {
         ticTacToe = newTicTacToe()
+        isX = OX.X
+        currentGameStatus = getGameStatus()
+    }
+
+    private fun isNotExistedPosition(x: Int, y: Int): Boolean {
+        return x >= ticTacToe.size || y >= ticTacToe[x].size
     }
 
     private fun getWinner(): OX? {
@@ -55,7 +68,7 @@ class TicTacToe(
     private fun isColumn(): OX? {
         for (i in ticTacToe.indices) {
             var answer = true
-            val result = ticTacToe[i][i]
+            val result = ticTacToe[0][i] ?: continue
             for (j in ticTacToe.indices) {
                 answer = answer && ticTacToe[j][i] == result
             }
@@ -112,8 +125,7 @@ class TicTacToe(
         get() = ticTacToe.all { arrayOx -> arrayOx.all { it != null } }
 
     // isFull && 게임 승부가 나지 않은 상태
-    private val isDraw: Boolean
-        get() = (getWinner() == null) && isFull
+    private fun isDraw(isNotExistedWinner: Boolean): Boolean = isNotExistedWinner && isFull
 
     // 체크 순서
     private var isX = OX.X
@@ -121,9 +133,5 @@ class TicTacToe(
     // 새로운 배열 생성
     private fun newTicTacToe(): TicTacToeType = Array(3) { Array(3) { null } }
 
-    override fun toString(): String {
-        return ticTacToe.map {
-            it.joinToString()
-        }.joinToString("\n")
-    }
+    override fun toString(): String = ticTacToe.joinToString("\n") { it.joinToString() }
 }
