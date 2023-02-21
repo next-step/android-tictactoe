@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">android-tictactoe</string>
+    <string name="draw">무승부</string>
+    <string name="winner">%1$s 승리</string>
 </resources>

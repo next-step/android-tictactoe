@@ -19,7 +19,7 @@ class MainViewModel : ViewModel() {
         _gameStatus.value = ticTacToe.currentGameStatus
     }
 
-    fun put(x: Int, y: Int) {
+    fun putCell(x: Int, y: Int) {
         if (ticTacToe.currentGameStatus != TicTacToeStatus.PLAYING) return
 
         ticTacToe.put(x, y)
