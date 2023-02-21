@@ -1,21 +1,30 @@
 package camp.nextstep.edu.tictactoe
 
+typealias TicTacToeType = Array<Array<OX?>>
+
 class TicTacToe(
-    private var ticTacToe: Array<Array<OX?>> = Array(3) { Array(3) { null } },
+    private var ticTacToe: TicTacToeType = Array(3) { Array(3) { null } }
 ) {
 
-    private var isX = OX.X
-
-    var isDraw: Boolean = false
-        private set
-        get() = getWin() == null &&
-            ticTacToe.all { arrayOx -> arrayOx.all { it != null } }
+    val currentGameStatus: TicTacToeStatus
+        get() { return getGameStatus() }
 
     fun put(x: Int, y: Int) {
-        if (ticTacToe[x][y] != null) return
+        if (currentGameStatus != TicTacToeStatus.PLAYING) return
 
-        ticTacToe[x][y] = isX
-        isX = isX.change()
+        if (ticTacToe[x][y] == null) {
+            ticTacToe[x][y] = isX
+            isX = isX.change()
+        }
+    }
+
+    private fun getGameStatus(): TicTacToeStatus {
+        return when {
+            isDraw -> TicTacToeStatus.DRAW
+            getWinner() == OX.X -> TicTacToeStatus.X_WIN
+            getWinner() == OX.O -> TicTacToeStatus.O_WIN
+            else -> TicTacToeStatus.PLAYING
+        }
     }
 
     fun getTicTacToeCell(x: Int, y: Int): OX? {
@@ -25,10 +34,10 @@ class TicTacToe(
     fun getAllCell() = ticTacToe.copyOf()
 
     fun reset() {
-        ticTacToe = Array(3) { Array(3) { null } }
+        ticTacToe = newTicTacToe()
     }
 
-    fun getWin(): OX? {
+    private fun getWinner(): OX? {
         val isRowWin = isRow()
         val isColumnWin = isColumn()
         val isDiagonal = isDiagonal()
@@ -41,46 +50,6 @@ class TicTacToe(
             isReverseDiagonal != null -> isReverseDiagonal
             else -> null
         }
-
-
-//        ticTacToe[0].all { it == OX.X }
-//        ticTacToe[1].all { it == OX.X }
-//        ticTacToe[2].all { it == OX.X }
-//
-//        ticTacToe[0][1] == OX.X &&
-//            ticTacToe[1][1] == OX.X &&
-//            ticTacToe[2][1] == OX.X -> OX.X
-//
-//        ticTacToe[0][0] == OX.X &&
-//            ticTacToe[1][1] == OX.X &&
-//            ticTacToe[2][2] == OX.X -> OX.X
-//
-//        ticTacToe[0][2] == OX.X &&
-//            ticTacToe[1][1] == OX.X &&
-//            ticTacToe[2][0] == OX.X -> OX.X
-//
-//
-//        ticTacToe[0].all { it == OX.O }
-//        ticTacToe[1].all { it == OX.O }
-//        ticTacToe[2].all { it == OX.O }
-//
-//        (ticTacToe[0][0] == OX.O &&
-//            ticTacToe[1][0] == OX.O &&
-//            ticTacToe[2][0] == OX.O) -> OX.O
-//
-//        (ticTacToe[0][2] == OX.O &&
-//            ticTacToe[1][2] == OX.O &&
-//            ticTacToe[2][2] == OX.O) -> OX.O
-//
-//        (ticTacToe[0][0] == OX.O &&
-//            ticTacToe[1][1] == OX.O &&
-//            ticTacToe[2][2] == OX.O) -> OX.O
-//
-//        (ticTacToe[0][2] == OX.O &&
-//            ticTacToe[1][1] == OX.O &&
-//            ticTacToe[2][0] == OX.O) -> OX.O
-//
-//        else -> null
     }
 
     private fun isColumn(): OX? {
@@ -138,6 +107,19 @@ class TicTacToe(
             null
     }
 
+    // 모든 배열이 체크가 되었는지
+    private val isFull: Boolean
+        get() = ticTacToe.all { arrayOx -> arrayOx.all { it != null } }
+
+    // isFull && 게임 승부가 나지 않은 상태
+    private val isDraw: Boolean
+        get() = (getWinner() == null) && isFull
+
+    // 체크 순서
+    private var isX = OX.X
+
+    // 새로운 배열 생성
+    private fun newTicTacToe(): TicTacToeType = Array(3) { Array(3) { null } }
 
     override fun toString(): String {
         return ticTacToe.map {

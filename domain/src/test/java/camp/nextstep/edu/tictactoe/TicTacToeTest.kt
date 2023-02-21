@@ -55,9 +55,13 @@ class TicTacToeTest {
         // given
         val empty = Array<Array<OX?>>(3) { Array(3) { null } }
 
-        ticTacToe.put(0, 0)
-        ticTacToe.put(1, 1)
-        ticTacToe.put(2, 2)
+        val ticTacToe = TicTacToe(
+            arrayOf(
+                arrayOf(OX.O, OX.X, OX.O),
+                arrayOf(OX.O, OX.X, OX.X),
+                arrayOf(OX.X, OX.O, OX.O)
+            )
+        )
 
         // when
         ticTacToe.reset()
@@ -79,13 +83,11 @@ class TicTacToeTest {
             )
         )
 
-        println(ticTacToe.toString())
-
         // when
-        val actual = ticTacToe.isDraw
+        val actual = ticTacToe.currentGameStatus
 
         //then
-        Truth.assertThat(actual).isEqualTo(true)
+        Truth.assertThat(actual).isEqualTo(TicTacToeStatus.DRAW)
     }
 
     @Test
@@ -100,12 +102,10 @@ class TicTacToeTest {
         )
 
         // when
-        val drawActual = ticTacToe.isDraw
-        val winnerActual = ticTacToe.getWin()
+        val actual = ticTacToe.currentGameStatus
 
         //then
-        Truth.assertThat(drawActual).isEqualTo(false)
-        Truth.assertThat(winnerActual).isEqualTo((OX.O))
+        Truth.assertThat(actual).isEqualTo(TicTacToeStatus.O_WIN)
     }
 
     @Test
@@ -120,12 +120,10 @@ class TicTacToeTest {
         )
 
         // when
-        val drawActual = ticTacToe.isDraw
-        val winnerActual = ticTacToe.getWin()
+        val actual = ticTacToe.currentGameStatus
 
         //then
-        Truth.assertThat(drawActual).isEqualTo(false)
-        Truth.assertThat(winnerActual).isEqualTo((OX.O))
+        Truth.assertThat(actual).isEqualTo(TicTacToeStatus.O_WIN)
     }
 
     @Test
@@ -139,13 +137,12 @@ class TicTacToeTest {
             )
         )
 
+
         // when
-        val drawActual = ticTacToe.isDraw
-        val winnerActual = ticTacToe.getWin()
+        val actual = ticTacToe.currentGameStatus
 
         //then
-        Truth.assertThat(drawActual).isEqualTo(false)
-        Truth.assertThat(winnerActual).isEqualTo((OX.O))
+        Truth.assertThat(actual).isEqualTo(TicTacToeStatus.O_WIN)
     }
 
     @Test
@@ -160,11 +157,9 @@ class TicTacToeTest {
         )
 
         // when
-        val drawActual = ticTacToe.isDraw
-        val winnerActual = ticTacToe.getWin()
+        val actual = ticTacToe.currentGameStatus
 
         //then
-        Truth.assertThat(drawActual).isEqualTo(false)
-        Truth.assertThat(winnerActual).isEqualTo((OX.O))
+        Truth.assertThat(actual).isEqualTo(TicTacToeStatus.O_WIN)
     }
 }
