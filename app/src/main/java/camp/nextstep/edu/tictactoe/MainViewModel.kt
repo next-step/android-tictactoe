@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 class MainViewModel : ViewModel() {
     private val ticTacToe: TicTacToe = TicTacToe()
 
-    private val _cellsLiveData: MutableLiveData<TicTacToeType> = MutableLiveData()
-    val cellsLiveData: LiveData<TicTacToeType> get() = _cellsLiveData
+    private val _cellsLiveData: MutableLiveData<Array<Array<OX?>>> = MutableLiveData()
+    val cellsLiveData: LiveData<Array<Array<OX?>>> get() = _cellsLiveData
 
     private val _gameStatus = MutableLiveData(ticTacToe.currentGameStatus)
     val gameStatus: LiveData<TicTacToeStatus> get() = _gameStatus
