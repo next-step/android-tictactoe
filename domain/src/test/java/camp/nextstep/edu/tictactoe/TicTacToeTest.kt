@@ -55,13 +55,17 @@ class TicTacToeTest {
         // given
         val empty = Array<Array<OX?>>(3) { Array(3) { null } }
 
-        val ticTacToe = TicTacToe(
-            arrayOf(
-                arrayOf(OX.O, OX.X, OX.O),
-                arrayOf(OX.O, OX.X, OX.X),
-                arrayOf(OX.X, OX.O, OX.O)
-            )
-        )
+        ticTacToe.put(0, 0)
+        ticTacToe.put(0, 1)
+        ticTacToe.put(0, 2)
+
+        ticTacToe.put(1, 0)
+        ticTacToe.put(1, 1)
+        ticTacToe.put(2, 1)
+
+        ticTacToe.put(1, 2)
+        ticTacToe.put(2, 2)
+        ticTacToe.put(2, 0)
 
         // when
         ticTacToe.reset()
@@ -75,13 +79,15 @@ class TicTacToeTest {
     @Test
     fun `모든 값이 채워져 있고, 이긴 상황이 없는 경우 비겨야 한다`() {
         // given
-        val ticTacToe = TicTacToe(
-            arrayOf(
-                arrayOf(OX.O, OX.X, OX.O),
-                arrayOf(OX.O, OX.X, OX.X),
-                arrayOf(OX.X, OX.O, OX.O)
-            )
-        )
+        ticTacToe.put(0, 0)
+        ticTacToe.put(0, 1)
+        ticTacToe.put(0, 2)
+        ticTacToe.put(1, 0)
+        ticTacToe.put(1, 1)
+        ticTacToe.put(2, 2)
+        ticTacToe.put(2, 1)
+        ticTacToe.put(2, 0)
+        ticTacToe.put(1, 2)
 
         // when
         val actual = ticTacToe.currentGameStatus
@@ -93,73 +99,65 @@ class TicTacToeTest {
     @Test
     fun `Row로 이긴 경우 draw 함수 같이 체크`() {
         // given
-        val ticTacToe = TicTacToe(
-            arrayOf(
-                arrayOf(OX.O, OX.O, OX.O),
-                arrayOf(null, null, null),
-                arrayOf(null, null, null)
-            )
-        )
+        ticTacToe.put(0, 0)
+        ticTacToe.put(1, 0)
+        ticTacToe.put(0, 1)
+        ticTacToe.put(1, 1)
+        ticTacToe.put(0, 2)
 
         // when
         val actual = ticTacToe.currentGameStatus
 
         //then
-        Truth.assertThat(actual).isEqualTo(TicTacToeStatus.O_WIN)
+        Truth.assertThat(actual).isEqualTo(TicTacToeStatus.X_WIN)
     }
 
     @Test
     fun `Column로 이긴 경우 draw 함수 같이 체크`() {
         // given
-        val ticTacToe = TicTacToe(
-            arrayOf(
-                arrayOf(OX.O, null, null),
-                arrayOf(OX.O, null, null),
-                arrayOf(OX.O, null, null)
-            )
-        )
+        ticTacToe.put(0, 0)
+        ticTacToe.put(0, 1)
+        ticTacToe.put(1, 0)
+        ticTacToe.put(1, 1)
+        ticTacToe.put(2, 0)
 
         // when
         val actual = ticTacToe.currentGameStatus
 
         //then
-        Truth.assertThat(actual).isEqualTo(TicTacToeStatus.O_WIN)
+        Truth.assertThat(actual).isEqualTo(TicTacToeStatus.X_WIN)
     }
 
     @Test
     fun `Diagonal로 이긴 경우 draw 함수 같이 체크`() {
         // given
-        val ticTacToe = TicTacToe(
-            arrayOf(
-                arrayOf(OX.O, null, null),
-                arrayOf(null, OX.O, null),
-                arrayOf(null, null, OX.O)
-            )
-        )
-
+        ticTacToe.put(0, 0)
+        ticTacToe.put(0, 1)
+        ticTacToe.put(1, 1)
+        ticTacToe.put(1, 2)
+        ticTacToe.put(2, 2)
 
         // when
         val actual = ticTacToe.currentGameStatus
 
         //then
-        Truth.assertThat(actual).isEqualTo(TicTacToeStatus.O_WIN)
+        Truth.assertThat(actual).isEqualTo(TicTacToeStatus.X_WIN)
     }
 
     @Test
     fun `Reverse Diagonal로 이긴 경우 draw 함수 같이 체크`() {
+
         // given
-        val ticTacToe = TicTacToe(
-            arrayOf(
-                arrayOf(null, null, OX.O),
-                arrayOf(null, OX.O, null),
-                arrayOf(OX.O, null, null)
-            )
-        )
+        ticTacToe.put(2, 0)
+        ticTacToe.put(0, 1)
+        ticTacToe.put(1, 1)
+        ticTacToe.put(1, 2)
+        ticTacToe.put(0, 2)
 
         // when
         val actual = ticTacToe.currentGameStatus
 
         //then
-        Truth.assertThat(actual).isEqualTo(TicTacToeStatus.O_WIN)
+        Truth.assertThat(actual).isEqualTo(TicTacToeStatus.X_WIN)
     }
 }
