@@ -13,7 +13,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val mainViewModel: MainViewModel by viewModels()
 
-    private lateinit var imageViewArray: Array<Array<ImageView>>
+    private val imageViewArray: Array<Array<ImageView>> by lazy {
+        arrayOf(
+            arrayOf(binding.cellTopLeft, binding.cellTop, binding.cellTopRight),
+            arrayOf(binding.cellMiddleLeft, binding.cellMiddle, binding.cellMiddleRight),
+            arrayOf(binding.cellBottomLeft, binding.cellBottom, binding.cellBottomRight),
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +27,6 @@ class MainActivity : AppCompatActivity() {
         binding.viewModel = mainViewModel
         setContentView(binding.root)
         addObserver()
-        addImageViewList()
     }
 
     private fun addObserver() {
@@ -41,14 +46,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    private fun addImageViewList() {
-        imageViewArray = arrayOf(
-            arrayOf(binding.cellTopLeft, binding.cellTop, binding.cellTopRight),
-            arrayOf(binding.cellMiddleLeft, binding.cellMiddle, binding.cellMiddleRight),
-            arrayOf(binding.cellBottomLeft, binding.cellBottom, binding.cellBottomRight),
-        )
     }
 
     private fun setImageResource(x: Int, y: Int, ox: OX?) {
