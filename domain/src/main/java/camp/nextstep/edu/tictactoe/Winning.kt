@@ -1,6 +1,7 @@
 package camp.nextstep.edu.tictactoe
 
-class Winning {
+internal object Winning {
+
     fun getWinner(ticTacToe: Array<Array<OX?>>): OX? {
         val isRowWin = isRow(ticTacToe)
         val isColumnWin = isColumn(ticTacToe)

@@ -90,7 +90,7 @@ class TicTacToeTest {
         ticTacToe.put(1, 2)
 
         // when
-        val actual = ticTacToe.currentGameStatus
+        val actual = ticTacToe.getGameStatus()
 
         //then
         Truth.assertThat(actual).isEqualTo(TicTacToeStatus.DRAW)
@@ -106,7 +106,7 @@ class TicTacToeTest {
         ticTacToe.put(0, 2)
 
         // when
-        val actual = ticTacToe.currentGameStatus
+        val actual = ticTacToe.getGameStatus()
 
         //then
         Truth.assertThat(actual).isEqualTo(TicTacToeStatus.X_WIN)
@@ -122,7 +122,7 @@ class TicTacToeTest {
         ticTacToe.put(2, 0)
 
         // when
-        val actual = ticTacToe.currentGameStatus
+        val actual = ticTacToe.getGameStatus()
 
         //then
         Truth.assertThat(actual).isEqualTo(TicTacToeStatus.X_WIN)
@@ -138,7 +138,7 @@ class TicTacToeTest {
         ticTacToe.put(2, 2)
 
         // when
-        val actual = ticTacToe.currentGameStatus
+        val actual = ticTacToe.getGameStatus()
 
         //then
         Truth.assertThat(actual).isEqualTo(TicTacToeStatus.X_WIN)
@@ -155,7 +155,7 @@ class TicTacToeTest {
         ticTacToe.put(0, 2)
 
         // when
-        val actual = ticTacToe.currentGameStatus
+        val actual = ticTacToe.getGameStatus()
 
         //then
         Truth.assertThat(actual).isEqualTo(TicTacToeStatus.X_WIN)
