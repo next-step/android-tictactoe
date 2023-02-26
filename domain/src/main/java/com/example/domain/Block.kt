@@ -5,14 +5,26 @@ sealed class Block
 class EmptyBlock : Block() {
     fun assign(player: Player): AssignedBlock {
         return when (player) {
-            Player.X -> XBlock()
-            Player.O -> OBlock()
+            Player.X -> XBlock
+            Player.O -> OBlock
         }
+    }
+
+    override fun toString(): String {
+        return "EmptyBlock()"
     }
 }
 
 sealed class AssignedBlock : Block()
 
-class XBlock : AssignedBlock() {}
+object XBlock : AssignedBlock() {
+    override fun toString(): String {
+        return "XBlock()"
+    }
+}
 
-class OBlock : AssignedBlock() {}
+object OBlock : AssignedBlock() {
+    override fun toString(): String {
+        return "OBlock()"
+    }
+}
