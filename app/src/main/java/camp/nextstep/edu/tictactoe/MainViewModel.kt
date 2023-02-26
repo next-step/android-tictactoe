@@ -55,12 +55,7 @@ class MainViewModel : ViewModel() {
     }
 
     private fun drawOorXWithPoint(point: Point) {
-
-        for (r in 0 until MAP_SIZE) {
-            for (c in 0 until MAP_SIZE) {
-                if (point == Point(r, c)) _point[r][c].value = isXTurn()
-            }
-        }
+        _point[point.r][point.c].value = isXTurn()
     }
 
     private fun isXTurn(): Boolean? {
