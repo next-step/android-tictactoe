@@ -24,11 +24,11 @@ class Board(blocks: List<Block>) {
         return _blocks.all { it is EmptyBlock }
     }
 
-    fun isDraw(): Boolean {
+    fun isFull(): Boolean {
         return _blocks.all { it is AssignedBlock }
     }
 
-    fun isWinning(turn: Turn): Boolean {
+    fun hasOneLine(turn: Turn): Boolean {
 
         return when (turn.whoseTurn()) {
             Player.X -> winningIndexs.any { indexs ->

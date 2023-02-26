@@ -97,7 +97,7 @@ class BoardTest {
         fun `Empty Block이 없으면 isDraw는 true를 반환한다`() {
             // given
             val board = Board.createEmptyBoard()
-            assertFalse(board.isDraw())
+            assertFalse(board.isFull())
 
             // when
             board.assignBlock(Turn(0), 0)
@@ -111,7 +111,7 @@ class BoardTest {
             board.assignBlock(Turn(8), 8)
 
             // then
-            assertTrue(board.isDraw())
+            assertTrue(board.isFull())
         }
     }
 
@@ -120,7 +120,7 @@ class BoardTest {
         @Test
         fun `승리 조건 테스트`() {
             // when
-            val isWinning = board.isWinning(Turn(turn))
+            val isWinning = board.hasOneLine(Turn(turn))
 
             // then
             assertTrue(isWinning)
