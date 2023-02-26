@@ -1,8 +1,10 @@
 package com.example.domain
 
 class Board(blocks: List<Block>) {
-    private val _blocks = blocks.toMutableList()
-    val blocks: List<Block> = _blocks.toList()
+    private val blocks = blocks.toMutableList()
+
+    val state: BoardState
+        get() = BoardState(blocks)
 
     init {
         require(blocks.size == 9) {
@@ -10,32 +12,32 @@ class Board(blocks: List<Block>) {
         }
     }
 
-    fun assignBlock(turn: Turn, blockIndex: Int): Board {
-        val nowBlock = _blocks[blockIndex]
+    fun assignBlock(turn: Turn, blockIndex: Int): BoardState {
+        val nowBlock = blocks[blockIndex]
         require(nowBlock is EmptyBlock) {
             "이미 놓여진 블록입니다."
         }
         val assignedBlock = nowBlock.assign(turn.whoseTurn())
-        _blocks[blockIndex] = assignedBlock
-        return Board(_blocks)
+        blocks[blockIndex] = assignedBlock
+        return BoardState(blocks)
     }
 
     fun isEmpty(): Boolean {
-        return _blocks.all { it is EmptyBlock }
+        return blocks.all { it is EmptyBlock }
     }
 
     fun isFull(): Boolean {
-        return _blocks.all { it is AssignedBlock }
+        return blocks.all { it is AssignedBlock }
     }
 
     fun hasOneLine(turn: Turn): Boolean {
 
         return when (turn.whoseTurn()) {
             Player.X -> winningIndexs.any { indexs ->
-                indexs.map { _blocks[it] }.all { it is XBlock }
+                indexs.map { blocks[it] }.all { it is XBlock }
             }
             Player.O -> winningIndexs.any { indexs ->
-                indexs.map { _blocks[it] }.all { it is OBlock }
+                indexs.map { blocks[it] }.all { it is OBlock }
             }
         }
     }
@@ -46,17 +48,13 @@ class Board(blocks: List<Block>) {
 
         other as Board
 
-        if (_blocks != other._blocks) return false
+        if (blocks != other.blocks) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        return _blocks.hashCode()
-    }
-
-    override fun toString(): String {
-        return "Board(blocks=$blocks)"
+        return blocks.hashCode()
     }
 
     companion object {
@@ -76,6 +74,4 @@ class Board(blocks: List<Block>) {
             listOf(2, 4, 6),
         )
     }
-
-
 }

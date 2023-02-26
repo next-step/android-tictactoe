@@ -30,7 +30,7 @@ class BoardTest {
 
             // then
             assertTrue(board.isEmpty())
-            assertEquals(9, board.blocks.size)
+            assertEquals(9, board.state.blocks.size)
         }
 
         @Test
@@ -53,7 +53,7 @@ class BoardTest {
 
             // then
             assertFalse(board.isEmpty())
-            assertEquals(9, board.blocks.size)
+            assertEquals(9, board.state.blocks.size)
         }
 
         @Test
