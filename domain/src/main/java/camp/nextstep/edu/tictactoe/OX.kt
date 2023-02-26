@@ -1,5 +1,6 @@
 package camp.nextstep.edu.tictactoe
 
+// 게임의 턴
 enum class OX {
     O, X;
 

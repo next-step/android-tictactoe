@@ -65,7 +65,7 @@ class MainViewModelTest {
 
     @Test
     fun `tictactoe 값이 존재할 때 다시하기 한 경우 빈 tictactoe 배열이 나와야 한다`() {
-        val initValue = TicTacToe().getAllCell()
+        val initValue = TicTacToeBoard().getAllCell()
         // given
         mainViewModel.putCell(0, 0)
         mainViewModel.putCell(0, 1)
