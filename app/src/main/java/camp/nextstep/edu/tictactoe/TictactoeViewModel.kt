@@ -28,6 +28,13 @@ class TictactoeViewModel : ViewModel() {
         }
     }
 
+    fun clear() {
+        _board.forEach {
+            it.value = null
+        }
+        _isFirst.value = null
+    }
+
     companion object {
         private const val BOARD_SIZE = 9
     }
