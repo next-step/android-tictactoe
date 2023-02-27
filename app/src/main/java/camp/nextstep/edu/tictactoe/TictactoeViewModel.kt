@@ -3,11 +3,10 @@ package camp.nextstep.edu.tictactoe
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.nextstep.edu.tictactoe.domain.Tictactoe
 
 class TictactoeViewModel : ViewModel() {
-    private val _isFirst: MutableLiveData<Boolean?> = MutableLiveData(null)
-    val isFirst: LiveData<Boolean?> = _isFirst
-
+    private val tictactoe: Tictactoe = Tictactoe()
     private val _board: MutableList<MutableLiveData<Boolean?>> =
         MutableList(BOARD_SIZE) { MutableLiveData<Boolean?>(null) }
     val board: List<LiveData<Boolean?>>
@@ -15,24 +14,15 @@ class TictactoeViewModel : ViewModel() {
 
     fun mark(position: Int) {
         if (_board[position].value == null) {
-            setIsFirstValue()
-            _board[position].value = _isFirst.value
+            _board[position].value = tictactoe.isXTurn()
         }
     }
 
-    private fun setIsFirstValue() {
-        if (_isFirst.value == null) {
-            _isFirst.value = true
-        } else {
-            _isFirst.value = _isFirst.value != true
-        }
-    }
-
-    fun clear() {
+    fun restart() {
         _board.forEach {
             it.value = null
         }
-        _isFirst.value = null
+        tictactoe.restart()
     }
 
     companion object {
