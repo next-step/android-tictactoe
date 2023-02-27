@@ -3,8 +3,8 @@ package com.example.domain
 @JvmInline
 value class Turn(private val value: Int) {
     init {
-        require(value >= 0) {
-            "턴은 0보다 작을 수 없습니다."
+        require(value in 0..8) {
+            "턴은 0보다 작거나, 8보다 클 수 없습니다."
         }
     }
 
