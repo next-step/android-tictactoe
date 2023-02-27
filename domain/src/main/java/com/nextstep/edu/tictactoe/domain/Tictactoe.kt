@@ -19,10 +19,18 @@ class Tictactoe {
     }
 
     fun findWinner(board: List<Boolean?>): Winner {
-        return if (isWinnerForRow(board) == true) {
+        return if (isWinnerForRow(board) == true
+            || isWinnerForLeftToRightDiagonal(board) == true
+            || isWinnerForRightToLeftDiagonal(board) == true
+        ) {
             Winner.X
-        } else if (isWinnerForRow(board) == false) {
+        } else if (isWinnerForRow(board) == false
+            || isWinnerForLeftToRightDiagonal(board) == false
+            || isWinnerForRightToLeftDiagonal(board) == false
+        ) {
             Winner.O
+        } else if (isDraw(board)) {
+            Winner.DRAW
         } else {
             Winner.NONE
         }
@@ -115,7 +123,7 @@ class Tictactoe {
         var xCounter = 0
         var oCounter = 0
 
-        for (i in 1 .. cornerSize) {
+        for (i in 1..cornerSize) {
             if (board[i * (cornerSize - 1)] == true) {
                 xCounter++
             }
@@ -132,5 +140,9 @@ class Tictactoe {
         }
 
         return null
+    }
+
+    fun isDraw(board: List<Boolean?>): Boolean {
+        return board.none { it == null }
     }
 }
