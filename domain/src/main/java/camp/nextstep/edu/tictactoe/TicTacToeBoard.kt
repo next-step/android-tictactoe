@@ -1,23 +1,40 @@
 package camp.nextstep.edu.tictactoe
 
+import camp.nextstep.edu.tictactoe.GameMode.*
+
 
 class TicTacToeBoard {
     private var ticTacToe: Array<Array<OX?>> = Array(3) { Array(3) { null } }
     private var gameStatus = GameStatus(this)
+    var gameMode = TWO_PLAYERS
 
 
     fun put(x: Int, y: Int) {
-        require(gameStatus.currentGameStatus == TicTacToeStatus.PLAYING) {
-            "게임이 종료 되었습니다."
-        }
-
+        if (gameStatus.currentGameStatus != TicTacToeStatus.PLAYING) return
         require(!isNotExistedPosition(x, y)) {
             "잘못된 위치입니다."
         }
 
-        if (ticTacToe[x][y] == null) {
-            ticTacToe[x][y] = gameStatus.gameTern
+        when (gameMode) {
+            TWO_PLAYERS -> twoPlayerPut(x, y)
+            RANDOM -> randomInput(x, y)
+            DRAW -> TODO()
         }
+    }
+
+    // 2인
+    internal fun twoPlayerPut(x: Int, y: Int) {
+        if (ticTacToe[x][y] != null) return
+
+        ticTacToe[x][y] = gameStatus.gameTern
+    }
+
+    // 랜덤
+    private fun randomInput(x: Int, y: Int) {
+        if (ticTacToe[x][y] != null) return
+
+        twoPlayerPut(x, y)
+        RandomInput.randomPut(this)
     }
 
     fun getGameStatus(): TicTacToeStatus {

@@ -2,7 +2,7 @@ package camp.nextstep.edu.tictactoe
 
 
 // 게임의 진행 상태
-internal class GameStatus(private val board : TicTacToeBoard) {
+internal class GameStatus(private val board: TicTacToeBoard) {
 
     val currentGameStatus: TicTacToeStatus
         get() = getGameStatus()
