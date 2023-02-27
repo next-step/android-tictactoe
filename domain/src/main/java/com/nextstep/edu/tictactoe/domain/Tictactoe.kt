@@ -19,16 +19,16 @@ class Tictactoe {
     }
 
     fun findWinner(board: List<Boolean?>): Winner {
-        return if (isWinnerRow(board) == true) {
+        return if (isWinnerForRow(board) == true) {
             Winner.X
-        } else if (isWinnerRow(board) == false) {
+        } else if (isWinnerForRow(board) == false) {
             Winner.O
         } else {
             Winner.NONE
         }
     }
 
-    fun isWinnerRow(board: List<Boolean?>): Boolean? {
+    fun isWinnerForRow(board: List<Boolean?>): Boolean? {
         val cornerSize = sqrt(board.size.toFloat()).toInt()
         var xCounter: Int
         var oCounter: Int
@@ -36,6 +36,7 @@ class Tictactoe {
         for (i in board.indices step 3) {
             xCounter = 0
             oCounter = 0
+
             repeat(cornerSize) {
                 if (board[i + it] == true) {
                     xCounter++
@@ -44,6 +45,7 @@ class Tictactoe {
                     oCounter++
                 }
             }
+
             if (xCounter == cornerSize) {
                 return true
             }
@@ -51,10 +53,11 @@ class Tictactoe {
                 return false
             }
         }
+
         return null
     }
 
-    fun isWinnerColumn(board: List<Boolean?>): Boolean? {
+    fun isWinnerForColumn(board: List<Boolean?>): Boolean? {
         val cornerSize = sqrt(board.size.toFloat()).toInt()
         var xCounter: Int
         var oCounter: Int
@@ -62,6 +65,7 @@ class Tictactoe {
         repeat(cornerSize) {
             xCounter = 0
             oCounter = 0
+
             for (i in board.indices step 3) {
                 if (board[i + it] == true) {
                     xCounter++
@@ -70,6 +74,7 @@ class Tictactoe {
                     oCounter++
                 }
             }
+
             if (xCounter == cornerSize) {
                 return true
             }
@@ -77,6 +82,55 @@ class Tictactoe {
                 return false
             }
         }
+
+        return null
+    }
+
+    fun isWinnerForLeftToRightDiagonal(board: List<Boolean?>): Boolean? {
+        val cornerSize = sqrt(board.size.toFloat()).toInt()
+        var xCounter = 0
+        var oCounter = 0
+
+        for (i in 0 until cornerSize) {
+            if (board[i * (cornerSize + 1)] == true) {
+                xCounter++
+            }
+            if (board[i * (cornerSize + 1)] == false) {
+                oCounter++
+            }
+        }
+
+        if (xCounter == cornerSize) {
+            return true
+        }
+        if (oCounter == cornerSize) {
+            return false
+        }
+
+        return null
+    }
+
+    fun isWinnerForRightToLeftDiagonal(board: List<Boolean?>): Boolean? {
+        val cornerSize = sqrt(board.size.toFloat()).toInt()
+        var xCounter = 0
+        var oCounter = 0
+
+        for (i in 1 .. cornerSize) {
+            if (board[i * (cornerSize - 1)] == true) {
+                xCounter++
+            }
+            if (board[i * (cornerSize - 1)] == false) {
+                oCounter++
+            }
+        }
+
+        if (xCounter == cornerSize) {
+            return true
+        }
+        if (oCounter == cornerSize) {
+            return false
+        }
+
         return null
     }
 }
