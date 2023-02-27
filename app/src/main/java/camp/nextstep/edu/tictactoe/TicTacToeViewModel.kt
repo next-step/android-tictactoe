@@ -1,10 +1,11 @@
 package camp.nextstep.edu.tictactoe
 
+import android.view.View
+import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.domain.Game
-import com.example.domain.GameState
+import com.example.domain.*
 
 class TicTacToeViewModel(game: Game = Game()) : ViewModel() {
 
@@ -35,5 +36,14 @@ class TicTacToeViewModel(game: Game = Game()) : ViewModel() {
     fun reset() {
         game.reset()
         _state.value = game.state
+    }
+}
+
+@BindingAdapter("android:assign")
+fun setAssign(view: View?, block: Block?) {
+    when (block) {
+        XBlock -> view?.setBackgroundResource(R.drawable.ic_x_black)
+        OBlock -> view?.setBackgroundResource(R.drawable.ic_o_black)
+        else -> view?.setBackgroundResource(0)
     }
 }
