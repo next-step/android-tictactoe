@@ -1,8 +1,8 @@
 package camp.nextstep.edu.tictactoe
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import camp.nextstep.edu.tictactoe.domain.Point
-import camp.nextstep.edu.tictactoe.model.MessageState
+import camp.nextstep.edu.tictactoe.domain.model.Point
+import camp.nextstep.edu.tictactoe.model.TurnResultMessage
 import camp.nextstep.edu.tictactoe.util.getOrAwaitValue
 import io.mockk.clearAllMocks
 import org.junit.After
@@ -29,39 +29,61 @@ class MainViewModelTest {
         clearAllMocks()
     }
 
+    /**
+     *  X O O
+     *  X
+     *  X
+     * */
     @Test
     fun `x가 승리한다`() {
-        viewModel.isWin(Point(0, 0)) //x
-        viewModel.isWin(Point(0, 1)) //o
-        viewModel.isWin(Point(1, 0)) //x
-        viewModel.isWin(Point(0, 2)) //o
-        viewModel.isWin(Point(2, 0)) //x
-        assertEquals(MessageState.X_WIN, viewModel.showToast.getOrAwaitValue())
+        viewModel.put(Point.CellTopLeft) //x
+        viewModel.put(Point.CellTop) //o
+        viewModel.put(Point.CellMiddleLeft) //x
+        viewModel.put(Point.CellTopRight) //o
+        viewModel.put(Point.CellBottomLeft) //x
+        assertEquals(
+            TurnResultMessage.GameResultMessage.XWin,
+            viewModel.showToast.getOrAwaitValue()
+        )
     }
 
+    /**
+     *  O O O
+     *      X
+     *    X X
+     * */
     @Test
     fun `o가 승리한다`() {
-        viewModel.isWin(Point(2, 2)) //x
-        viewModel.isWin(Point(0, 0)) //o
-        viewModel.isWin(Point(1, 2)) //x
-        viewModel.isWin(Point(0, 1)) //o
-        viewModel.isWin(Point(2, 1)) //x
-        viewModel.isWin(Point(0, 2)) //o
-        assertEquals(MessageState.O_WIN, viewModel.showToast.getOrAwaitValue())
+        viewModel.put(Point.CellBottomRight) //x
+        viewModel.put(Point.CellTopLeft) //o
+        viewModel.put(Point.CellMiddleRight) //x
+        viewModel.put(Point.CellTop) //o
+        viewModel.put(Point.CellBottom) //x
+        viewModel.put(Point.CellTopRight) //o
+        assertEquals(
+            TurnResultMessage.GameResultMessage.OWin,
+            viewModel.showToast.getOrAwaitValue()
+        )
     }
 
+    /**
+     *  X O X
+     *  X O O
+     *  O X X
+     * */
     @Test
     fun `무승부로 끝난다`() {
-        viewModel.isWin(Point(0, 0)) //x
-        viewModel.isWin(Point(0, 1)) //o
-        viewModel.isWin(Point(0, 2)) //x
-        viewModel.isWin(Point(1, 1)) //o
-        viewModel.isWin(Point(1, 0)) //x
-        viewModel.isWin(Point(1, 2)) //o
-        viewModel.isWin(Point(2, 1)) //x
-        viewModel.isWin(Point(2, 0)) //o
-        viewModel.isWin(Point(2, 2)) //x
-        assertEquals(MessageState.IN_A_TIE, viewModel.showToast.getOrAwaitValue())
+        viewModel.put(Point.CellTopLeft) //x
+        viewModel.put(Point.CellTop) //o
+        viewModel.put(Point.CellTopRight) //x
+        viewModel.put(Point.CellMiddle) //o
+        viewModel.put(Point.CellMiddleLeft) //x
+        viewModel.put(Point.CellMiddleRight) //o
+        viewModel.put(Point.CellBottom) //x
+        viewModel.put(Point.CellBottomLeft) //o
+        viewModel.put(Point.CellBottomRight) //x
+        assertEquals(TurnResultMessage.GameResultMessage.Tie, viewModel.showToast.getOrAwaitValue())
     }
+
 
 }

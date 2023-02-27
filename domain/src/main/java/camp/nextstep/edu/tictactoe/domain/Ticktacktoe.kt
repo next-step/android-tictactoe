@@ -1,28 +1,12 @@
 package camp.nextstep.edu.tictactoe.domain
 
-enum class Turn {
-    X,
-    O,
-    UNKNOWN,
-}
+import camp.nextstep.edu.tictactoe.domain.model.*
 
-data class Point(val r: Int, val c: Int) {
-    fun getPoint(r: Int, c: Int): Point {
-        return Point(r, c)
-    }
-
-}
-
-enum class GameResult {
-    X_WIN,
-    O_WIN,
-    TIE,
-    UNKNOWN
-}
-
-class Ticktacktoe(
-    private var currentTurn: Turn = Turn.X
+class Ticktacktoe constructor(
+    private var currentTurn: Turn = Turn.X,
+    private val gameResultManager: GameResultManager
 ) {
+
     private var map = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
 
     var isFinish: Boolean = false
@@ -34,39 +18,25 @@ class Ticktacktoe(
         return currentTurn
     }
 
-    fun isWin(point: Point): GameResult? {
-        if (!drawMap(point) || isFinish)
-            return null
-        val r = point.r
-        val c = point.c
-        var rSum = 0
-        var cSum = 0
-        for (k in 0 until MAP_SIZE) {
-            rSum += if (map[r][k] == currentTurn) 1 else 0
-            cSum += if (map[k][c] == currentTurn) 1 else 0
-        }
-        var leftDiagonalSum = 0
-        var rightDiagonalSum = 0
-        for (k in 0 until MAP_SIZE) {
-            leftDiagonalSum += if (map[k][k] == currentTurn) 1 else 0
-            rightDiagonalSum += if (map[k][MAP_SIZE - k - 1] == currentTurn) 1 else 0
-        }
+    fun isValidData(point: Point): Boolean {
+        return !(map[point.row][point.column] != Turn.UNKNOWN || isFinish)
+    }
 
-        isFinish = listOf<Int>(rSum, cSum, leftDiagonalSum, rightDiagonalSum).contains(MAP_SIZE)
-        val result =
-            if (isFinish && currentTurn == Turn.X) GameResult.X_WIN
-            else if (isFinish && currentTurn == Turn.O) GameResult.O_WIN
-            else if (!isFinish && (count == MAP_SIZE * MAP_SIZE)) {
-                isFinish = true
-                GameResult.TIE
-            } else GameResult.UNKNOWN
-
+    fun put(point: Point): Pair<GameResult, Status> {
+        val r = point.row
+        val c = point.column
+        map[r][c] = currentTurn
+        count++
+        val result = gameResultManager.getTurnResult(point, map, currentTurn, count)
+        isFinish = result.first != GameResult.UNKNOWN
         return result
+
     }
 
     fun reset() {
         isFinish = false
         count = 0
+        currentTurn = Turn.X
         map = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
     }
 
@@ -75,20 +45,10 @@ class Ticktacktoe(
         else Turn.X
     }
 
-    private fun drawMap(point: Point): Boolean {
-        val r = point.r
-        val c = point.c
-        if (map[r][c] != Turn.UNKNOWN)
-            return false
-        map[r][c] = currentTurn
-        count++
-        return true
-    }
-
-
     companion object {
         const val MAP_SIZE = 3
     }
+
 
 }
 

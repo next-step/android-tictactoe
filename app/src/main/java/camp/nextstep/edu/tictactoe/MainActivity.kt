@@ -6,9 +6,9 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
-import camp.nextstep.edu.tictactoe.domain.Point
-import camp.nextstep.edu.tictactoe.model.MessageState
-import camp.nextstep.edu.tictactoe.model.MessageState.*
+import camp.nextstep.edu.tictactoe.model.TurnResultMessage
+import camp.nextstep.edu.tictactoe.model.TurnResultMessage.ErrorMessage
+import camp.nextstep.edu.tictactoe.model.TurnResultMessage.GameResultMessage
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         with(binding) {
             vm = viewModel
-            point = Point(0, 0)
             lifecycleOwner = this@MainActivity
         }
         observerViewMode()
@@ -28,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun observerViewMode() {
         viewModel.showToast.observe(this) {
-            showErrorMessage(it)
+            showTurnResultMessage(it)
         }
     }
 
@@ -37,24 +36,36 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    private fun showErrorMessage(messageState: MessageState) {
-        when (messageState) {
-            FINISH -> Toast.makeText(this, "게임이 종료되었습니다.", Toast.LENGTH_SHORT).show()
-            X_WIN -> Toast.makeText(this, "X가 이겼습니다", Toast.LENGTH_SHORT).show()
-            O_WIN -> Toast.makeText(this, "O가 이겼습니다", Toast.LENGTH_SHORT).show()
-            IN_A_TIE -> Toast.makeText(this, "무승부 입니다", Toast.LENGTH_SHORT).show()
-            ERROR -> Toast.makeText(this, "다른 곳을 선택해 주세요", Toast.LENGTH_SHORT).show()
+    private fun showTurnResultMessage(message: TurnResultMessage) {
+        when (message) {
+            is ErrorMessage.WrongClick -> Toast.makeText(this, message.message, Toast.LENGTH_SHORT)
+                .show()
+            is ErrorMessage.FinishGame -> Toast.makeText(
+                this,
+                message.message,
+                Toast.LENGTH_SHORT
+            ).show()
+            is GameResultMessage.OWin -> Toast.makeText(this, message.message, Toast.LENGTH_SHORT)
+                .show()
+            is GameResultMessage.XWin -> Toast.makeText(this, message.message, Toast.LENGTH_SHORT)
+                .show()
+            is GameResultMessage.Tie -> Toast.makeText(this, message.message, Toast.LENGTH_SHORT)
+                .show()
+
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_two ->
+            R.id.menu_two -> {
                 Toast.makeText(this, "TODO: 2인 모드로 전환", Toast.LENGTH_SHORT).show()
-            R.id.menu_random ->
+            }
+            R.id.menu_random -> {
                 Toast.makeText(this, "TODO: 랜덤 모드로 전환", Toast.LENGTH_SHORT).show()
+            }
             R.id.menu_draw ->
                 Toast.makeText(this, "TODO: 무승부 모드로 전환", Toast.LENGTH_SHORT).show()
+
         }
         return true
     }

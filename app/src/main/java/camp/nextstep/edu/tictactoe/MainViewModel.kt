@@ -3,40 +3,45 @@ package camp.nextstep.edu.tictactoe
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import camp.nextstep.edu.tictactoe.domain.GameResult
-import camp.nextstep.edu.tictactoe.domain.Point
+import camp.nextstep.edu.tictactoe.domain.GameResultManager
 import camp.nextstep.edu.tictactoe.domain.Ticktacktoe
-import camp.nextstep.edu.tictactoe.domain.Turn
-import camp.nextstep.edu.tictactoe.model.MessageState
+import camp.nextstep.edu.tictactoe.domain.model.GameResult
+import camp.nextstep.edu.tictactoe.domain.model.Point
+import camp.nextstep.edu.tictactoe.domain.model.Turn
+import camp.nextstep.edu.tictactoe.model.TurnResultMessage
 
 class MainViewModel : ViewModel() {
-    private val ticktacktoe = Ticktacktoe()
-    private val _point = Array(MAP_SIZE) { Array(MAP_SIZE) { MutableLiveData<Boolean?>(null) } }
 
-    val point: Array<Array<LiveData<Boolean?>>>
-        get() = _point.map { it.map { liveData -> liveData as LiveData<Boolean?> }.toTypedArray() }.toTypedArray()
+    private val ticktacktoe = Ticktacktoe(Turn.X, GameResultManager())
+    private val _map = Array(MAP_SIZE) { Array(MAP_SIZE) { MutableLiveData<Boolean?>(null) } }
 
-    private val _showToast = MutableLiveData<MessageState>()
-    val showToast: LiveData<MessageState>
+    val map: Array<Array<LiveData<Boolean?>>>
+        get() = _map.map { it.map { liveData -> liveData as LiveData<Boolean?> }.toTypedArray() }
+            .toTypedArray()
+
+    private val _showToast = MutableLiveData<TurnResultMessage>()
+    val showToast: LiveData<TurnResultMessage>
         get() = _showToast
 
-    fun isWin(point: Point) {
-
-        val result = ticktacktoe.isWin(point)
-        if (result == null) {
+    fun put(point: Point) {
+        if (!ticktacktoe.isValidData(point)) {
             if (ticktacktoe.isFinish) {
-                _showToast.value = MessageState.FINISH
+                _showToast.value = TurnResultMessage.ErrorMessage.FinishGame
             } else {
-                _showToast.value = MessageState.ERROR
+                _showToast.value = TurnResultMessage.ErrorMessage.WrongClick
             }
             return
         }
-        drawOorXWithPoint(point)
+
+        var result = ticktacktoe.put(point)
         ticktacktoe.changeTurn()
-        when (result) {
-            GameResult.X_WIN -> _showToast.value = MessageState.X_WIN
-            GameResult.O_WIN -> _showToast.value = MessageState.O_WIN
-            GameResult.TIE -> _showToast.value = MessageState.IN_A_TIE
+        drawOorXWithPoint(result.second.point, result.second.turn)
+
+
+        when (result.first) {
+            GameResult.X_WIN -> _showToast.value = TurnResultMessage.GameResultMessage.XWin
+            GameResult.O_WIN -> _showToast.value = TurnResultMessage.GameResultMessage.OWin
+            GameResult.TIE -> _showToast.value = TurnResultMessage.GameResultMessage.Tie
             else -> {}
         }
     }
@@ -49,18 +54,18 @@ class MainViewModel : ViewModel() {
     private fun resetPoint() {
         for (r in 0 until MAP_SIZE) {
             for (c in 0 until MAP_SIZE) {
-                _point[r][c].value = null
+                _map[r][c].value = null
             }
         }
     }
 
-    private fun drawOorXWithPoint(point: Point) {
-        _point[point.r][point.c].value = isXTurn()
+    private fun drawOorXWithPoint(point: Point, turn: Turn) {
+        _map[point.row][point.column].value = isXTurn(turn)
     }
 
-    private fun isXTurn(): Boolean? {
-        return if (ticktacktoe.getCurrentTurn() == Turn.X) true
-        else if (ticktacktoe.getCurrentTurn() == Turn.O) false
+    private fun isXTurn(turn: Turn): Boolean? {
+        return if (turn == Turn.X) true
+        else if (turn == Turn.O) false
         else null
     }
 

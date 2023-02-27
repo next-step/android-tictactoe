@@ -6,7 +6,7 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 
 
-@BindingAdapter("android:src")
+@BindingAdapter("bind:drawOorXWithPoint")
 fun setImageResource(view: ImageView, point: Boolean?) {
     if (point == true) {
         view.setImageResource(R.drawable.ic_x_black)
