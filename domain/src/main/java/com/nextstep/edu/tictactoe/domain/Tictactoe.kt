@@ -3,9 +3,10 @@ package com.nextstep.edu.tictactoe.domain
 import kotlin.math.sqrt
 
 class Tictactoe {
-    private var isXTurn: Boolean? = null
+    var isXTurn: Boolean? = null
+        private set
 
-    fun isXTurn(): Boolean? {
+    fun toggleTurn(): Boolean? {
         isXTurn = if (isXTurn == null) {
             true
         } else {

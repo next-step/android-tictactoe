@@ -16,7 +16,7 @@ internal class TictactoeTest {
     @Test
     fun `첫 수는 X의 차례이다`() {
         // when
-        val actual = tictactoe.isXTurn()
+        val actual = tictactoe.toggleTurn()
 
         // then
         assertThat(actual).isTrue()
@@ -25,10 +25,10 @@ internal class TictactoeTest {
     @Test
     fun `두 번째 수는 O의 차례이다`() {
         // given
-        tictactoe.isXTurn()
+        tictactoe.toggleTurn()
 
         // when
-        val actual = tictactoe.isXTurn()
+        val actual = tictactoe.toggleTurn()
 
         // then
         assertThat(actual).isFalse()
@@ -37,11 +37,11 @@ internal class TictactoeTest {
     @Test
     fun `세 번째 수는 X의 차례이다`() {
         // given
-        tictactoe.isXTurn()
-        tictactoe.isXTurn()
+        tictactoe.toggleTurn()
+        tictactoe.toggleTurn()
 
         // when
-        val actual = tictactoe.isXTurn()
+        val actual = tictactoe.toggleTurn()
 
         // then
         assertThat(actual).isTrue()
@@ -285,5 +285,17 @@ internal class TictactoeTest {
 
         // then
         assertThat(actual).isEqualTo(Winner.DRAW)
+    }
+
+    @Test
+    fun `다시 시작하기를 하면 순서가 초기화 된다`() {
+        // given
+        tictactoe.toggleTurn()
+
+        // when
+        tictactoe.restart()
+
+        // then
+        assertThat(tictactoe.isXTurn).isEqualTo(null)
     }
 }

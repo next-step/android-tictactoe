@@ -18,7 +18,7 @@ class TictactoeViewModel : ViewModel() {
 
     fun mark(position: Int) {
         if (_board[position].value == null) {
-            _board[position].value = tictactoe.isXTurn()
+            _board[position].value = tictactoe.toggleTurn()
         }
 
         findWinner()

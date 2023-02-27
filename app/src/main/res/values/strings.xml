@@ -3,5 +3,4 @@
     <string name="winner_x">X 승리</string>
     <string name="winner_o">O 승리</string>
     <string name="winner_draw">무승부</string>
-    <string name="winner_none"></string>
 </resources>
