@@ -20,11 +20,13 @@ class Tictactoe {
 
     fun findWinner(board: List<Boolean?>): Winner {
         return if (isWinnerForRow(board) == true
+            || isWinnerForColumn(board) == true
             || isWinnerForLeftToRightDiagonal(board) == true
             || isWinnerForRightToLeftDiagonal(board) == true
         ) {
             Winner.X
         } else if (isWinnerForRow(board) == false
+            || isWinnerForColumn(board) == false
             || isWinnerForLeftToRightDiagonal(board) == false
             || isWinnerForRightToLeftDiagonal(board) == false
         ) {
