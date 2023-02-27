@@ -13,9 +13,18 @@ class TictactoeViewModel : ViewModel() {
         get() = _board.toList()
 
     fun mark(position: Int) {
+        findWinner()
+
         if (_board[position].value == null) {
             _board[position].value = tictactoe.isXTurn()
         }
+    }
+
+    private fun findWinner() {
+        val board = board.map {
+            it.value
+        }
+        tictactoe.findWinner(board)
     }
 
     fun restart() {
