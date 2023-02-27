@@ -113,6 +113,21 @@ class BoardTest {
             // then
             assertTrue(board.isFull())
         }
+
+        @Test
+        fun `이미 할당된 Block을 다시 할당하면 예외를 던진다`() {
+            // given
+            val board = Board.createEmptyBoard()
+            board.assignBlock(Turn(0), 0)
+
+            // when
+            val exception = assertThrows(IllegalArgumentException::class.java) {
+                board.assignBlock(Turn(1), 0)
+            }
+
+            // then
+            assertEquals("이미 놓여진 블록입니다.", exception.message)
+        }
     }
 
     @RunWith(value = Parameterized::class)

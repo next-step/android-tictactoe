@@ -4,7 +4,7 @@ class Board(blocks: List<Block>) {
     private val blocks = blocks.toMutableList()
 
     val state: BoardState
-        get() = BoardState(blocks)
+        get() = BoardState(blocks.toList())
 
     init {
         require(blocks.size == 9) {
