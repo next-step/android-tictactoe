@@ -44,7 +44,7 @@ class Tictactoe {
         var xCounter: Int
         var oCounter: Int
 
-        for (i in board.indices step 3) {
+        for (i in board.indices step cornerSize) {
             xCounter = 0
             oCounter = 0
 
@@ -77,7 +77,7 @@ class Tictactoe {
             xCounter = 0
             oCounter = 0
 
-            for (i in board.indices step 3) {
+            for (i in board.indices step cornerSize) {
                 if (board[i + it] == true) {
                     xCounter++
                 }
