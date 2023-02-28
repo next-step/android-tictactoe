@@ -20,7 +20,7 @@ internal object RandomInput {
 
 
     fun getRandomPosition(positionList: List<Pair<Int, Int>>): Pair<Int, Int> {
-        val random = Random.nextInt(0, positionList.size - 1)
+        val random = Random.nextInt(0, positionList.size)
         return positionList[random]
     }
 }
