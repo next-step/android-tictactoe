@@ -12,16 +12,18 @@ class TictactoeViewModel : ViewModel() {
         MutableList(BOARD_SIZE) { MutableLiveData<Boolean?>(null) }
     val board: List<LiveData<Boolean?>>
         get() = _board.toList()
-    private val _onResult = MutableLiveData<Winner>()
+    private val _onResult: SingleLiveEvent<Winner> = SingleLiveEvent()
     val onResult: LiveData<Winner>
         get() = _onResult
 
     fun mark(position: Int) {
-        if (_board[position].value == null) {
-            _board[position].value = tictactoe.toggleTurn()
-        }
+        if (isPlayable()) {
+            if (_board[position].value == null) {
+                _board[position].value = tictactoe.toggleTurn()
+            }
 
-        findWinner()
+            findWinner()
+        }
     }
 
     private fun findWinner() {
@@ -35,6 +37,10 @@ class TictactoeViewModel : ViewModel() {
             Winner.DRAW -> _onResult.value = Winner.DRAW
             else -> _onResult.value = Winner.NONE
         }
+    }
+
+    private fun isPlayable(): Boolean {
+        return _onResult.value == null || _onResult.value == Winner.NONE
     }
 
     fun restart() {
