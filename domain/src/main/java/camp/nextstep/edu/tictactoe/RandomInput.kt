@@ -3,9 +3,9 @@ package camp.nextstep.edu.tictactoe
 import kotlin.random.Random
 
 // 랜덤인 경우 빈 배열 찾아서 input
-object RandomInput {
+internal object RandomInput {
 
-    fun randomPut(board: TicTacToeBoard) {
+    fun getRandomPositionList(board: TicTacToeBoard): List<Pair<Int, Int>> {
         var getEmptyBoardPositionList = listOf<Pair<Int, Int>>()
 
         board.getAllCell().forEachIndexed { xIndex, oxen ->
@@ -15,13 +15,11 @@ object RandomInput {
             }
         }
 
-        if (getEmptyBoardPositionList.isEmpty()) return
-        val position = getRandomPosition(getEmptyBoardPositionList)
-        board.twoPlayerPut(position.first, position.second)
+        return getEmptyBoardPositionList
     }
 
 
-    private fun getRandomPosition(positionList: List<Pair<Int, Int>>): Pair<Int, Int> {
+    fun getRandomPosition(positionList: List<Pair<Int, Int>>): Pair<Int, Int> {
         val random = Random.nextInt(0, positionList.size - 1)
         return positionList[random]
     }

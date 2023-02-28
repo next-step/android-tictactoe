@@ -17,24 +17,26 @@ class TicTacToeBoard {
 
         when (gameMode) {
             TWO_PLAYERS -> twoPlayerPut(x, y)
-            RANDOM -> randomInput(x, y)
+            RANDOM -> randomInput(x, y, RandomInput.getRandomPositionList(this))
             DRAW -> TODO()
         }
     }
 
     // 2인
-    internal fun twoPlayerPut(x: Int, y: Int) {
+    private fun twoPlayerPut(x: Int, y: Int) {
         if (ticTacToe[x][y] != null) return
 
         ticTacToe[x][y] = gameStatus.gameTern
     }
 
     // 랜덤
-    private fun randomInput(x: Int, y: Int) {
+    internal fun randomInput(x: Int, y: Int, randomPositionList: List<Pair<Int, Int>>) {
         if (ticTacToe[x][y] != null) return
 
         twoPlayerPut(x, y)
-        RandomInput.randomPut(this)
+        val randomPosition = RandomInput.getRandomPosition(randomPositionList)
+
+        twoPlayerPut(randomPosition.first, randomPosition.second)
     }
 
     fun getGameStatus(): TicTacToeStatus {
