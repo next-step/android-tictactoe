@@ -38,12 +38,3 @@ class TicTacToeViewModel(game: Game = Game()) : ViewModel() {
         _state.value = game.state
     }
 }
-
-@BindingAdapter("android:assign")
-fun setAssign(view: View?, block: Block?) {
-    when (block) {
-        XBlock -> view?.setBackgroundResource(R.drawable.ic_x_black)
-        OBlock -> view?.setBackgroundResource(R.drawable.ic_o_black)
-        else -> view?.setBackgroundResource(0)
-    }
-}

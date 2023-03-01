@@ -7,6 +7,8 @@
 
         <import type="android.view.View" />
 
+        <import type="camp.nextstep.edu.tictactoe.AssignBinderKt" />
+
         <variable
             name="viewModel"
             type="camp.nextstep.edu.tictactoe.TicTacToeViewModel" />
