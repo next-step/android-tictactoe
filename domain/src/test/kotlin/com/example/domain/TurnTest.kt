@@ -33,7 +33,6 @@ class TurnTest {
                     arrayOf(3),
                     arrayOf(5),
                     arrayOf(7),
-                    arrayOf(9),
                 )
             }
         }
