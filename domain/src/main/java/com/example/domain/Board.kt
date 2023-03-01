@@ -58,7 +58,9 @@ class Board(blocks: List<Block>) {
     }
 
     companion object {
-        const val BOARD_SIZE = 9
+        private const val BOARD_WIDTH = 3
+        private const val BOARD_HEIGHT = 3
+        const val BOARD_SIZE = BOARD_WIDTH * BOARD_HEIGHT
         fun createEmptyBoard(): Board {
             val blocks = List(BOARD_SIZE) { EmptyBlock() }
             return Board(blocks)
