@@ -1,6 +1,6 @@
 package com.example.domain
 
-class Game(turn: Int = 0, board: Board = Board.createEmptyBoard()) {
+class Game(turn: Int = Turn.INIT_TURN, board: Board = Board.createEmptyBoard()) {
 
     private var turn: Turn
     private var board: Board
@@ -47,7 +47,7 @@ class Game(turn: Int = 0, board: Board = Board.createEmptyBoard()) {
 
     fun reset() {
         board = Board.createEmptyBoard()
-        turn = Turn(0)
+        turn = Turn()
         nowStatus = GameStatus.ONGOING
         _state = GameState(nowStatus, this.turn, board.state)
     }

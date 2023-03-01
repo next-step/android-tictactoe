@@ -7,8 +7,8 @@ class Board(blocks: List<Block>) {
         get() = BoardState(blocks.toList())
 
     init {
-        require(blocks.size == 9) {
-            "9개의 블록이 필요합니다."
+        require(blocks.size == BOARD_SIZE) {
+            "${BOARD_SIZE}개의 블록이 필요합니다."
         }
     }
 
@@ -58,8 +58,9 @@ class Board(blocks: List<Block>) {
     }
 
     companion object {
+        const val BOARD_SIZE = 9
         fun createEmptyBoard(): Board {
-            val blocks = List(9) { EmptyBlock() }
+            val blocks = List(BOARD_SIZE) { EmptyBlock() }
             return Board(blocks)
         }
 
