@@ -53,12 +53,12 @@ class Game(turn: Int = 0, board: Board = Board.createEmptyBoard()) {
     }
 
     private fun checkStatus(): GameStatus {
-        return if (board.isFull()) {
-            GameStatus.DRAW
-        } else if (turn.whoseTurn() == Player.X && board.hasOneLine(turn)) {
+        return if (turn.whoseTurn() == Player.X && board.hasOneLine(turn)) {
             GameStatus.X_WON
         } else if (turn.whoseTurn() == Player.O && board.hasOneLine(turn)) {
             GameStatus.O_WON
+        } else if (board.isFull()) {
+            GameStatus.DRAW
         } else {
             GameStatus.ONGOING
         }

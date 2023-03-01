@@ -59,6 +59,35 @@ class GameTest {
     }
 
     @Test
+    fun `마지막 턴에 승리하는 경우 DRAW가 아니라 승리가 반환된다`() {
+        // given
+        val game = Game(
+            turn = 8, board = Board(
+                listOf(
+                    XBlock,
+                    OBlock,
+                    XBlock,
+                    XBlock,
+                    OBlock,
+                    OBlock,
+                    EmptyBlock(),
+                    XBlock,
+                    OBlock,
+                )
+            )
+        )
+        assertEquals(game.state.turn, Turn(8))
+        assertEquals(game.state.status, GameStatus.ONGOING)
+
+        // when
+        game.assignBlock(6)
+
+        // then
+        assertEquals(game.state.status, GameStatus.X_WON)
+        assertEquals(game.state.turn, Turn(8))
+    }
+
+    @Test
     fun `게임이 종료되었을 때 assign하면 Error를 던진다`() {
         // given
         val game = Game(
