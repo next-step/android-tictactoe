@@ -6,8 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.nextstep.edu.tictactoe.domain.Tictactoe
 import com.nextstep.edu.tictactoe.domain.Winner
 
-class TictactoeViewModel : ViewModel() {
-    private val tictactoe: Tictactoe = Tictactoe()
+class TictactoeViewModel(val tictactoe: Tictactoe = Tictactoe()) : ViewModel() {
     private val _board: MutableList<MutableLiveData<Boolean?>> =
         MutableList(BOARD_SIZE) { MutableLiveData<Boolean?>(null) }
     val board: List<LiveData<Boolean?>>
@@ -47,6 +46,7 @@ class TictactoeViewModel : ViewModel() {
         _board.forEach {
             it.value = null
         }
+        _onResult.value = Winner.NONE
         tictactoe.restart()
     }
 

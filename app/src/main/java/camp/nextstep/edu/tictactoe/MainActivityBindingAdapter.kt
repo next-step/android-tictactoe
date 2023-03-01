@@ -3,7 +3,7 @@ package camp.nextstep.edu.tictactoe
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 
-@BindingAdapter("src")
+@BindingAdapter("tictactoe_cell")
 fun setImageViewResource(imageView: ImageView, isFirst: Boolean?) {
     when (isFirst) {
         true -> {
