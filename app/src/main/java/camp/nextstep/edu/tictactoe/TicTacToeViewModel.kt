@@ -9,7 +9,7 @@ import com.example.domain.*
 
 class TicTacToeViewModel(game: Game = Game()) : ViewModel() {
 
-    private var game: Game
+    private val game: Game
 
     private val _state = MutableLiveData(game.state)
     val state: LiveData<GameState>
