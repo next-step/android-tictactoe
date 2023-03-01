@@ -2,17 +2,18 @@ package camp.nextstep.edu.tictactoe
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.nextstep.edu.tictactoe.domain.Cell
 
 @BindingAdapter("tictactoe_cell")
-fun setImageViewResource(imageView: ImageView, isFirst: Boolean?) {
-    when (isFirst) {
-        true -> {
+fun setImageViewResource(imageView: ImageView, cellType: Cell) {
+    when (cellType) {
+        Cell.X -> {
             imageView.setImageResource(R.drawable.ic_x_black)
         }
-        false -> {
+        Cell.O -> {
             imageView.setImageResource(R.drawable.ic_o_black)
         }
-        else -> {
+        Cell.NONE -> {
             imageView.setImageResource(R.color.transparent)
         }
     }

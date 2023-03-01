@@ -3,33 +3,39 @@ package com.nextstep.edu.tictactoe.domain
 import kotlin.math.sqrt
 
 class Tictactoe {
-    var isXTurn: Boolean? = null
+    var isXTurn: Cell = Cell.NONE
         private set
 
-    fun toggleTurn(): Boolean? {
-        isXTurn = if (isXTurn == null) {
-            true
-        } else {
-            isXTurn != true
+    fun toggleTurn(): Cell {
+        isXTurn = when (isXTurn) {
+            Cell.X -> {
+                Cell.O
+            }
+            Cell.O -> {
+                Cell.X
+            }
+            else -> {
+                Cell.X
+            }
         }
         return isXTurn
     }
 
     fun restart() {
-        isXTurn = null
+        isXTurn = Cell.NONE
     }
 
-    fun findWinner(board: List<Boolean?>): Winner {
-        return if (isWinnerForRow(board) == true
-            || isWinnerForColumn(board) == true
-            || isWinnerForLeftToRightDiagonal(board) == true
-            || isWinnerForRightToLeftDiagonal(board) == true
+    fun findWinner(board: List<Cell?>): Winner {
+        return if (findWinnerForRow(board) == Cell.X
+            || findWinnerForColumn(board) == Cell.X
+            || findWinnerForLeftToRightDiagonal(board) == Cell.X
+            || findWinnerForRightToLeftDiagonal(board) == Cell.X
         ) {
             Winner.X
-        } else if (isWinnerForRow(board) == false
-            || isWinnerForColumn(board) == false
-            || isWinnerForLeftToRightDiagonal(board) == false
-            || isWinnerForRightToLeftDiagonal(board) == false
+        } else if (findWinnerForRow(board) == Cell.O
+            || findWinnerForColumn(board) == Cell.O
+            || findWinnerForLeftToRightDiagonal(board) == Cell.O
+            || findWinnerForRightToLeftDiagonal(board) == Cell.O
         ) {
             Winner.O
         } else if (isDraw(board)) {
@@ -39,7 +45,7 @@ class Tictactoe {
         }
     }
 
-    fun isWinnerForRow(board: List<Boolean?>): Boolean? {
+    fun findWinnerForRow(board: List<Cell?>): Cell {
         val cornerSize = sqrt(board.size.toFloat()).toInt()
         var xCounter: Int
         var oCounter: Int
@@ -49,26 +55,26 @@ class Tictactoe {
             oCounter = 0
 
             repeat(cornerSize) {
-                if (board[i + it] == true) {
+                if (board[i + it] == Cell.X) {
                     xCounter++
                 }
-                if (board[i + it] == false) {
+                if (board[i + it] == Cell.O) {
                     oCounter++
                 }
             }
 
             if (xCounter == cornerSize) {
-                return true
+                return Cell.X
             }
             if (oCounter == cornerSize) {
-                return false
+                return Cell.O
             }
         }
 
-        return null
+        return Cell.NONE
     }
 
-    fun isWinnerForColumn(board: List<Boolean?>): Boolean? {
+    fun findWinnerForColumn(board: List<Cell?>): Cell {
         val cornerSize = sqrt(board.size.toFloat()).toInt()
         var xCounter: Int
         var oCounter: Int
@@ -78,74 +84,74 @@ class Tictactoe {
             oCounter = 0
 
             for (i in board.indices step cornerSize) {
-                if (board[i + it] == true) {
+                if (board[i + it] == Cell.X) {
                     xCounter++
                 }
-                if (board[i + it] == false) {
+                if (board[i + it] == Cell.O) {
                     oCounter++
                 }
             }
 
             if (xCounter == cornerSize) {
-                return true
+                return Cell.X
             }
             if (oCounter == cornerSize) {
-                return false
+                return Cell.O
             }
         }
 
-        return null
+        return Cell.NONE
     }
 
-    fun isWinnerForLeftToRightDiagonal(board: List<Boolean?>): Boolean? {
+    fun findWinnerForLeftToRightDiagonal(board: List<Cell?>): Cell {
         val cornerSize = sqrt(board.size.toFloat()).toInt()
         var xCounter = 0
         var oCounter = 0
 
         for (i in 0 until cornerSize) {
-            if (board[i * (cornerSize + 1)] == true) {
+            if (board[i * (cornerSize + 1)] == Cell.X) {
                 xCounter++
             }
-            if (board[i * (cornerSize + 1)] == false) {
+            if (board[i * (cornerSize + 1)] == Cell.O) {
                 oCounter++
             }
         }
 
         if (xCounter == cornerSize) {
-            return true
+            return Cell.X
         }
         if (oCounter == cornerSize) {
-            return false
+            return Cell.O
         }
 
-        return null
+        return Cell.NONE
     }
 
-    fun isWinnerForRightToLeftDiagonal(board: List<Boolean?>): Boolean? {
+    fun findWinnerForRightToLeftDiagonal(board: List<Cell?>): Cell {
         val cornerSize = sqrt(board.size.toFloat()).toInt()
         var xCounter = 0
         var oCounter = 0
 
         for (i in 1..cornerSize) {
-            if (board[i * (cornerSize - 1)] == true) {
+            if (board[i * (cornerSize - 1)] == Cell.X) {
                 xCounter++
             }
-            if (board[i * (cornerSize - 1)] == false) {
+            if (board[i * (cornerSize - 1)] == Cell.O) {
                 oCounter++
             }
         }
 
         if (xCounter == cornerSize) {
-            return true
+            return Cell.X
         }
         if (oCounter == cornerSize) {
-            return false
+            return Cell.O
         }
 
-        return null
+        return Cell.NONE
     }
 
-    fun isDraw(board: List<Boolean?>): Boolean {
-        return board.none { it == null }
+    fun isDraw(board: List<Cell?>): Boolean {
+        return board.none { it == Cell.NONE }
     }
 }

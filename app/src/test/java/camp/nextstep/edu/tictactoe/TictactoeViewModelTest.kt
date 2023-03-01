@@ -2,6 +2,7 @@ package camp.nextstep.edu.tictactoe
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
+import com.nextstep.edu.tictactoe.domain.Cell
 import com.nextstep.edu.tictactoe.domain.Winner
 import org.junit.Before
 import org.junit.Rule
@@ -19,7 +20,7 @@ internal class TictactoeViewModelTest {
     }
 
     @Test
-    fun `첫 번째 셀을 선택 했을 때 X 표시를 의미하는 true가 입력된다`() {
+    fun `첫 번째 셀을 선택 했을 때 X가 표시된다`() {
         // given
         val position = 0
 
@@ -27,11 +28,11 @@ internal class TictactoeViewModelTest {
         tictactoeViewModel.mark(position)
 
         // then
-        assertThat(tictactoeViewModel.board[position].value).isTrue()
+        assertThat(tictactoeViewModel.board[position].value).isEqualTo(Cell.X)
     }
 
     @Test
-    fun `두 번째 셀을 선택 했을 때 O 표시를 의미하는 false가 입력된다`() {
+    fun `두 번째 셀을 선택 했을 때 O가 표시된다`() {
         // given
         val position0 = 0
         val position1 = 1
@@ -41,7 +42,7 @@ internal class TictactoeViewModelTest {
         tictactoeViewModel.mark(position1)
 
         // then
-        assertThat(tictactoeViewModel.board[position1].value).isFalse()
+        assertThat(tictactoeViewModel.board[position1].value).isEqualTo(Cell.O)
     }
 
     @Test
@@ -70,7 +71,7 @@ internal class TictactoeViewModelTest {
     }
 
     @Test
-    fun `다시 시작하기를 선택하면 모든 셀은 null이 된다`() {
+    fun `다시 시작하기를 선택하면 모든 셀은 초기화 된다`() {
         // given
         /*
         X X X
@@ -92,6 +93,6 @@ internal class TictactoeViewModelTest {
         tictactoeViewModel.restart()
 
         // then
-        assertThat(tictactoeViewModel.board.all { it.value == null }).isTrue()
+        assertThat(tictactoeViewModel.board.all { it.value == Cell.NONE }).isTrue()
     }
 }

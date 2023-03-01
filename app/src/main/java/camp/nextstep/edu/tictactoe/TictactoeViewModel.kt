@@ -3,13 +3,14 @@ package camp.nextstep.edu.tictactoe
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.nextstep.edu.tictactoe.domain.Cell
 import com.nextstep.edu.tictactoe.domain.Tictactoe
 import com.nextstep.edu.tictactoe.domain.Winner
 
 class TictactoeViewModel(val tictactoe: Tictactoe = Tictactoe()) : ViewModel() {
-    private val _board: MutableList<MutableLiveData<Boolean?>> =
-        MutableList(BOARD_SIZE) { MutableLiveData<Boolean?>(null) }
-    val board: List<LiveData<Boolean?>>
+    private val _board: MutableList<MutableLiveData<Cell>> =
+        MutableList(BOARD_SIZE) { MutableLiveData<Cell>(Cell.NONE) }
+    val board: List<LiveData<Cell>>
         get() = _board.toList()
     private val _onResult: SingleLiveEvent<Winner> = SingleLiveEvent()
     val onResult: LiveData<Winner>
@@ -17,7 +18,7 @@ class TictactoeViewModel(val tictactoe: Tictactoe = Tictactoe()) : ViewModel() {
 
     fun mark(position: Int) {
         if (isPlayable()) {
-            if (_board[position].value == null) {
+            if (_board[position].value == Cell.NONE) {
                 _board[position].value = tictactoe.toggleTurn()
             }
 
@@ -44,7 +45,7 @@ class TictactoeViewModel(val tictactoe: Tictactoe = Tictactoe()) : ViewModel() {
 
     fun restart() {
         _board.forEach {
-            it.value = null
+            it.value = Cell.NONE
         }
         _onResult.value = Winner.NONE
         tictactoe.restart()
