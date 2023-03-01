@@ -19,6 +19,11 @@ class MainViewModel : ViewModel() {
         _gameStatus.value = ticTacToeBoard.getGameStatus()
     }
 
+    fun setGameMode(gameMode: GameMode) {
+        ticTacToeBoard.gameMode = gameMode
+        reset()
+    }
+
     fun putCell(x: Int, y: Int) {
         if (ticTacToeBoard.getGameStatus() != TicTacToeStatus.PLAYING) return
 

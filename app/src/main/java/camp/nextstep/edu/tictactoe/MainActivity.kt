@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding.viewModel = mainViewModel
         setContentView(binding.root)
+        mainViewModel.setGameMode(GameMode.RANDOM)
         addObserver()
     }
 
@@ -70,9 +71,9 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_two ->
-                Toast.makeText(this, "TODO: 2인 모드로 전환", Toast.LENGTH_SHORT).show()
+                mainViewModel.setGameMode(GameMode.TWO_PLAYERS)
             R.id.menu_random ->
-                Toast.makeText(this, "TODO: 랜덤 모드로 전환", Toast.LENGTH_SHORT).show()
+                mainViewModel.setGameMode(GameMode.RANDOM)
             R.id.menu_draw ->
                 Toast.makeText(this, "TODO: 무승부 모드로 전환", Toast.LENGTH_SHORT).show()
         }
