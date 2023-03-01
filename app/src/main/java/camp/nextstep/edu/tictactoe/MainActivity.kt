@@ -8,16 +8,18 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
+import com.nextstep.edu.tictactoe.domain.Tictactoe
 import com.nextstep.edu.tictactoe.domain.Winner
 
 class MainActivity : AppCompatActivity() {
-    private val viewModel: TictactoeViewModel by viewModels()
+    private lateinit var viewModel: TictactoeViewModel
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        viewModel = TictactoeViewModel(Tictactoe())
         binding.lifecycleOwner = this
         binding.tictactoeViewModel = viewModel
 
