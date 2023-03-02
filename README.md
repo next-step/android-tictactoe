@@ -30,3 +30,6 @@
     - [x] `GameState` 클래스에 `gameMode` 프로퍼티를 추가한다.
     - [x] `changeMode` 메소드를 통해 게임모드를 변경할 수 있다.
         - [x] 이미 같은 모드로는 변경 불가능하다.
+- [x] 랜덤으로 놓을 블록을 선택하는 `AssignAlgorithm` 클래스 생성
+    - [x] 테스트를 위해 할당되지 않은 첫 블록을 선택하는 `FirstEmptyBlockStrategy` 클래스 생성
+    - [x] 랜덤으로 블록을 선택하는 `RandomBlockStrategy` 클래스 생성
