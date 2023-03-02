@@ -26,7 +26,7 @@
 
 - [x] 게임의 모드를 나타내는 sealed class `GameMode` 를 추가한다.
     - [x] `Game` 클래스의 기본 모드는 `RandomMode` 이다.
-    - [ ] `RandomMode`는 전략을 주입받는다.
+    - [x] `RandomMode`는 전략을 주입받는다.
     - [x] `GameState` 클래스에 `gameMode` 프로퍼티를 추가한다.
     - [x] `changeMode` 메소드를 통해 게임모드를 변경할 수 있다.
         - [x] 이미 같은 모드로는 변경 불가능하다.
