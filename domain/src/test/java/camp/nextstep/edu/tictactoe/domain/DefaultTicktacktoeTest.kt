@@ -1,7 +1,7 @@
 package camp.nextstep.edu.tictactoe.domain
 
 import camp.nextstep.edu.tictactoe.domain.model.*
-import camp.nextstep.edu.tictactoe.domain.model.Map
+import camp.nextstep.edu.tictactoe.domain.model.Board
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -70,16 +70,16 @@ class DefaultTicktacktoeTest {
     fun `처음 시작하면 모든 칸이 비어있어야한다`() {
 
         //when
-        val actual = ticktacktoe.map
+        val actual = ticktacktoe.board
 
         //then
-        assertThat(actual).isEqualTo(Map.EMPTY)
+        assertThat(actual).isEqualTo(Board.EMPTY)
     }
 
     @Test
     fun `X가 왼쪽 위에 마크한다`() {
         ticktacktoe.put(Position.CellTopLeft)
-        assertThat(ticktacktoe.map.topLeft).isInstanceOf(Cell.X::class.java)
+        assertThat(ticktacktoe.board.topLeft).isInstanceOf(Cell.X::class.java)
     }
 
     @Test
@@ -88,7 +88,7 @@ class DefaultTicktacktoeTest {
         ticktacktoe.switchTurn()
         ticktacktoe.put(Position.CellTop)
 
-        assertThat(ticktacktoe.map.top).isInstanceOf(Cell.O::class.java)
+        assertThat(ticktacktoe.board.top).isInstanceOf(Cell.O::class.java)
     }
 
     @Test
@@ -97,6 +97,6 @@ class DefaultTicktacktoeTest {
         ticktacktoe.switchTurn()
         ticktacktoe.put(Position.CellTopLeft)
 
-        assertThat(ticktacktoe.map.topLeft).isInstanceOf(Cell.X::class.java)
+        assertThat(ticktacktoe.board.topLeft).isInstanceOf(Cell.X::class.java)
     }
 }

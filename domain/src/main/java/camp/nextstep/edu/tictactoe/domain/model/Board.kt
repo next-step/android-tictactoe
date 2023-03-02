@@ -3,31 +3,31 @@ package camp.nextstep.edu.tictactoe.domain.model
 import kotlin.random.Random
 
 
-data class Map private constructor(
-    private val map: kotlin.collections.Map<Position, Cell>
+data class Board private constructor(
+    private val board: Map<Position, Cell>
 ) {
     fun isNotValidData(position: Position): Boolean {
-        val selectedCell = map.getValue(position)
+        val selectedCell = board.getValue(position)
         return (selectedCell !is Cell.Empty)
     }
 
-    fun mark(cell: Cell): Map {
+    fun mark(cell: Cell): Board {
         if (isNotValidData(cell.position)) return this
-        val newMap = map.toMutableMap()
-        newMap[cell.position] = cell
-        return Map(newMap.toMap()) //방어적 복사
+        val newBoard = board.toMutableMap()
+        newBoard[cell.position] = cell
+        return Board(newBoard.toMap()) //방어적 복사
     }
 
     //바깥에서 map.get()해서 가져오면 불편하니깐 미리 만들어 놓음
-    val topLeft: Cell = map.getValue(Position.CellTopLeft) //없으면 exception 발생
-    val top: Cell = map.getValue(Position.CellTop)
-    val topRight: Cell = map.getValue(Position.CellTopRight)
-    val middleLeft: Cell = map.getValue(Position.CellMiddleLeft)
-    val middle: Cell = map.getValue(Position.CellMiddle)
-    val middleRight: Cell = map.getValue(Position.CellMiddleRight)
-    val bottomLeft: Cell = map.getValue(Position.CellBottomLeft)
-    val bottom: Cell = map.getValue(Position.CellBottom)
-    val bottomRight: Cell = map.getValue(Position.CellBottomRight)
+    val topLeft: Cell = board.getValue(Position.CellTopLeft) //없으면 exception 발생
+    val top: Cell = board.getValue(Position.CellTop)
+    val topRight: Cell = board.getValue(Position.CellTopRight)
+    val middleLeft: Cell = board.getValue(Position.CellMiddleLeft)
+    val middle: Cell = board.getValue(Position.CellMiddle)
+    val middleRight: Cell = board.getValue(Position.CellMiddleRight)
+    val bottomLeft: Cell = board.getValue(Position.CellBottomLeft)
+    val bottom: Cell = board.getValue(Position.CellBottom)
+    val bottomRight: Cell = board.getValue(Position.CellBottomRight)
 
     val cells: List<Cell> = listOf(
         topLeft, top, topRight, middleLeft, middle, middleRight, bottomLeft, bottom, bottomRight
@@ -55,8 +55,8 @@ data class Map private constructor(
     )
 
     companion object {
-        val EMPTY = Map(
-            map = setOf(
+        val EMPTY = Board(
+            board = setOf(
                 Cell.Empty(Position.CellTopLeft),
                 Cell.Empty(Position.CellTop),
                 Cell.Empty(Position.CellTopRight),

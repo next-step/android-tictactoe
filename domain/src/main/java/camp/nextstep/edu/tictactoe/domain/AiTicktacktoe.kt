@@ -7,7 +7,7 @@ import camp.nextstep.edu.tictactoe.domain.model.TurnResult
 
 class AiTicktacktoe : Ticktacktoe(Turn.X) {
     private fun putFromAI(): Position {
-        return map.getRandomCell().position
+        return board.getRandomCell().position
 
     }
 

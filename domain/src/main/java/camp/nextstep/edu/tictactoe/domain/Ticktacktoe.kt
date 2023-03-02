@@ -1,12 +1,12 @@
 package camp.nextstep.edu.tictactoe.domain
 
 import camp.nextstep.edu.tictactoe.domain.model.*
-import camp.nextstep.edu.tictactoe.domain.model.Map
+import camp.nextstep.edu.tictactoe.domain.model.Board
 
 abstract class Ticktacktoe constructor(
     _currentTurn: Turn = Turn.X
 ) {
-    var map: Map = Map.EMPTY
+    var board: Board = Board.EMPTY
         private set
     private var state: State = State.InProgress
     var currentTurn = _currentTurn
@@ -18,7 +18,7 @@ abstract class Ticktacktoe constructor(
             Turn.X -> Cell.X(position)
             Turn.O -> Cell.O(position)
         }
-        map = map.mark(cell)
+        board = board.mark(cell)
         state = checkState()
 
         isFinish = state != State.InProgress
@@ -26,9 +26,9 @@ abstract class Ticktacktoe constructor(
     }
 
     private fun checkState(): State = when {
-        map.lines.isX() -> State.WinX
-        map.lines.isO() -> State.WinO
-        map.lines.isDraw() -> State.Draw
+        board.lines.isX() -> State.WinX
+        board.lines.isO() -> State.WinO
+        board.lines.isDraw() -> State.Draw
         else -> State.InProgress
     }
 
@@ -36,7 +36,7 @@ abstract class Ticktacktoe constructor(
         private set
 
     fun isNotValidData(position: Position): Boolean {
-        return (map.isNotValidData(position) || isFinish)
+        return (board.isNotValidData(position) || isFinish)
     }
 
     abstract fun runOneTurn(position: Position): TurnResult
@@ -44,7 +44,7 @@ abstract class Ticktacktoe constructor(
     fun reset() {
         isFinish = false
         currentTurn = Turn.X
-        map = Map.EMPTY
+        board = Board.EMPTY
     }
 
     fun switchTurn() {
@@ -52,7 +52,7 @@ abstract class Ticktacktoe constructor(
     }
 
     companion object {
-        const val MAP_SIZE = 3
+        const val BOARD_SIZE = 3
     }
 
 

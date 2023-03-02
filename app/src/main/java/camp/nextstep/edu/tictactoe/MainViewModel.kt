@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import camp.nextstep.edu.tictactoe.domain.GameManager
 import camp.nextstep.edu.tictactoe.domain.Ticktacktoe
+import camp.nextstep.edu.tictactoe.domain.Ticktacktoe.Companion.BOARD_SIZE
 import camp.nextstep.edu.tictactoe.domain.model.Cell
 import camp.nextstep.edu.tictactoe.domain.model.GameMode
 import camp.nextstep.edu.tictactoe.domain.model.Position
@@ -15,11 +16,12 @@ import camp.nextstep.edu.tictactoe.model.TurnState
 class MainViewModel : ViewModel() {
 
     private val gameManager = GameManager()
-    private val _map = Array(MAP_SIZE) { Array(MAP_SIZE) { MutableLiveData(TurnState.EMPTY) } }
+    private val _board = Array(BOARD_SIZE) { Array(BOARD_SIZE) { MutableLiveData(TurnState.EMPTY) } }
 
-    val map: Array<Array<LiveData<TurnState>>>
-        get() = _map.map { it.map { liveData -> liveData as LiveData<TurnState> }.toTypedArray() }
+    val board: Array<Array<LiveData<TurnState>>>
+        get() = _board.map { it.map { liveData -> liveData as LiveData<TurnState> }.toTypedArray() }
             .toTypedArray()
+
 
     private val _showToast = MutableLiveData<TurnResultMessage>()
     val showToast: LiveData<TurnResultMessage>
@@ -60,18 +62,18 @@ class MainViewModel : ViewModel() {
     }
 
     private fun resetPoint() {
-        for (r in 0 until MAP_SIZE) {
-            for (c in 0 until MAP_SIZE) {
-                _map[r][c].value = TurnState.EMPTY
+        for (r in 0 until Board_SIZE) {
+            for (c in 0 until Board_SIZE) {
+                _board[r][c].value = TurnState.EMPTY
             }
         }
     }
 
     private fun drawOorXWithPoint(cell: Cell) {
-        _map[cell.position.row][cell.position.column].value = TurnState.from(cell)
+        _board[cell.position.row][cell.position.column].value = TurnState.from(cell)
     }
 
     companion object {
-        const val MAP_SIZE = Ticktacktoe.MAP_SIZE
+        const val Board_SIZE = Ticktacktoe.BOARD_SIZE
     }
 }
