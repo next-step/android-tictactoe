@@ -1,11 +1,15 @@
 package com.example.domain
 
-class Game(turn: Int = Turn.INIT_TURN, board: Board = Board.createEmptyBoard()) {
+class Game(
+    turn: Int = Turn.INIT_TURN,
+    board: Board = Board.createEmptyBoard(),
+    gameMode: GameMode = RandomMode()
+) {
 
     private var turn: Turn
     private var board: Board
     private var nowStatus: GameStatus
-
+    private var gameMode: GameMode
     private var _state: GameState
     val state: GameState
         get() = _state
@@ -14,7 +18,23 @@ class Game(turn: Int = Turn.INIT_TURN, board: Board = Board.createEmptyBoard()) 
         this.turn = Turn(turn)
         this.board = Board(board.state.blocks)
         this.nowStatus = checkStatus()
-        _state = GameState(nowStatus, this.turn, board.state)
+        this.gameMode = gameMode
+        _state = GameState(nowStatus, this.turn, board.state, this.gameMode)
+    }
+
+    fun changeMode(gameMode: GameMode) {
+        require(gameMode != this.gameMode) {
+            "같은 모드로 변경하실 수 없습니다."
+        }
+        this.gameMode = gameMode
+        reset()
+    }
+
+    fun reset() {
+        board = Board.createEmptyBoard()
+        turn = Turn()
+        nowStatus = GameStatus.ONGOING
+        _state = GameState(nowStatus, this.turn, board.state, gameMode)
     }
 
     fun assignBlock(blockIndex: Int) {
@@ -31,25 +51,18 @@ class Game(turn: Int = Turn.INIT_TURN, board: Board = Board.createEmptyBoard()) 
         return when (nowStatus) {
             GameStatus.ONGOING -> {
                 turn = turn.next()
-                GameState(GameStatus.ONGOING, turn, board.state)
+                GameState(GameStatus.ONGOING, turn, board.state, gameMode)
             }
             GameStatus.X_WON -> {
-                GameState(GameStatus.X_WON, turn, board.state)
+                GameState(GameStatus.X_WON, turn, board.state, gameMode)
             }
             GameStatus.O_WON -> {
-                GameState(GameStatus.O_WON, turn, board.state)
+                GameState(GameStatus.O_WON, turn, board.state, gameMode)
             }
             GameStatus.DRAW -> {
-                GameState(GameStatus.DRAW, turn, board.state)
+                GameState(GameStatus.DRAW, turn, board.state, gameMode)
             }
         }
-    }
-
-    fun reset() {
-        board = Board.createEmptyBoard()
-        turn = Turn()
-        nowStatus = GameStatus.ONGOING
-        _state = GameState(nowStatus, this.turn, board.state)
     }
 
     private fun checkStatus(): GameStatus {
