@@ -37,4 +37,13 @@ class TicTacToeViewModel(game: Game = Game()) : ViewModel() {
         game.reset()
         _state.value = game.state
     }
+
+    fun changeMode(gameMode: GameMode) {
+        try {
+            game.changeMode(gameMode)
+            _state.value = game.state
+        } catch (e: Throwable) {
+            _exceptionMessage.value = e.message
+        }
+    }
 }
