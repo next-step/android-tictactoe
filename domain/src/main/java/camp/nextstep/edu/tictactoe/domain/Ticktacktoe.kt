@@ -1,48 +1,54 @@
 package camp.nextstep.edu.tictactoe.domain
 
 import camp.nextstep.edu.tictactoe.domain.model.*
+import camp.nextstep.edu.tictactoe.domain.model.Map
 
-class Ticktacktoe constructor(
-    private var currentTurn: Turn = Turn.X,
-    private val gameResultManager: GameResultManager
+abstract class Ticktacktoe constructor(
+    _currentTurn: Turn = Turn.X
 ) {
+    var map: Map = Map.EMPTY
+        private set
+    private var state: State = State.InProgress
+    var currentTurn = _currentTurn
+        private set
 
-    private var map = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
+    fun put(position: Position): Pair<State, Cell> {
+
+        val cell = when (currentTurn) {
+            Turn.X -> Cell.X(position)
+            Turn.O -> Cell.O(position)
+        }
+        map = map.mark(cell)
+        state = checkState()
+
+        isFinish = state != State.InProgress
+        return Pair(state, cell)
+    }
+
+    private fun checkState(): State = when {
+        map.lines.isX() -> State.WinX
+        map.lines.isO() -> State.WinO
+        map.lines.isDraw() -> State.Draw
+        else -> State.InProgress
+    }
 
     var isFinish: Boolean = false
         private set
-    private var count: Int = 0
 
-
-    fun getCurrentTurn(): Turn {
-        return currentTurn
+    fun isNotValidData(position: Position): Boolean {
+        return (map.isNotValidData(position) || isFinish)
     }
 
-    fun isValidData(point: Point): Boolean {
-        return !(map[point.row][point.column] != Turn.UNKNOWN || isFinish)
-    }
-
-    fun put(point: Point): Pair<GameResult, Status> {
-        val r = point.row
-        val c = point.column
-        map[r][c] = currentTurn
-        count++
-        val result = gameResultManager.getTurnResult(point, map, currentTurn, count)
-        isFinish = result.first != GameResult.UNKNOWN
-        return result
-
-    }
+    abstract fun runOneTurn(position: Position): TurnResult
 
     fun reset() {
         isFinish = false
-        count = 0
         currentTurn = Turn.X
-        map = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
+        map = Map.EMPTY
     }
 
-    fun changeTurn() {
-        currentTurn = if (currentTurn == Turn.X) Turn.O
-        else Turn.X
+    fun switchTurn() {
+        currentTurn = currentTurn.switch()
     }
 
     companion object {

@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
+import camp.nextstep.edu.tictactoe.domain.model.GameMode
 import camp.nextstep.edu.tictactoe.model.TurnResultMessage
 import camp.nextstep.edu.tictactoe.model.TurnResultMessage.ErrorMessage
 import camp.nextstep.edu.tictactoe.model.TurnResultMessage.GameResultMessage
@@ -59,13 +60,16 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.menu_two -> {
                 Toast.makeText(this, "TODO: 2인 모드로 전환", Toast.LENGTH_SHORT).show()
+                viewModel.changeMode(GameMode.PlAYER_MODE)
+                viewModel.reset()
             }
             R.id.menu_random -> {
                 Toast.makeText(this, "TODO: 랜덤 모드로 전환", Toast.LENGTH_SHORT).show()
+                viewModel.changeMode(GameMode.AI_MODE)
+                viewModel.reset()
             }
             R.id.menu_draw ->
                 Toast.makeText(this, "TODO: 무승부 모드로 전환", Toast.LENGTH_SHORT).show()
-
         }
         return true
     }

@@ -1,6 +1,7 @@
 package camp.nextstep.edu.tictactoe.domain.model
 
-enum class Point(
+
+enum class Position(
     val row: Int,
     val column: Int,
 ) {
@@ -16,7 +17,7 @@ enum class Point(
     CellBottomRight(2, 2);
 
     companion object {
-        fun of(row: Int, column: Int): Point? {
+        fun of(row: Int, column: Int): Position? {
             return values().find { it.row == row && it.column == column }
         }
     }
