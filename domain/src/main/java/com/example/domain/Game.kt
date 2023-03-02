@@ -45,6 +45,17 @@ class Game(
         board.assignBlock(turn, blockIndex)
         nowStatus = checkStatus()
         _state = makeState()
+
+        if (nowStatus == GameStatus.ONGOING && gameMode is RandomMode) {
+            assignBlockByRandom()
+        }
+
+    }
+
+    private fun assignBlockByRandom() {
+        board.assignBlock(turn, (gameMode as RandomMode).calculateNextDoing(board.state))
+        nowStatus = checkStatus()
+        _state = makeState()
     }
 
     private fun makeState(): GameState {

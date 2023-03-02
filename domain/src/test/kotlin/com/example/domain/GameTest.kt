@@ -201,7 +201,7 @@ class GameTest {
     }
 
     @Test
-    fun `같은 모드로 변경을 시도하면 `() {
+    fun `같은 모드로 변경을 시도하면 에러를 반환한다`() {
         // given
         val game = Game()
         assertTrue(game.state.gameMode is RandomMode)
@@ -213,6 +213,31 @@ class GameTest {
 
         // then
         assertEquals("같은 모드로 변경하실 수 없습니다.", exception.message)
+    }
 
+    @Test
+    fun `랜덤모드에서 수를 두면 AI가 다음 수를 둔다`() {
+        // given
+        val game = Game(gameMode = RandomMode(algorithm = FirstEmptyBlockStrategy()))
+        assertTrue(game.state.gameMode is RandomMode)
+
+        // when
+        game.assignBlock(0)
+
+        // then
+        assertEquals(
+            game.state.board.blocks,
+            listOf(
+                XBlock,
+                OBlock,
+                EmptyBlock(),
+                EmptyBlock(),
+                EmptyBlock(),
+                EmptyBlock(),
+                EmptyBlock(),
+                EmptyBlock(),
+                EmptyBlock()
+            )
+        )
     }
 }
