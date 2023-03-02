@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="tictactoeViewModel"
+            type="camp.nextstep.edu.tictactoe.TictactoeViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -28,81 +34,81 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> tictactoeViewModel.mark(0)}"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_x_black" />
+            tools:tictactoe_cell="@{tictactoeViewModel.board.get(0)}" />
 
         <ImageView
             android:id="@+id/cell_top"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> tictactoeViewModel.mark(1)}"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_o_black" />
+            tools:tictactoe_cell="@{tictactoeViewModel.board.get(1)}" />
 
         <ImageView
             android:id="@+id/cell_top_right"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> tictactoeViewModel.mark(2)}"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_x_black" />
+            tools:tictactoe_cell="@{tictactoeViewModel.board.get(2)}" />
 
         <ImageView
             android:id="@+id/cell_middle_left"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> tictactoeViewModel.mark(3)}"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_o_black" />
+            tools:tictactoe_cell="@{tictactoeViewModel.board.get(3)}" />
 
         <ImageView
             android:id="@+id/cell_middle"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> tictactoeViewModel.mark(4)}"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_x_black" />
+            tools:tictactoe_cell="@{tictactoeViewModel.board.get(4)}" />
 
         <ImageView
             android:id="@+id/cell_middle_right"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> tictactoeViewModel.mark(5)}"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_o_black" />
+            tools:tictactoe_cell="@{tictactoeViewModel.board.get(5)}" />
 
         <ImageView
             android:id="@+id/cell_bottom_left"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> tictactoeViewModel.mark(6)}"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_x_black" />
+            tools:tictactoe_cell="@{tictactoeViewModel.board.get(6)}" />
 
         <ImageView
             android:id="@+id/cell_bottom"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> tictactoeViewModel.mark(7)}"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_o_black" />
+            tools:tictactoe_cell="@{tictactoeViewModel.board.get(7)}" />
 
         <ImageView
             android:id="@+id/cell_bottom_right"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> tictactoeViewModel.mark(8)}"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_x_black" />
+            tools:tictactoe_cell="@{tictactoeViewModel.board.get(8)}" />
         <!-- endregion -->
 
         <!-- region Divider -->
@@ -187,6 +193,7 @@
             android:id="@+id/button_restart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> tictactoeViewModel.restart()}"
             android:text="다시 시작하기"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/flow"
