@@ -20,7 +20,7 @@ class GameTest {
     @Test
     fun `assignBlock 이후 게임이 끝나지 않으면 Turn이 1 증가한다`() {
         // given
-        val game = Game()
+        val game = Game(gameMode = TwoPlayerMode)
         assertEquals(game.state.turn, Turn(0))
 
         // when
