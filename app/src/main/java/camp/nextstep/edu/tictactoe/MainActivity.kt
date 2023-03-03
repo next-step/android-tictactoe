@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
-import com.example.domain.GameState
 import com.example.domain.GameStatus
 import com.example.domain.RandomMode
 import com.example.domain.TwoPlayerMode

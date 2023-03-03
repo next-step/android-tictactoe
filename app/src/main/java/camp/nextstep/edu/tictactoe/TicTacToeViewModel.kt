@@ -1,7 +1,5 @@
 package camp.nextstep.edu.tictactoe
 
-import android.view.View
-import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
