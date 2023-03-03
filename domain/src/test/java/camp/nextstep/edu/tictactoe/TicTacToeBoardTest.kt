@@ -75,7 +75,7 @@ class TicTacToeBoardTest {
         val randomPosition = listOf(RandomInput.getRandomPosition(listOf(0 to 1)))
 
         // when
-        ticTacToeBoard.randomInput(0, 0, randomPosition)
+        ticTacToeBoard.randomInput(randomPosition)
 
         // then
         val actual = ticTacToeBoard.getTicTacToeCell(0, 1)

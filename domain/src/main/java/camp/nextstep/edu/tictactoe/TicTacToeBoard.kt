@@ -15,27 +15,27 @@ class TicTacToeBoard {
             "잘못된 위치입니다."
         }
 
+        if (ticTacToe[x][y] != null) return
         when (gameMode) {
             TWO_PLAYERS -> twoPlayerPut(x, y)
-            RANDOM -> randomInput(x, y, RandomInput.getRandomPositionList(this))
+            RANDOM -> {
+                twoPlayerPut(x, y)
+                randomInput(RandomInput.getRandomPositionList(this))
+            }
             DRAW -> TODO()
         }
     }
 
     // 2인
     private fun twoPlayerPut(x: Int, y: Int) {
-        if (ticTacToe[x][y] != null) return
-
         ticTacToe[x][y] = gameStatus.gameTern
     }
 
     // 랜덤
-    internal fun randomInput(x: Int, y: Int, randomPositionList: List<Pair<Int, Int>>) {
-        if (ticTacToe[x][y] != null) return
+    internal fun randomInput(randomPositionList: List<Pair<Int, Int>>) {
+        if (gameStatus.currentGameStatus != TicTacToeStatus.PLAYING) return
 
-        twoPlayerPut(x, y)
         val randomPosition = RandomInput.getRandomPosition(randomPositionList)
-
         twoPlayerPut(randomPosition.first, randomPosition.second)
     }
 
