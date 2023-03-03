@@ -6,20 +6,21 @@ import org.junit.Assert.*
 
 class GameTest {
     @Test
-    fun `기본생성자는 0턴 ongoing emptyBlock으로 생성된다`() {
+    fun `기본생성자는 0턴 ongoing emptyBlock RandomMode 로 생성된다`() {
         // when
         val game = Game()
 
         // then
         assertEquals(game.state.turn, Turn(0))
         assertEquals(game.state.status, GameStatus.ONGOING)
+        assertTrue(game.state.gameMode is RandomMode)
         assertEquals(game.state.board.blocks, List(9) { EmptyBlock() })
     }
 
     @Test
     fun `assignBlock 이후 게임이 끝나지 않으면 Turn이 1 증가한다`() {
         // given
-        val game = Game()
+        val game = Game(gameMode = TwoPlayerMode)
         assertEquals(game.state.turn, Turn(0))
 
         // when
@@ -46,7 +47,7 @@ class GameTest {
                     XBlock,
                     EmptyBlock()
                 )
-            )
+            ), gameMode = TwoPlayerMode
         )
         assertEquals(game.state.turn, Turn(8))
 
@@ -74,7 +75,7 @@ class GameTest {
                     XBlock,
                     OBlock,
                 )
-            )
+            ), gameMode = TwoPlayerMode
         )
         assertEquals(game.state.turn, Turn(8))
         assertEquals(game.state.status, GameStatus.ONGOING)
@@ -103,7 +104,7 @@ class GameTest {
                     OBlock,
                     EmptyBlock()
                 )
-            )
+            ), gameMode = TwoPlayerMode
         )
         assertEquals(game.state.status, GameStatus.X_WON)
 
@@ -131,7 +132,7 @@ class GameTest {
                     EmptyBlock(),
                     EmptyBlock()
                 )
-            )
+            ), gameMode = TwoPlayerMode
         )
         assertEquals(game.state.status, GameStatus.ONGOING)
 
@@ -157,8 +158,8 @@ class GameTest {
                     EmptyBlock(),
                     EmptyBlock(),
                     EmptyBlock(),
-                )
-            )
+                ),
+            ), gameMode = TwoPlayerMode
         )
         assertEquals(game.state.status, GameStatus.ONGOING)
 
@@ -182,6 +183,61 @@ class GameTest {
         assertEquals(game.state.turn, Turn(0))
         assertEquals(game.state.status, GameStatus.ONGOING)
         assertEquals(game.state.board.blocks, List(9) { EmptyBlock() })
+        assertTrue(game.state.gameMode is RandomMode)
         assertEquals(game, Game())
+    }
+
+    @Test
+    fun `changeMode 를 통해 게임 모드를 변경할 수 있다`() {
+        // given
+        val game = Game()
+        assertTrue(game.state.gameMode is RandomMode)
+
+        // when
+        game.changeMode(TwoPlayerMode)
+
+        // then
+        assertEquals(game.state.gameMode, TwoPlayerMode)
+    }
+
+    @Test
+    fun `같은 모드로 변경을 시도하면 에러를 반환한다`() {
+        // given
+        val game = Game()
+        assertTrue(game.state.gameMode is RandomMode)
+
+        // when
+        val exception = assertThrows(IllegalArgumentException::class.java) {
+            game.changeMode(RandomMode())
+        }
+
+        // then
+        assertEquals("같은 모드로 변경하실 수 없습니다.", exception.message)
+    }
+
+    @Test
+    fun `랜덤모드에서 수를 두면 AI가 다음 수를 둔다`() {
+        // given
+        val game = Game(gameMode = RandomMode(algorithm = FirstEmptyBlockStrategy()))
+        assertTrue(game.state.gameMode is RandomMode)
+
+        // when
+        game.assignBlock(0)
+
+        // then
+        assertEquals(
+            game.state.board.blocks,
+            listOf(
+                XBlock,
+                OBlock,
+                EmptyBlock(),
+                EmptyBlock(),
+                EmptyBlock(),
+                EmptyBlock(),
+                EmptyBlock(),
+                EmptyBlock(),
+                EmptyBlock()
+            )
+        )
     }
 }
