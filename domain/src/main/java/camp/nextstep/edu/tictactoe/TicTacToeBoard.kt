@@ -27,7 +27,7 @@ class TicTacToeBoard {
     }
 
     // 2인
-    private fun twoPlayerPut(x: Int, y: Int) {
+    internal fun twoPlayerPut(x: Int, y: Int) {
         ticTacToe[x][y] = gameStatus.gameTern
     }
 

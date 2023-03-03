@@ -75,6 +75,7 @@ class TicTacToeBoardTest {
         val randomPosition = listOf(RandomInput.getRandomPosition(listOf(0 to 1)))
 
         // when
+        ticTacToeBoard.twoPlayerPut(0, 0)
         ticTacToeBoard.randomInput(randomPosition)
 
         // then
