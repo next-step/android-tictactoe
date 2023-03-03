@@ -25,12 +25,9 @@ class TicTacToeViewModel(game: Game = Game()) : ViewModel() {
     }
 
     fun assign(blockIndex: Int) {
-        try {
-            game.assignBlock(blockIndex)
-            _state.value = game.state
-        } catch (e: Throwable) {
-            _exceptionMessage.value = e.message
-        }
+        runCatching { game.assignBlock(blockIndex) }
+            .onSuccess { _state.value = game.state }
+            .onFailure { _exceptionMessage.value = it.message }
     }
 
     fun reset() {
@@ -39,11 +36,8 @@ class TicTacToeViewModel(game: Game = Game()) : ViewModel() {
     }
 
     fun changeMode(gameMode: GameMode) {
-        try {
-            game.changeMode(gameMode)
-            _state.value = game.state
-        } catch (e: Throwable) {
-            _exceptionMessage.value = e.message
-        }
+        runCatching { game.changeMode(gameMode) }
+            .onSuccess { _state.value = game.state }
+            .onFailure { _exceptionMessage.value = it.message }
     }
 }
