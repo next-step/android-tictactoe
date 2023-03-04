@@ -4,7 +4,18 @@ sealed class GameMode
 
 object TwoPlayerMode : GameMode()
 
-class RandomMode(private val algorithm: AssignAlgorithm = RandomBlockStrategy()) : GameMode() {
+class RandomMode : GameMode() {
+
+    private var algorithm: AssignAlgorithm
+
+    init {
+        algorithm = RandomBlockStrategy()
+    }
+
+    internal fun changeAlgorithm(assignAlgorithm: AssignAlgorithm) {
+        algorithm = assignAlgorithm
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -20,7 +31,9 @@ class RandomMode(private val algorithm: AssignAlgorithm = RandomBlockStrategy())
     }
 }
 
-class DrawMode(private val algorithm: AssignAlgorithm = DrawBlockStrategy()) : GameMode() {
+class DrawMode : GameMode() {
+
+    private val algorithm: AssignAlgorithm = DrawBlockStrategy()
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
