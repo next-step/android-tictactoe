@@ -2,7 +2,7 @@ package com.example.domain
 
 class Game(
     turn: Int = Turn.INIT_TURN,
-    board: Board = Board.createEmptyBoard(),
+    board: List<Block> = List(9) { EmptyBlock() },
     gameMode: GameMode = DrawMode()
 ) {
 
@@ -20,10 +20,10 @@ class Game(
 
     init {
         this.turn = Turn(turn)
-        this.board = Board(board.state.blocks)
+        this.board = Board(board.toList())
         this.nowStatus = checkStatus()
         this._gameMode = gameMode
-        _state = GameState(nowStatus, this.turn, board.state)
+        _state = GameState(nowStatus, this.turn, this.board.state)
     }
 
     fun changeMode(gameMode: GameMode) {
