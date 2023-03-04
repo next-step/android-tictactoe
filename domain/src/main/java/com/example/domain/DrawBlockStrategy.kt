@@ -1,6 +1,6 @@
 package com.example.domain
 
-class DrawBlockStrategy : AssignAlgorithm {
+internal class DrawBlockStrategy : AssignAlgorithm {
     override fun calculateNextDoing(boardState: BoardState): Int {
         // 중앙이 비어있으면 중앙을 먹는다.
         if (isCenterEmpty(boardState)) {
