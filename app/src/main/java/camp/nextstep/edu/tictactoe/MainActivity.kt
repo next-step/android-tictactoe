@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         init()
         observeException()
         observeGameState()
+        observeGameMode()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -50,6 +51,16 @@ class MainActivity : AppCompatActivity() {
     private fun observeException() {
         viewModel.exceptionMessage.observe(this) {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun observeGameMode() {
+        viewModel.mode.observe(this) {
+            when (it) {
+                is TwoPlayerMode -> Toast.makeText(this, "2인 모드", Toast.LENGTH_SHORT).show()
+                is RandomMode -> Toast.makeText(this, "랜덤 모드", Toast.LENGTH_SHORT).show()
+                else -> {}
+            }
         }
     }
 

@@ -9,6 +9,10 @@ class TicTacToeViewModel(game: Game = Game()) : ViewModel() {
 
     private val game: Game
 
+    private val _mode = MutableLiveData(game.gameMode)
+    val mode: LiveData<GameMode>
+        get() = _mode
+
     private val _state = MutableLiveData(game.state)
     val state: LiveData<GameState>
         get() = _state
@@ -35,7 +39,10 @@ class TicTacToeViewModel(game: Game = Game()) : ViewModel() {
 
     fun changeMode(gameMode: GameMode) {
         runCatching { game.changeMode(gameMode) }
-            .onSuccess { _state.value = game.state }
+            .onSuccess {
+                _state.value = game.state
+                _mode.value = game.gameMode
+            }
             .onFailure { _exceptionMessage.value = it.message }
     }
 }

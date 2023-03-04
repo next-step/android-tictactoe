@@ -13,7 +13,7 @@ class GameTest {
         // then
         assertEquals(game.state.turn, Turn(0))
         assertEquals(game.state.status, GameStatus.ONGOING)
-        assertTrue(game.state.gameMode is RandomMode)
+        assertTrue(game.gameMode is RandomMode)
         assertEquals(game.state.board.blocks, List(9) { EmptyBlock() })
     }
 
@@ -183,7 +183,7 @@ class GameTest {
         assertEquals(game.state.turn, Turn(0))
         assertEquals(game.state.status, GameStatus.ONGOING)
         assertEquals(game.state.board.blocks, List(9) { EmptyBlock() })
-        assertTrue(game.state.gameMode is RandomMode)
+        assertTrue(game.gameMode is RandomMode)
         assertEquals(game, Game())
     }
 
@@ -191,20 +191,20 @@ class GameTest {
     fun `changeMode 를 통해 게임 모드를 변경할 수 있다`() {
         // given
         val game = Game()
-        assertTrue(game.state.gameMode is RandomMode)
+        assertTrue(game.gameMode is RandomMode)
 
         // when
         game.changeMode(TwoPlayerMode)
 
         // then
-        assertEquals(game.state.gameMode, TwoPlayerMode)
+        assertEquals(game.gameMode, TwoPlayerMode)
     }
 
     @Test
     fun `같은 모드로 변경을 시도하면 에러를 반환한다`() {
         // given
         val game = Game()
-        assertTrue(game.state.gameMode is RandomMode)
+        assertTrue(game.gameMode is RandomMode)
 
         // when
         val exception = assertThrows(IllegalArgumentException::class.java) {
@@ -219,7 +219,7 @@ class GameTest {
     fun `랜덤모드에서 수를 두면 AI가 다음 수를 둔다`() {
         // given
         val game = Game(gameMode = RandomMode(algorithm = FirstEmptyBlockStrategy()))
-        assertTrue(game.state.gameMode is RandomMode)
+        assertTrue(game.gameMode is RandomMode)
 
         // when
         game.assignBlock(0)

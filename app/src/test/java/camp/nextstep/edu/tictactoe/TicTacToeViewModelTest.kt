@@ -159,12 +159,12 @@ class TicTacToeViewModelTest {
     fun `모드를 변경할 수 있다`() {
         // given
         viewModel = TicTacToeViewModel(Game())
-        assertTrue(viewModel.state.getOrAwaitValue().gameMode is RandomMode)
+        assertTrue(viewModel.mode.getOrAwaitValue() is RandomMode)
         // when
         viewModel.changeMode(TwoPlayerMode)
 
         // then
-        assertEquals(viewModel.state.getOrAwaitValue().gameMode, TwoPlayerMode)
+        assertEquals(viewModel.mode.getOrAwaitValue(), TwoPlayerMode)
     }
 
     @Test
