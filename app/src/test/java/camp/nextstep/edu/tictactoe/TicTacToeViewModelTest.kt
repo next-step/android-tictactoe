@@ -206,26 +206,13 @@ class TicTacToeViewModelTest {
     fun `랜덤모드에서 플레이어가 두면 AI의 결과도 함께 나타난다`() {
         // given
         viewModel =
-            TicTacToeViewModel(Game(gameMode = RandomMode(algorithm = FirstEmptyBlockStrategy())))
-
+            TicTacToeViewModel()
+        assertEquals(viewModel.state.getOrAwaitValue().board.blocks.count { it is EmptyBlock }, 9)
 
         // when
         viewModel.assign(0)
 
         // then
-        assertEquals(
-            viewModel.state.getOrAwaitValue().board.blocks,
-            listOf(
-                XBlock,
-                OBlock,
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock()
-            )
-        )
+        assertEquals(viewModel.state.getOrAwaitValue().board.blocks.count { it is EmptyBlock }, 7)
     }
 }

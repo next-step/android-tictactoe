@@ -6,7 +6,7 @@ import org.junit.experimental.runners.Enclosed
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
-fun createWinnningBlocks(indexes: List<Int>, turn: Turn): Board {
+internal fun createWinnningBlocks(indexes: List<Int>, turn: Turn): Board {
     val blocks = mutableListOf<Block>()
     for (i in 0..8) {
         if (indexes.contains(i)) {
@@ -131,7 +131,7 @@ class BoardTest {
     }
 
     @RunWith(value = Parameterized::class)
-    class WinningTest(private val board: Board, private val turn: Int) {
+    internal class WinningTest(private val board: Board, private val turn: Int) {
         @Test
         fun `승리 조건 테스트`() {
             // when
