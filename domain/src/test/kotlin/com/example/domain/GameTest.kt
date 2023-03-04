@@ -204,11 +204,11 @@ class GameTest {
     fun `같은 모드로 변경을 시도하면 에러를 반환한다`() {
         // given
         val game = Game()
-        assertTrue(game.gameMode is RandomMode)
+        assertTrue(game.gameMode is DrawMode)
 
         // when
         val exception = assertThrows(IllegalArgumentException::class.java) {
-            game.changeMode(RandomMode())
+            game.changeMode(DrawMode())
         }
 
         // then
