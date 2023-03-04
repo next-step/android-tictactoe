@@ -1,6 +1,6 @@
 package com.example.domain
 
-class Board(blocks: List<Block>) {
+internal class Board(blocks: List<Block>) {
     private val blocks = blocks.toMutableList()
 
     val state: BoardState
