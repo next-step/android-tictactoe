@@ -3,7 +3,7 @@ package com.example.domain
 class Game(
     turn: Int = Turn.INIT_TURN,
     board: Board = Board.createEmptyBoard(),
-    gameMode: GameMode = RandomMode()
+    gameMode: GameMode = DrawMode()
 ) {
 
     private var turn: Turn
@@ -50,14 +50,27 @@ class Game(
         nowStatus = checkStatus()
         _state = makeState()
 
-        if (nowStatus == GameStatus.ONGOING && _gameMode is RandomMode) {
+        if (nowStatus == GameStatus.ONGOING) {
             assignBlockByRandom()
         }
-
     }
 
     private fun assignBlockByRandom() {
+        when (_gameMode) {
+            is RandomMode -> assignBlockByRandomAlgorithm()
+            is DrawMode -> assignBlockByDrawAlgorithm()
+            else -> {}
+        }
+    }
+
+    private fun assignBlockByRandomAlgorithm() {
         board.assignBlock(turn, (_gameMode as RandomMode).calculateNextDoing(board.state))
+        nowStatus = checkStatus()
+        _state = makeState()
+    }
+
+    private fun assignBlockByDrawAlgorithm() {
+        board.assignBlock(turn, (_gameMode as DrawMode).calculateNextDoing(board.state))
         nowStatus = checkStatus()
         _state = makeState()
     }
