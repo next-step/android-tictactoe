@@ -3,16 +3,15 @@ package com.example.domain
 class Game(
     turn: Int = Turn.INIT_TURN,
     board: List<Block> = List(9) { EmptyBlock() },
-    gameMode: GameMode = DrawMode()
 ) {
 
     private var turn: Turn
     private var board: Board
     private var nowStatus: GameStatus
-
     private var _gameMode: GameMode
-    val gameMode: GameMode
+    internal val gameMode: GameMode
         get() = _gameMode
+
 
     private var _state: GameState
     val state: GameState
@@ -22,17 +21,54 @@ class Game(
         this.turn = Turn(turn)
         this.board = Board(board.toList())
         this.nowStatus = checkStatus()
+        this._gameMode = DrawMode()
+        _state = GameState(nowStatus, this.turn, this.board.state)
+    }
+
+    internal constructor(
+        turn: Int,
+        board: List<Block>,
+        gameMode: GameMode
+    ) : this() {
+        this.turn = Turn(turn)
+        this.board = Board(board.toList())
+        this.nowStatus = checkStatus()
         this._gameMode = gameMode
         _state = GameState(nowStatus, this.turn, this.board.state)
     }
 
-    fun changeMode(gameMode: GameMode) {
-        require(gameMode != this._gameMode) {
+    fun changePlayerMode() {
+        require(this._gameMode !is TwoPlayerMode) {
             "같은 모드로 변경하실 수 없습니다."
         }
-        this._gameMode = gameMode
+        this._gameMode = TwoPlayerMode
         reset()
     }
+
+    fun changeRandomMode() {
+        require(this._gameMode !is RandomMode) {
+            "같은 모드로 변경하실 수 없습니다."
+        }
+        this._gameMode = RandomMode()
+        reset()
+    }
+
+    internal fun changeRandomMode(algorithm: AssignAlgorithm) {
+        require(this._gameMode !is RandomMode) {
+            "같은 모드로 변경하실 수 없습니다."
+        }
+        this._gameMode = RandomMode(algorithm)
+        reset()
+    }
+
+    fun changeDrawMode() {
+        require(this._gameMode !is DrawMode) {
+            "같은 모드로 변경하실 수 없습니다."
+        }
+        this._gameMode = DrawMode()
+        reset()
+    }
+
 
     fun reset() {
         board = Board.createEmptyBoard()

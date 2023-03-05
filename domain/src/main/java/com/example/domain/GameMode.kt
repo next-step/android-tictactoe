@@ -1,21 +1,10 @@
 package com.example.domain
 
-sealed class GameMode
+internal sealed class GameMode
 
-object TwoPlayerMode : GameMode()
+internal object TwoPlayerMode : GameMode()
 
-class RandomMode : GameMode() {
-
-    private var algorithm: AssignAlgorithm
-
-    init {
-        algorithm = RandomBlockStrategy()
-    }
-
-    internal fun changeAlgorithm(assignAlgorithm: AssignAlgorithm) {
-        algorithm = assignAlgorithm
-    }
-
+internal class RandomMode(private var algorithm: AssignAlgorithm = RandomBlockStrategy()) : GameMode() {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -31,9 +20,7 @@ class RandomMode : GameMode() {
     }
 }
 
-class DrawMode : GameMode() {
-
-    private val algorithm: AssignAlgorithm = DrawBlockStrategy()
+internal class DrawMode(private val algorithm: AssignAlgorithm = DrawBlockStrategy()) : GameMode() {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

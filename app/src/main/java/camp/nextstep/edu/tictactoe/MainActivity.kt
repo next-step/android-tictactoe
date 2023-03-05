@@ -7,10 +7,8 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
-import com.example.domain.DrawMode
 import com.example.domain.GameStatus
-import com.example.domain.RandomMode
-import com.example.domain.TwoPlayerMode
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -35,11 +33,11 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_two ->
-                viewModel.changeMode(TwoPlayerMode)
+                viewModel.changeTwoPlayerMode()
             R.id.menu_random ->
-                viewModel.changeMode(RandomMode())
+                viewModel.changeRandomMode()
             R.id.menu_draw ->
-                viewModel.changeMode(DrawMode())
+                viewModel.changeDrawMode()
         }
         return true
     }
@@ -57,11 +55,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeGameMode() {
         viewModel.mode.observe(this) {
-            when (it) {
-                is TwoPlayerMode -> Toast.makeText(this, "2인 모드", Toast.LENGTH_SHORT).show()
-                is RandomMode -> Toast.makeText(this, "랜덤 모드", Toast.LENGTH_SHORT).show()
-                else -> {}
-            }
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         }
     }
 
