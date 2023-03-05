@@ -7,12 +7,12 @@ internal class DrawBlockStrategy : AssignAlgorithm {
             return CENTER
         }
         // 내가 이기는 수가 있으면 이기는 수를 둔다.
-        val oWinDoing = hasWinsDoingOrNull(boardState, OBlock)
-        if (oWinDoing != null) return oWinDoing
+        val computerWinDoing = hasWinsDoingOrNull(boardState, OBlock)
+        if (computerWinDoing != null) return computerWinDoing
 
         // 상대가 이기는 수가 있으면 막는다.
-        val xWinsDoing = hasWinsDoingOrNull(boardState, XBlock)
-        if (xWinsDoing != null) return xWinsDoing
+        val playerWinDoing = hasWinsDoingOrNull(boardState, XBlock)
+        if (playerWinDoing != null) return playerWinDoing
 
         // 코너에 둔다.
         val corner = getFirstEmptyCorner(boardState)
