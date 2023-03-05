@@ -51,11 +51,11 @@ class Game(
         _state = makeState()
 
         if (nowStatus == GameStatus.ONGOING) {
-            assignBlockByRandom()
+            assignBlockByAlgorithm()
         }
     }
 
-    private fun assignBlockByRandom() {
+    private fun assignBlockByAlgorithm() {
         when (_gameMode) {
             is RandomMode -> assignBlockByRandomAlgorithm()
             is DrawMode -> assignBlockByDrawAlgorithm()
