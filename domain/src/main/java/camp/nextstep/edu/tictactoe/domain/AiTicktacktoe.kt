@@ -20,14 +20,17 @@ class AiTicktacktoe : Ticktacktoe(Turn.X) {
             val aiGameResult = super.put(aiPoint)
             switchTurn()
             return TurnResult(
-                aiGameResult.first, listOf(
-                    userGameResult.second,
-                    aiGameResult.second
+                aiGameResult.first, mapOf(
+                    TurnResult.KEY_USER to userGameResult.second,
+                    TurnResult.KEY_AI to aiGameResult.second
                 )
             )
 
         }
-        return TurnResult(userGameResult.first, listOf(userGameResult.second))
+        return TurnResult(
+            userGameResult.first,
+            mapOf(TurnResult.KEY_USER to (userGameResult.second))
+        )
     }
 
 

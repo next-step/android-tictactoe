@@ -1,15 +1,19 @@
 package camp.nextstep.edu.tictactoe.domain
 
 import camp.nextstep.edu.tictactoe.domain.model.*
-import camp.nextstep.edu.tictactoe.domain.model.Board
 
 abstract class Ticktacktoe constructor(
     _currentTurn: Turn = Turn.X
 ) {
     var board: Board = Board.EMPTY
         private set
+
     private var state: State = State.InProgress
+
     var currentTurn = _currentTurn
+        private set
+
+    var isFinish: Boolean = false
         private set
 
     fun put(position: Position): Pair<State, Cell> {
@@ -32,11 +36,8 @@ abstract class Ticktacktoe constructor(
         else -> State.InProgress
     }
 
-    var isFinish: Boolean = false
-        private set
-
-    fun isNotValidData(position: Position): Boolean {
-        return (board.isNotValidData(position) || isFinish)
+    fun isLegalMove(position: Position): Boolean {
+        return (board.isLegalMove(position) || isFinish)
     }
 
     abstract fun runOneTurn(position: Position): TurnResult
@@ -54,7 +55,6 @@ abstract class Ticktacktoe constructor(
     companion object {
         const val BOARD_SIZE = 3
     }
-
 
 }
 

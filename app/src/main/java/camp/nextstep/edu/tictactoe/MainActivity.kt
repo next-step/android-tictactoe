@@ -61,12 +61,10 @@ class MainActivity : AppCompatActivity() {
             R.id.menu_two -> {
                 Toast.makeText(this, "TODO: 2인 모드로 전환", Toast.LENGTH_SHORT).show()
                 viewModel.changeMode(GameMode.PlAYER_MODE)
-                viewModel.reset()
             }
             R.id.menu_random -> {
                 Toast.makeText(this, "TODO: 랜덤 모드로 전환", Toast.LENGTH_SHORT).show()
                 viewModel.changeMode(GameMode.AI_MODE)
-                viewModel.reset()
             }
             R.id.menu_draw ->
                 Toast.makeText(this, "TODO: 무승부 모드로 전환", Toast.LENGTH_SHORT).show()

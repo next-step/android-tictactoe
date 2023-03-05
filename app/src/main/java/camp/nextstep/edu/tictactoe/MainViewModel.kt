@@ -6,10 +6,7 @@ import androidx.lifecycle.ViewModel
 import camp.nextstep.edu.tictactoe.domain.GameManager
 import camp.nextstep.edu.tictactoe.domain.Ticktacktoe
 import camp.nextstep.edu.tictactoe.domain.Ticktacktoe.Companion.BOARD_SIZE
-import camp.nextstep.edu.tictactoe.domain.model.Cell
-import camp.nextstep.edu.tictactoe.domain.model.GameMode
-import camp.nextstep.edu.tictactoe.domain.model.Position
-import camp.nextstep.edu.tictactoe.domain.model.State
+import camp.nextstep.edu.tictactoe.domain.model.*
 import camp.nextstep.edu.tictactoe.model.TurnResultMessage
 import camp.nextstep.edu.tictactoe.model.TurnState
 
@@ -28,7 +25,7 @@ class MainViewModel : ViewModel() {
         get() = _showToast
 
     fun put(position: Position) {
-        if (gameManager.isNotValidData(position)) {
+        if (gameManager.isLegalMove(position)) {
             if (gameManager.isFinish()) {
                 _showToast.value = TurnResultMessage.ErrorMessage.FinishGame
             } else {
@@ -39,10 +36,12 @@ class MainViewModel : ViewModel() {
 
         var result = gameManager.runOneTurn(position)
 
-        result.cells.forEach {
+        result.cells[TurnResult.KEY_USER]?.let {
             drawOorXWithPoint(it)
         }
-
+        result.cells[TurnResult.KEY_AI]?.let {
+            drawOorXWithPoint(it)
+        }
 
         when (result.state) {
             State.WinX -> _showToast.value = TurnResultMessage.GameResultMessage.XWin
@@ -54,6 +53,7 @@ class MainViewModel : ViewModel() {
 
     fun changeMode(mode: GameMode) {
         gameManager.changeMode(mode)
+        reset()
     }
 
     fun reset() {

@@ -3,6 +3,7 @@ package camp.nextstep.edu.tictactoe.domain
 
 import camp.nextstep.edu.tictactoe.domain.model.Position
 import camp.nextstep.edu.tictactoe.domain.model.State
+import camp.nextstep.edu.tictactoe.domain.model.TurnResult
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -28,9 +29,9 @@ class AiTicktacktoeTest {
         assertThat(result.cells.size).isEqualTo(2)
         assertThat(result.state).isEqualTo(State.InProgress)
         //user 선택
-        assertThat(result.cells.first().position).isEqualTo(Position.CellTopLeft)
+        assertThat(result.cells[TurnResult.KEY_USER]?.position).isEqualTo(Position.CellTopLeft)
         //ai 선택
-        assertThat(expectedPoints.contains(result.cells.last().position)).isTrue()
+        assertThat(expectedPoints.contains(result.cells[TurnResult.KEY_AI]?.position)).isTrue()
     }
 
 }
