@@ -6,7 +6,6 @@ import camp.nextstep.edu.tictactoe.GameMode.*
 class TicTacToeBoard {
     private var ticTacToe: Array<Array<OX?>> = Array(3) { Array(3) { null } }
     private var gameStatus = GameStatus(this)
-    var gameMode = TWO_PLAYERS
 
 
     fun put(x: Int, y: Int) {
@@ -15,28 +14,9 @@ class TicTacToeBoard {
             "잘못된 위치입니다."
         }
 
-        if (ticTacToe[x][y] != null) return
-        when (gameMode) {
-            TWO_PLAYERS -> twoPlayerPut(x, y)
-            RANDOM -> {
-                twoPlayerPut(x, y)
-                randomInput(RandomInput.getRandomPositionList(this))
-            }
-            DRAW -> TODO()
+        if (ticTacToe[x][y] == null) {
+            ticTacToe[x][y] = gameStatus.gameTern
         }
-    }
-
-    // 2인
-    internal fun twoPlayerPut(x: Int, y: Int) {
-        ticTacToe[x][y] = gameStatus.gameTern
-    }
-
-    // 랜덤
-    internal fun randomInput(randomPositionList: List<Pair<Int, Int>>) {
-        if (gameStatus.currentGameStatus != TicTacToeStatus.PLAYING) return
-
-        val randomPosition = RandomInput.getRandomPosition(randomPositionList)
-        twoPlayerPut(randomPosition.first, randomPosition.second)
     }
 
     fun getGameStatus(): TicTacToeStatus {

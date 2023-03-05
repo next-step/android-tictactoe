@@ -20,7 +20,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun setGameMode(gameMode: GameMode) {
-        ticTacToeBoard.gameMode = gameMode
+
         reset()
     }
 

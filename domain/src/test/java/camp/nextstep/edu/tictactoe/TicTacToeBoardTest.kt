@@ -66,20 +66,4 @@ class TicTacToeBoardTest {
 
         Truth.assertThat(actual).isEqualTo(empty)
     }
-
-
-    @Test
-    fun `랜덤모드로 테스트를 진행하는 경우`() {
-        // given
-        ticTacToeBoard.gameMode = GameMode.RANDOM
-        val randomPosition = listOf(RandomInput.getRandomPosition(listOf(0 to 1)))
-
-        // when
-        ticTacToeBoard.twoPlayerPut(0, 0)
-        ticTacToeBoard.randomInput(randomPosition)
-
-        // then
-        val actual = ticTacToeBoard.getTicTacToeCell(0, 1)
-        Truth.assertThat(actual).isEqualTo(OX.O)
-    }
 }
