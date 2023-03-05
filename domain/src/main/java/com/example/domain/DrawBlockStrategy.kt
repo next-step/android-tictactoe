@@ -7,15 +7,23 @@ internal class DrawBlockStrategy : AssignAlgorithm {
             return CENTER
         }
         // 내가 이기는 수가 있으면 이기는 수를 둔다.
-        val computerWinDoing = hasWinsDoingOrNull(boardState, OBlock)
+        val computerWinDoing = findWin(boardState, OBlock)
         if (computerWinDoing != null) return computerWinDoing
 
         // 상대가 이기는 수가 있으면 막는다.
-        val playerWinDoing = hasWinsDoingOrNull(boardState, XBlock)
+        val playerWinDoing = findWin(boardState, XBlock)
         if (playerWinDoing != null) return playerWinDoing
 
+        // 상대가 포크를 만들 수 있으면 막는다.
+        val playerFork = findPlayerFork(boardState)
+        if (playerFork != null) return playerFork
+
+        // 상대가 가진 코너가 1개일 경우 반대편 에 둔다
+        val oppositeCorner = findOppositeCorner(boardState)
+        if (oppositeCorner != null) return oppositeCorner
+
         // 코너에 둔다.
-        val corner = getFirstEmptyCorner(boardState)
+        val corner = findCorner(boardState)
         if (corner != null) return corner
 
         // 남는 곳에 둔다
@@ -26,14 +34,38 @@ internal class DrawBlockStrategy : AssignAlgorithm {
         return boardState.blocks[CENTER] is EmptyBlock
     }
 
-    private fun hasWinsDoingOrNull(boardState: BoardState, whose: Block): Int? {
+    private fun findWin(boardState: BoardState, whose: Block): Int? {
         return Board.winningIndexs.find {
             it.filter { index -> boardState.blocks[index] is EmptyBlock }.size == 1
                     && it.filter { index -> boardState.blocks[index] == whose }.size == 2
         }?.filter { index -> boardState.blocks[index] is EmptyBlock }?.get(0)
     }
 
-    private fun getFirstEmptyCorner(boardState: BoardState): Int? {
+    private fun findPlayerFork(boardState: BoardState): Int? {
+        if (CORNER.count { boardState.blocks[it] is EmptyBlock } != 2 || CORNER.count { boardState.blocks[it] is XBlock } != 2) return null
+        return when (CORNER.filter { boardState.blocks[it] is XBlock }) {
+            listOf(0, 8) -> findSide(boardState)
+            listOf(2, 6) -> findSide(boardState)
+            else -> null
+        }
+    }
+
+    private fun findSide(boardState: BoardState): Int? {
+        return listOf(1, 3, 5, 7).find { boardState.blocks[it] is EmptyBlock }
+    }
+
+    private fun findOppositeCorner(boardState: BoardState): Int? {
+        if (CORNER.filter { boardState.blocks[it] is EmptyBlock }.size != 3 || CORNER.count { boardState.blocks[it] is XBlock } != 1) return null
+        return when (CORNER.find { boardState.blocks[it] is XBlock }) {
+            0 -> 8
+            2 -> 6
+            6 -> 2
+            8 -> 0
+            else -> null
+        }
+    }
+
+    private fun findCorner(boardState: BoardState): Int? {
         return CORNER.find { boardState.blocks[it] is EmptyBlock }
     }
 
