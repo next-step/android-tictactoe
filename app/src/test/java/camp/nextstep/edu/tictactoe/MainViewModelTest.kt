@@ -1,7 +1,8 @@
 package camp.nextstep.edu.tictactoe
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import camp.nextstep.edu.tictactoe.domain.model.Point
+import camp.nextstep.edu.tictactoe.domain.model.GameMode
+import camp.nextstep.edu.tictactoe.domain.model.Position
 import camp.nextstep.edu.tictactoe.model.TurnResultMessage
 import camp.nextstep.edu.tictactoe.util.getOrAwaitValue
 import io.mockk.clearAllMocks
@@ -21,7 +22,7 @@ class MainViewModelTest {
     @Before
     fun setUp() {
         viewModel = MainViewModel()
-
+        viewModel.changeMode(GameMode.PlAYER_MODE)
     }
 
     @After
@@ -36,11 +37,11 @@ class MainViewModelTest {
      * */
     @Test
     fun `x가 승리한다`() {
-        viewModel.put(Point.CellTopLeft) //x
-        viewModel.put(Point.CellTop) //o
-        viewModel.put(Point.CellMiddleLeft) //x
-        viewModel.put(Point.CellTopRight) //o
-        viewModel.put(Point.CellBottomLeft) //x
+        viewModel.put(Position.CellTopLeft) //x
+        viewModel.put(Position.CellTop) //o
+        viewModel.put(Position.CellMiddleLeft) //x
+        viewModel.put(Position.CellTopRight) //o
+        viewModel.put(Position.CellBottomLeft) //x
         assertEquals(
             TurnResultMessage.GameResultMessage.XWin,
             viewModel.showToast.getOrAwaitValue()
@@ -54,12 +55,12 @@ class MainViewModelTest {
      * */
     @Test
     fun `o가 승리한다`() {
-        viewModel.put(Point.CellBottomRight) //x
-        viewModel.put(Point.CellTopLeft) //o
-        viewModel.put(Point.CellMiddleRight) //x
-        viewModel.put(Point.CellTop) //o
-        viewModel.put(Point.CellBottom) //x
-        viewModel.put(Point.CellTopRight) //o
+        viewModel.put(Position.CellBottomRight) //x
+        viewModel.put(Position.CellTopLeft) //o
+        viewModel.put(Position.CellMiddleRight) //x
+        viewModel.put(Position.CellTop) //o
+        viewModel.put(Position.CellBottom) //x
+        viewModel.put(Position.CellTopRight) //o
         assertEquals(
             TurnResultMessage.GameResultMessage.OWin,
             viewModel.showToast.getOrAwaitValue()
@@ -73,15 +74,15 @@ class MainViewModelTest {
      * */
     @Test
     fun `무승부로 끝난다`() {
-        viewModel.put(Point.CellTopLeft) //x
-        viewModel.put(Point.CellTop) //o
-        viewModel.put(Point.CellTopRight) //x
-        viewModel.put(Point.CellMiddle) //o
-        viewModel.put(Point.CellMiddleLeft) //x
-        viewModel.put(Point.CellMiddleRight) //o
-        viewModel.put(Point.CellBottom) //x
-        viewModel.put(Point.CellBottomLeft) //o
-        viewModel.put(Point.CellBottomRight) //x
+        viewModel.put(Position.CellTopLeft) //x
+        viewModel.put(Position.CellTop) //o
+        viewModel.put(Position.CellTopRight) //x
+        viewModel.put(Position.CellMiddle) //o
+        viewModel.put(Position.CellMiddleLeft) //x
+        viewModel.put(Position.CellMiddleRight) //o
+        viewModel.put(Position.CellBottom) //x
+        viewModel.put(Position.CellBottomLeft) //o
+        viewModel.put(Position.CellBottomRight) //x
         assertEquals(TurnResultMessage.GameResultMessage.Tie, viewModel.showToast.getOrAwaitValue())
     }
 
