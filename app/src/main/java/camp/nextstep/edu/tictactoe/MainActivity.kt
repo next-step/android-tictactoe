@@ -11,24 +11,20 @@ import androidx.appcompat.app.AppCompatActivity
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+    private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val mainViewModel: MainViewModel by viewModels()
-
-    private val imageViewArray: Array<Array<ImageView>> by lazy {
-        arrayOf(
-            arrayOf(binding.cellTopLeft, binding.cellTop, binding.cellTopRight),
-            arrayOf(binding.cellMiddleLeft, binding.cellMiddle, binding.cellMiddleRight),
-            arrayOf(binding.cellBottomLeft, binding.cellBottom, binding.cellBottomRight),
-        )
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        binding.viewModel = mainViewModel
         setContentView(binding.root)
-        mainViewModel.setGameMode(GameMode.RANDOM)
+        init()
         addObserver()
+        changeGameMode(GameMode.RANDOM)
+    }
+
+    private fun init() {
+        binding.viewModel = mainViewModel
+        binding.lifecycleOwner = this
     }
 
     private fun addObserver() {
@@ -44,24 +40,10 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.errorMessage.observe(this) { errorMessage ->
             showToastMessage(errorMessage)
         }
-
-        mainViewModel.cells.observe(this) { cells ->
-            cells.forEachIndexed { xIndex, oxen ->
-                oxen.forEachIndexed { yIndex, ox ->
-                    setImageResource(xIndex, yIndex, ox)
-                }
-            }
-        }
     }
 
-    private fun setImageResource(row: Int, column: Int, ox: OX?) {
-        val drawableId = when (ox) {
-            OX.X -> R.drawable.ic_x_black
-            OX.O -> R.drawable.ic_o_black
-            else -> 0
-        }
-
-        imageViewArray[row][column].setImageResource(drawableId)
+    private fun changeGameMode(gameMode: GameMode) {
+        mainViewModel.setGameMode(gameMode)
     }
 
     private fun showToastMessage(message: String) {
@@ -75,10 +57,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_two ->
-                mainViewModel.setGameMode(GameMode.TWO_PLAYERS)
-            R.id.menu_random ->
-                mainViewModel.setGameMode(GameMode.RANDOM)
+            R.id.menu_two -> changeGameMode(GameMode.TWO_PLAYERS)
+            R.id.menu_random -> changeGameMode(GameMode.RANDOM)
             R.id.menu_draw ->
                 Toast.makeText(this, "TODO: 무승부 모드로 전환", Toast.LENGTH_SHORT).show()
         }
