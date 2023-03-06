@@ -13,12 +13,10 @@ import camp.nextstep.edu.tictactoe.model.TurnState
 class MainViewModel : ViewModel() {
 
     private val gameManager = GameManager()
-    private val _board = Array(BOARD_SIZE) { Array(BOARD_SIZE) { MutableLiveData(TurnState.EMPTY) } }
+    private val _board = List(BOARD_SIZE) { List(BOARD_SIZE) { MutableLiveData(TurnState.EMPTY) } }
 
-    val board: Array<Array<LiveData<TurnState>>>
-        get() = _board.map { it.map { liveData -> liveData as LiveData<TurnState> }.toTypedArray() }
-            .toTypedArray()
-
+    val board: List<List<LiveData<TurnState>>>
+        get() = _board
 
     private val _showToast = MutableLiveData<TurnResultMessage>()
     val showToast: LiveData<TurnResultMessage>

@@ -5,9 +5,9 @@ import camp.nextstep.edu.tictactoe.domain.model.GameMode
 import camp.nextstep.edu.tictactoe.domain.model.Position
 import camp.nextstep.edu.tictactoe.model.TurnResultMessage
 import camp.nextstep.edu.tictactoe.util.getOrAwaitValue
+import com.google.common.truth.Truth.assertThat
 import io.mockk.clearAllMocks
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -42,10 +42,7 @@ class MainViewModelTest {
         viewModel.put(Position.CellMiddleLeft) //x
         viewModel.put(Position.CellTopRight) //o
         viewModel.put(Position.CellBottomLeft) //x
-        assertEquals(
-            TurnResultMessage.GameResultMessage.XWin,
-            viewModel.showToast.getOrAwaitValue()
-        )
+        assertThat(viewModel.showToast.getOrAwaitValue()).isEqualTo(TurnResultMessage.GameResultMessage.XWin)
     }
 
     /**
@@ -61,10 +58,7 @@ class MainViewModelTest {
         viewModel.put(Position.CellTop) //o
         viewModel.put(Position.CellBottom) //x
         viewModel.put(Position.CellTopRight) //o
-        assertEquals(
-            TurnResultMessage.GameResultMessage.OWin,
-            viewModel.showToast.getOrAwaitValue()
-        )
+        assertThat(viewModel.showToast.getOrAwaitValue()).isEqualTo(TurnResultMessage.GameResultMessage.OWin)
     }
 
     /**
@@ -83,7 +77,7 @@ class MainViewModelTest {
         viewModel.put(Position.CellBottom) //x
         viewModel.put(Position.CellBottomLeft) //o
         viewModel.put(Position.CellBottomRight) //x
-        assertEquals(TurnResultMessage.GameResultMessage.Tie, viewModel.showToast.getOrAwaitValue())
+        assertThat(viewModel.showToast.getOrAwaitValue()).isEqualTo(TurnResultMessage.GameResultMessage.Tie)
     }
 
 

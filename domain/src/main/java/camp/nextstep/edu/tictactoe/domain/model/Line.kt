@@ -4,7 +4,7 @@ data class Line(
     private val cells: Set<Cell>,
 ) {
     init {
-        require(cells.size == 3)
+        require(cells.size == 3) { "cell size가 3이 되어야 합니다." }
     }
 
     fun isX(): Boolean {
