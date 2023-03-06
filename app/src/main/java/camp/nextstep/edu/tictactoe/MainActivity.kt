@@ -3,6 +3,7 @@ package camp.nextstep.edu.tictactoe
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -43,16 +44,24 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.errorMessage.observe(this) { errorMessage ->
             showToastMessage(errorMessage)
         }
+
+        mainViewModel.cells.observe(this) { cells ->
+            cells.forEachIndexed { xIndex, oxen ->
+                oxen.forEachIndexed { yIndex, ox ->
+                    setImageResource(xIndex, yIndex, ox)
+                }
+            }
+        }
     }
 
-    private fun setImageResource(x: Int, y: Int, ox: OX?) {
+    private fun setImageResource(row: Int, column: Int, ox: OX?) {
         val drawableId = when (ox) {
             OX.X -> R.drawable.ic_x_black
             OX.O -> R.drawable.ic_o_black
             else -> 0
         }
 
-        imageViewArray[x][y].setImageResource(drawableId)
+        imageViewArray[row][column].setImageResource(drawableId)
     }
 
     private fun showToastMessage(message: String) {

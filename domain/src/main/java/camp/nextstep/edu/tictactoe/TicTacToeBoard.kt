@@ -20,7 +20,16 @@ class TicTacToeBoard {
         boardEmptyCellCount--
     }
 
-    internal fun getAllCell() = board.copyOf()
+    fun getAllCell(): List<List<OX?>> {
+        val allCellList: MutableList<MutableList<OX?>> = mutableListOf()
+        board.forEach {
+            val rowList = mutableListOf<OX?>()
+            rowList.addAll(it)
+            allCellList.add(rowList)
+        }
+
+        return allCellList
+    }
 
     internal fun isExistedPosition(position: Position): Boolean {
         return position.row < 3 && position.column < 3 && position.row >= 0 && position.column >= 0

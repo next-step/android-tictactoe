@@ -7,8 +7,9 @@ import androidx.lifecycle.ViewModel
 
 class MainViewModel : ViewModel() {
     private val game: TicTacToeGame = TicTacToeGame()
+    private val board: TicTacToeBoard = game.board
 
-    private val _gameStatus = MutableLiveData(game.currentGameStatus)
+    private val _gameStatus = MutableLiveData(game.getCurrentGameState())
     val gameStatus: LiveData<TicTacToeStatus>
         get() = _gameStatus
 
@@ -16,26 +17,35 @@ class MainViewModel : ViewModel() {
     val errorMessage: LiveData<String>
         get() = _errorMessage
 
+    private val _cells: MutableLiveData<List<List<OX?>>> = MutableLiveData()
+    val cells: LiveData<List<List<OX?>>> get() = _cells
+
     fun reset() {
         game.reset()
-        _gameStatus.value = game.currentGameStatus
+        gameStateUpdate()
     }
 
     fun setGameMode(gameMode: GameMode) {
         game.changeGameMode(gameMode)
         game.reset()
-        _gameStatus.value = game.currentGameStatus
+        gameStateUpdate()
     }
 
     fun putCell(x: Int, y: Int) {
         val position = Position(x, y)
+
         runCatching {
             game.putCell(position)
         }.onSuccess {
-            _gameStatus.value = game.currentGameStatus
+            gameStateUpdate()
         }.onFailure {
             _errorMessage.postValue(it.message)
         }
+    }
+
+    private fun gameStateUpdate() {
+        _cells.value = board.getAllCell()
+        _gameStatus.value = game.getCurrentGameState()
     }
 
 }

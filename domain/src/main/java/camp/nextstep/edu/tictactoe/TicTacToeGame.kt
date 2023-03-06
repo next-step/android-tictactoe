@@ -5,8 +5,9 @@ class TicTacToeGame(
 ) {
     private var gameMode: GameMode = GameMode.TWO_PLAYERS
 
-    var currentGameStatus: TicTacToeStatus = getGameStatus()
-        private set
+    // 현재 게임 상태
+    private var currentGameStatus: TicTacToeStatus = getGameStatus()
+
 
     // 체크 순서
     var gameTurn = OX.initTurn
@@ -34,12 +35,13 @@ class TicTacToeGame(
     fun reset() {
         board.reset()
         currentGameStatus = TicTacToeStatus.PLAYING
-        gameTurn = OX.X
+        gameTurn = OX.initTurn
     }
 
+    fun getCurrentGameState() = currentGameStatus
+
     // 배열이 가득 차거나 게임 승부가 나지 않은 상태
-    private fun isDraw(isNotExistedWinner: Boolean): Boolean =
-        isNotExistedWinner && board.isFullBoard()
+    private fun isDraw(isNotExistedWinner: Boolean): Boolean = isNotExistedWinner && board.isFullBoard()
 
     private fun getGameStatus(): TicTacToeStatus {
         val winner = Winning.getWinner(board)
