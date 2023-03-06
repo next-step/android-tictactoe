@@ -10,4 +10,8 @@ enum class OX {
             X -> O
         }
     }
+
+    companion object {
+        val initTurn = X
+    }
 }

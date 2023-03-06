@@ -40,12 +40,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        mainViewModel.cellsLiveData.observe(this) { cells ->
-            cells.forEachIndexed { xIndex, oxen ->
-                oxen.forEachIndexed { yIndex, ox ->
-                    setImageResource(xIndex, yIndex, ox)
-                }
-            }
+        mainViewModel.errorMessage.observe(this) { errorMessage ->
+            showToastMessage(errorMessage)
         }
     }
 

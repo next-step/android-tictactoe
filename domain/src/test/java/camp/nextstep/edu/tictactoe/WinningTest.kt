@@ -22,60 +22,64 @@ class WinningTest {
     @Test
     fun `행 승리조건 테스트`() {
         // when
-        board.put(0, 0)
-        board.put(1, 0)
-        board.put(0, 1)
-        board.put(2, 0)
-        board.put(0, 2)
+        val position1 = Position(0, 0)
+        val position2 = Position(1, 0)
+        val position3 = Position(2, 0)
+        board.put(position1, OX.X)
+        board.put(position2, OX.X)
+        board.put(position3, OX.X)
 
 
-        //then:
-        val actual = board.isRow()
+        //then
+        val actual = board.isRowWin()
         Truth.assertThat(actual).isEqualTo(OX.X)
     }
 
     @Test
     fun `열 승리조건 테스트`() {
         // when
-        board.put(0, 0)
-        board.put(0, 1)
-        board.put(1, 0)
-        board.put(0, 2)
-        board.put(2, 0)
+        val position1 = Position(0, 0)
+        val position2 = Position(0, 1)
+        val position3 = Position(0, 2)
+        board.put(position1, OX.X)
+        board.put(position2, OX.X)
+        board.put(position3, OX.X)
 
 
-        //then:
-        val actual = board.isColumn()
+        //then
+        val actual = board.isColumnWin()
         Truth.assertThat(actual).isEqualTo(OX.X)
     }
 
     @Test
     fun `대각 승리조건 테스트`() {
         // when
-        board.put(0, 0)
-        board.put(0, 1)
-        board.put(1, 1)
-        board.put(0, 2)
-        board.put(2, 2)
+        val position1 = Position(0, 0)
+        val position2 = Position(1, 1)
+        val position3 = Position(2, 2)
+        board.put(position1, OX.X)
+        board.put(position2, OX.X)
+        board.put(position3, OX.X)
 
 
         //then:
-        val actual = board.isDiagonal()
+        val actual = board.isDiagonalWin()
         Truth.assertThat(actual).isEqualTo(OX.X)
     }
 
     @Test
     fun `역대각 승리조건 테스트`() {
         // when
-        board.put(0, 2)
-        board.put(0, 1)
-        board.put(1, 1)
-        board.put(0, 0)
-        board.put(2, 0)
+        val position1 = Position(2, 0)
+        val position2 = Position(1, 1)
+        val position3 = Position(0, 2)
+        board.put(position1, OX.X)
+        board.put(position2, OX.X)
+        board.put(position3, OX.X)
 
 
         //then:
-        val actual = board.isReverseDiagonal()
+        val actual = board.isReverseDiagonalWin()
         Truth.assertThat(actual).isEqualTo(OX.X)
     }
 }

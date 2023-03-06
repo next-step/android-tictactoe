@@ -4,10 +4,10 @@ package camp.nextstep.edu.tictactoe
 internal object Winning {
 
     fun getWinner(board: TicTacToeBoard): OX? {
-        val isRowWin = board.isRow()
-        val isColumnWin = board.isColumn()
-        val isDiagonal = board.isDiagonal()
-        val isReverseDiagonal = board.isReverseDiagonal()
+        val isRowWin = board.isRowWin()
+        val isColumnWin = board.isColumnWin()
+        val isDiagonal = board.isDiagonalWin()
+        val isReverseDiagonal = board.isReverseDiagonalWin()
 
         return when {
             isRowWin != null -> isRowWin

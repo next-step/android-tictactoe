@@ -10,60 +10,80 @@ class TicTacToeBoardTest {
     @Before
     fun setUp() {
         ticTacToeBoard = TicTacToeBoard()
+        ticTacToeBoard.reset()
     }
 
     @Test
-    fun `(0, 0)에 값이 있는데 (0, 0)에 값을 넣는 경우 기존에 있던 값이 출력되어야 한다`() {
+    fun `시작 시 모든 셀이 비어있어야 한다`() {
+
+        // then
+        ticTacToeBoard.getAllCell().forEach {
+            val actual = it.all { ox -> ox == null }
+            Truth.assertThat(actual).isEqualTo(true)
+        }
+    }
+
+    @Test
+    fun `(0, 0)에 X를 입력 시 해당 위치에 X가 들어가야 한다`() {
         // given
-        ticTacToeBoard.put(0, 0)
-        val actual1 = ticTacToeBoard.getTicTacToeCell(0, 0)
+        val position = Position(0, 0)
+        val turn = OX.X
 
         // when
-        ticTacToeBoard.put(0, 0)
+        ticTacToeBoard.put(position, turn)
 
-        //then
-        val actual2 = ticTacToeBoard.getTicTacToeCell(0, 0)
-        Truth.assertThat(actual2).isEqualTo(actual1)
+        // then
+        val actual = ticTacToeBoard.getTicTacToeCell(position)
+        Truth.assertThat(actual).isEqualTo(turn)
     }
 
     @Test
-    fun `(0, 0)에 값을 넣고 (0, 1)에 값을 넣는 각각 X, O가 출력되어야 한다`() {
+    fun `모든 셀이 비어있지 않은 경우 isFullBoard의 값이 true가 나와야 한다`() {
 
         // when
-        ticTacToeBoard.put(0, 0)
-        ticTacToeBoard.put(0, 1)
+        val turn = OX.X
+        for(i in 0 until 3) {
+            for(j in 0 until 3) {
+                ticTacToeBoard.put(Position(i, j), turn)
+            }
+        }
 
-        //then
-        val actual1 = ticTacToeBoard.getTicTacToeCell(0, 0)
-        val actual2 = ticTacToeBoard.getTicTacToeCell(0, 1)
-        Truth.assertThat(actual1).isEqualTo(OX.X)
-        Truth.assertThat(actual2).isEqualTo(OX.O)
+        // then
+        val actual = ticTacToeBoard.isFullBoard()
+        Truth.assertThat(actual).isEqualTo(true)
     }
-
-
+    
     @Test
-    fun `값이 있는 게임에 초기화를 하는 경우 모든 셀이 비어있어야 한다`() {
+    fun `reset 후 모든 셀은 비어있어야 한다`() {
         // given
-        val empty = Array<Array<OX?>>(3) { Array(3) { null } }
-
-        ticTacToeBoard.put(0, 0)
-        ticTacToeBoard.put(0, 1)
-        ticTacToeBoard.put(0, 2)
-
-        ticTacToeBoard.put(1, 0)
-        ticTacToeBoard.put(1, 1)
-        ticTacToeBoard.put(2, 1)
-
-        ticTacToeBoard.put(1, 2)
-        ticTacToeBoard.put(2, 2)
-        ticTacToeBoard.put(2, 0)
-
+        val turn = OX.X
+        for(i in 0 until 3) {
+            for(j in 0 until 3) {
+                ticTacToeBoard.put(Position(i, j), turn)
+            }
+        }
+        
         // when
         ticTacToeBoard.reset()
+        
+        // then
+        val actual = ticTacToeBoard.isFullBoard()
+        Truth.assertThat(actual).isEqualTo(false)
+    }
 
-        //then
-        val actual = ticTacToeBoard.getAllCell()
 
-        Truth.assertThat(actual).isEqualTo(empty)
+    @Test
+    fun `빈 셀을 탐색 시 true를 반환해야 한다`() {
+        // given
+        val emptyPosition = Position(0, 0)
+
+        // then
+        val actual1 = ticTacToeBoard.isEmptyCell(emptyPosition)
+        Truth.assertThat(actual1).isEqualTo(true)
+
+        ticTacToeBoard.put(emptyPosition, OX.X)
+
+        val actual2 = ticTacToeBoard.isEmptyCell(emptyPosition)
+        Truth.assertThat(actual2).isEqualTo(false)
     }
 }

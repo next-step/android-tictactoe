@@ -1,54 +1,37 @@
 package camp.nextstep.edu.tictactoe
 
-import camp.nextstep.edu.tictactoe.GameMode.*
-
 
 class TicTacToeBoard {
-    private var ticTacToe: Array<Array<OX?>> = Array(3) { Array(3) { null } }
-    private var gameStatus = GameStatus(this)
+    private var board: Array<Array<OX?>> = Array(3) { Array(3) { null } }
 
+    private var boardEmptyCellCount = 9
 
-    fun put(x: Int, y: Int) {
-        if (gameStatus.currentGameStatus != TicTacToeStatus.PLAYING) return
-        require(!isNotExistedPosition(x, y)) {
-            "잘못된 위치입니다."
-        }
-
-        if (ticTacToe[x][y] == null) {
-            ticTacToe[x][y] = gameStatus.gameTern
-        }
+    internal fun reset() {
+        boardEmptyCellCount = 9
+        board = newBoard()
     }
 
-    fun getGameStatus(): TicTacToeStatus {
-        return gameStatus.currentGameStatus
+    internal fun getTicTacToeCell(position: Position): OX? {
+        return board[position.row][position.column]
     }
 
-    fun getTicTacToeCell(x: Int, y: Int): OX? {
-        return ticTacToe[x][y]
+    internal fun put(position: Position, ox: OX) {
+        board[position.row][position.column] = ox
+        boardEmptyCellCount--
     }
 
-    fun getAllCell() = ticTacToe.copyOf()
+    internal fun getAllCell() = board.copyOf()
 
-    fun reset() {
-        ticTacToe = newTicTacToe()
-        gameStatus = GameStatus(this)
+    internal fun isExistedPosition(position: Position): Boolean {
+        return position.row < 3 && position.column < 3 && position.row >= 0 && position.column >= 0
     }
 
-    private fun isNotExistedPosition(x: Int, y: Int): Boolean {
-        return x >= ticTacToe.size || y >= ticTacToe[x].size || x < 0 || y < 0
-    }
-
-    // 새로운 배열 생성
-    private fun newTicTacToe(): Array<Array<OX?>> = Array(3) { Array(3) { null } }
-
-    override fun toString(): String = ticTacToe.joinToString("\n") { it.joinToString() }
-
-    internal fun isColumn(): OX? {
-        for (i in ticTacToe.indices) {
+    internal fun isRowWin(): OX? {
+        for (i in board.indices) {
             var answer = true
-            val result = ticTacToe[0][i] ?: continue
-            for (j in ticTacToe.indices) {
-                answer = answer && ticTacToe[j][i] == result
+            val result = board[0][i] ?: continue
+            for (j in board.indices) {
+                answer = answer && board[j][i] == result
             }
 
             if (answer)
@@ -58,13 +41,13 @@ class TicTacToeBoard {
         return null
     }
 
-    internal fun isRow(): OX? {
-        for (i in ticTacToe.indices) {
-            if (ticTacToe[i].all { it == OX.X }) {
+    internal fun isColumnWin(): OX? {
+        for (i in board.indices) {
+            if (board[i].all { it == OX.X }) {
                 return OX.X
             }
 
-            if (ticTacToe[i].all { it == OX.O }) {
+            if (board[i].all { it == OX.O }) {
                 return OX.O
             }
         }
@@ -72,11 +55,11 @@ class TicTacToeBoard {
         return null
     }
 
-    internal fun isDiagonal(): OX? {
+    internal fun isDiagonalWin(): OX? {
         var answer = true
-        val result = ticTacToe[0][0]
-        for (i in ticTacToe.indices) {
-            answer = answer && (ticTacToe[i][i] == result)
+        val result = board[0][0]
+        for (i in board.indices) {
+            answer = answer && (board[i][i] == result)
         }
 
         return if (answer)
@@ -85,11 +68,11 @@ class TicTacToeBoard {
             null
     }
 
-    internal fun isReverseDiagonal(): OX? {
+    internal fun isReverseDiagonalWin(): OX? {
         var answer = true
-        val result = ticTacToe[0][ticTacToe.size - 1]
-        for (i in ticTacToe.indices) {
-            answer = answer && (ticTacToe[i][ticTacToe.size - 1 - i] == result)
+        val result = board[0][board.size - 1]
+        for (i in board.indices) {
+            answer = answer && (board[i][board.size - 1 - i] == result)
         }
 
         return if (answer)
@@ -97,4 +80,28 @@ class TicTacToeBoard {
         else
             null
     }
+
+    internal fun isEmptyCell(position: Position): Boolean {
+        return board[position.row][position.column] == null
+    }
+
+    internal fun isFullBoard() : Boolean {
+        return boardEmptyCellCount == 0
+    }
+
+    internal fun getRandomEmptyCell(): Position {
+        val emptyCellList = mutableListOf<Position>()
+        getAllCell().forEachIndexed { row, oxen ->
+            oxen.forEachIndexed { column, ox ->
+                if (ox == null)
+                    emptyCellList.add(Position(row, column))
+            }
+        }
+
+        return emptyCellList.shuffled()[0]
+    }
+
+    private fun newBoard(): Array<Array<OX?>> = Array(3) { Array(3) { null } }
+
+    override fun toString(): String = board.joinToString("\n") { it.joinToString() }
 }
