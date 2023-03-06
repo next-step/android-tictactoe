@@ -7,10 +7,7 @@
     <data>
 
         <import type="android.view.View" />
-
-        <variable
-            name="point"
-            type="camp.nextstep.edu.tictactoe.domain.model.Point" />
+        <import type="camp.nextstep.edu.tictactoe.domain.model.Position" />
 
         <variable
             name="vm"
@@ -42,81 +39,81 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> vm.put(point.CellTopLeft) }"
+            android:onClick="@{() -> vm.put(Position.CellTopLeft) }"
             tools:ignore="ContentDescription"
-            bind:drawOorXWithPoint="@{vm.map[0][0]}" />
+            bind:drawOorXWithPoint="@{vm.board[0][0]}" />
 
         <ImageView
             android:id="@+id/cell_top"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> vm.put(point.CellTop) }"
+            android:onClick="@{() -> vm.put(Position.CellTop) }"
             tools:ignore="ContentDescription"
-            bind:drawOorXWithPoint="@{vm.map[0][1]}" />
+            bind:drawOorXWithPoint="@{vm.board[0][1]}" />
 
         <ImageView
             android:id="@+id/cell_top_right"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> vm.put(point.CellTopRight) }"
+            android:onClick="@{() -> vm.put(Position.CellTopRight) }"
             tools:ignore="ContentDescription"
-            bind:drawOorXWithPoint="@{vm.map[0][2]}" />
+            bind:drawOorXWithPoint="@{vm.board[0][2]}" />
 
         <ImageView
             android:id="@+id/cell_middle_left"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> vm.put(point.CellMiddleLeft) }"
+            android:onClick="@{() -> vm.put(Position.CellMiddleLeft) }"
             tools:ignore="ContentDescription"
-            bind:drawOorXWithPoint="@{vm.map[1][0]}" />
+            bind:drawOorXWithPoint="@{vm.board[1][0]}" />
 
         <ImageView
             android:id="@+id/cell_middle"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> vm.put(point.CellMiddle) }"
+            android:onClick="@{() -> vm.put(Position.CellMiddle) }"
             tools:ignore="ContentDescription"
-            bind:drawOorXWithPoint="@{vm.map[1][1]}" />
+            bind:drawOorXWithPoint="@{vm.board[1][1]}" />
 
         <ImageView
             android:id="@+id/cell_middle_right"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> vm.put(point.CellMiddleRight) }"
+            android:onClick="@{() -> vm.put(Position.CellMiddleRight) }"
             tools:ignore="ContentDescription"
-            bind:drawOorXWithPoint="@{vm.map[1][2]}" />
+            bind:drawOorXWithPoint="@{vm.board[1][2]}" />
 
         <ImageView
             android:id="@+id/cell_bottom_left"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> vm.put(point.CellBottomLeft) }"
+            android:onClick="@{() -> vm.put(Position.CellBottomLeft) }"
             tools:ignore="ContentDescription"
-            bind:drawOorXWithPoint="@{vm.map[2][0]}" />
+            bind:drawOorXWithPoint="@{vm.board[2][0]}" />
 
         <ImageView
             android:id="@+id/cell_bottom"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> vm.put(point.CellBottom) }"
+            android:onClick="@{() -> vm.put(Position.CellBottom) }"
             tools:ignore="ContentDescription"
-            bind:drawOorXWithPoint="@{vm.map[2][1]}" />
+            bind:drawOorXWithPoint="@{vm.board[2][1]}" />
 
         <ImageView
             android:id="@+id/cell_bottom_right"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> vm.put(point.CellBottomRight) }"
+            android:onClick="@{() -> vm.put(Position.CellBottomRight) }"
             tools:ignore="ContentDescription"
-            bind:drawOorXWithPoint="@{vm.map[2][2]}" />
+            bind:drawOorXWithPoint="@{vm.board[2][2]}" />
         <!-- endregion -->
 
         <!-- region Divider -->

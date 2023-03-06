@@ -2,53 +2,59 @@ package camp.nextstep.edu.tictactoe.domain
 
 import camp.nextstep.edu.tictactoe.domain.model.*
 
-class Ticktacktoe constructor(
-    private var currentTurn: Turn = Turn.X,
-    private val gameResultManager: GameResultManager
+abstract class Ticktacktoe constructor(
+    _currentTurn: Turn = Turn.X
 ) {
+    var board: Board = Board.EMPTY
+        private set
 
-    private var map = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
+    private var state: State = State.InProgress
+
+    var currentTurn = _currentTurn
+        private set
 
     var isFinish: Boolean = false
         private set
-    private var count: Int = 0
 
+    fun put(position: Position): Pair<State, Cell> {
 
-    fun getCurrentTurn(): Turn {
-        return currentTurn
+        val cell = when (currentTurn) {
+            Turn.X -> Cell.X(position)
+            Turn.O -> Cell.O(position)
+        }
+        board = board.mark(cell)
+        state = checkState()
+
+        isFinish = state != State.InProgress
+        return Pair(state, cell)
     }
 
-    fun isValidData(point: Point): Boolean {
-        return !(map[point.row][point.column] != Turn.UNKNOWN || isFinish)
+    private fun checkState(): State = when {
+        board.lines.isX() -> State.WinX
+        board.lines.isO() -> State.WinO
+        board.lines.isDraw() -> State.Draw
+        else -> State.InProgress
     }
 
-    fun put(point: Point): Pair<GameResult, Status> {
-        val r = point.row
-        val c = point.column
-        map[r][c] = currentTurn
-        count++
-        val result = gameResultManager.getTurnResult(point, map, currentTurn, count)
-        isFinish = result.first != GameResult.UNKNOWN
-        return result
-
+    fun isLegalMove(position: Position): Boolean {
+        return (board.isLegalMove(position) || isFinish)
     }
+
+    abstract fun runOneTurn(position: Position): TurnResult
 
     fun reset() {
         isFinish = false
-        count = 0
         currentTurn = Turn.X
-        map = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
+        board = Board.EMPTY
     }
 
-    fun changeTurn() {
-        currentTurn = if (currentTurn == Turn.X) Turn.O
-        else Turn.X
+    fun switchTurn() {
+        currentTurn = currentTurn.switch()
     }
 
     companion object {
-        const val MAP_SIZE = 3
+        const val BOARD_SIZE = 3
     }
-
 
 }
 
