@@ -29,7 +29,7 @@ class MainViewModelTest {
         mainViewModel.putCell(0, 0)
 
         // then
-        val actual = mainViewModel.cellsLiveData.getOrAwaitValue()
+        val actual = mainViewModel.cells.getOrAwaitValue()
         Truth.assertThat(actual[0][0]).isEqualTo(OX.X)
     }
 
@@ -42,7 +42,7 @@ class MainViewModelTest {
         mainViewModel.putCell(0, 1)
 
         // then
-        val actual = mainViewModel.cellsLiveData.getOrAwaitValue()
+        val actual = mainViewModel.cells.getOrAwaitValue()
         Truth.assertThat(actual[0][1]).isEqualTo(OX.O)
     }
 
@@ -50,13 +50,13 @@ class MainViewModelTest {
     fun `(0, 0)에 값이 있을 때 (0, 0)에 값 입력 시 (0, 0)의 값은 변경되지 않아야 한다`() {
         // given
         mainViewModel.putCell(0, 0)
-        val actual1 = mainViewModel.cellsLiveData.getOrAwaitValue()
+        val actual1 = mainViewModel.cells.getOrAwaitValue()
 
         // when
         mainViewModel.putCell(0, 0)
 
         // then
-        val actual = mainViewModel.cellsLiveData.getOrAwaitValue()
+        val actual = mainViewModel.cells.getOrAwaitValue()
         val actual2 = mainViewModel.gameStatus.getOrAwaitValue()
 
         Truth.assertThat(actual[0][0]).isEqualTo(actual1[0][0])
@@ -65,7 +65,7 @@ class MainViewModelTest {
 
     @Test
     fun `tictactoe 값이 존재할 때 다시하기 한 경우 빈 tictactoe 배열이 나와야 한다`() {
-        val initValue = TicTacToe().getAllCell()
+        val initValue = TicTacToeBoard().getAllCell()
         // given
         mainViewModel.putCell(0, 0)
         mainViewModel.putCell(0, 1)
@@ -74,7 +74,7 @@ class MainViewModelTest {
         mainViewModel.reset()
 
         // then
-        val actual = mainViewModel.cellsLiveData.getOrAwaitValue()
+        val actual = mainViewModel.cells.getOrAwaitValue()
         val actual1 = mainViewModel.gameStatus.getOrAwaitValue()
 
         Truth.assertThat(actual).isEqualTo(initValue)
