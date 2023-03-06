@@ -2,21 +2,21 @@ package camp.nextstep.edu.tictactoe
 
 class TicTacToeGame(
     val board: TicTacToeBoard = TicTacToeBoard(),
-) {
     private var gameMode: GameMode = GameMode.TWO_PLAYERS
+) {
 
     // 현재 게임 상태
     private var currentGameStatus: TicTacToeStatus = getGameStatus()
 
+    internal var isTest = false
+
 
     // 체크 순서
-    var gameTurn = OX.initTurn
-        private set
+    private var gameTurn = OX.initTurn
 
     fun changeGameMode(gameMode: GameMode) {
         this.gameMode = gameMode
     }
-
 
     fun putCell(position: Position) {
         require(currentGameStatus == TicTacToeStatus.PLAYING) {
@@ -30,6 +30,18 @@ class TicTacToeGame(
         board.put(position, gameTurn)
         gameTurn = gameTurn.change()
         currentGameStatus = getGameStatus()
+
+        if (gameMode == GameMode.RANDOM) {
+            putRandomBlock()
+        }
+    }
+
+    private fun putRandomBlock() {
+        if (currentGameStatus != TicTacToeStatus.PLAYING) return
+        val randomPosition = board.getRandomEmptyCell(isTest)
+        board.put(randomPosition, gameTurn)
+        gameTurn = gameTurn.change()
+        currentGameStatus = getGameStatus()
     }
 
     fun reset() {
@@ -41,7 +53,8 @@ class TicTacToeGame(
     fun getCurrentGameState() = currentGameStatus
 
     // 배열이 가득 차거나 게임 승부가 나지 않은 상태
-    private fun isDraw(isNotExistedWinner: Boolean): Boolean = isNotExistedWinner && board.isFullBoard()
+    private fun isDraw(isNotExistedWinner: Boolean): Boolean =
+        isNotExistedWinner && board.isFullBoard()
 
     private fun getGameStatus(): TicTacToeStatus {
         val winner = Winning.getWinner(board)

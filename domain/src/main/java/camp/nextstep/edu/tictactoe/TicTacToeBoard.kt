@@ -94,20 +94,24 @@ class TicTacToeBoard {
         return board[position.row][position.column] == null
     }
 
-    internal fun isFullBoard() : Boolean {
+    internal fun isFullBoard(): Boolean {
         return boardEmptyCellCount == 0
     }
 
-    internal fun getRandomEmptyCell(): Position {
+    internal fun getRandomEmptyCell(isTest: Boolean = false): Position {
+
         val emptyCellList = mutableListOf<Position>()
-        getAllCell().forEachIndexed { row, oxen ->
+        board.forEachIndexed { row, oxen ->
             oxen.forEachIndexed { column, ox ->
                 if (ox == null)
                     emptyCellList.add(Position(row, column))
             }
         }
 
-        return emptyCellList.shuffled()[0]
+        return if (isTest)
+            emptyCellList.first()
+        else
+            emptyCellList.random()
     }
 
     private fun newBoard(): Array<Array<OX?>> = Array(3) { Array(3) { null } }

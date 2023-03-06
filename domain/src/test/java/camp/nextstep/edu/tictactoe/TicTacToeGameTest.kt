@@ -10,6 +10,7 @@ class TicTacToeGameTest {
     @Before
     fun setUp() {
         ticTacToeGame = TicTacToeGame()
+        ticTacToeGame.isTest = true
     }
 
     @Test
@@ -54,8 +55,8 @@ class TicTacToeGameTest {
             Truth.assertThat(e.message).isEqualTo("잘못된 위치입니다.")
         }
     }
-    
-    
+
+
     @Test
     fun `현재 게임이 진행중이 아니면 Expcetion이 발생되어야 한다`() {
         // given
@@ -73,5 +74,21 @@ class TicTacToeGameTest {
             // then
             Truth.assertThat(e.message).isEqualTo("게임이 종료되었습니다.")
         }
+    }
+
+
+    @Test
+    fun `랜덤모드에서 사용자가 두는 경우 다음 수는 랜덤으로 진행된다`() {
+        // given
+        ticTacToeGame = TicTacToeGame(gameMode = GameMode.RANDOM)
+        ticTacToeGame.isTest = true
+
+        // when
+        val position = Position(0, 0)
+        ticTacToeGame.putCell(position)
+
+        // then
+        val actual = ticTacToeGame.board.getTicTacToeCell(Position(0, 1))
+        Truth.assertThat(actual).isEqualTo(OX.O)
     }
 }
