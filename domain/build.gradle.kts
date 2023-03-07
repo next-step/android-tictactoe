@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm")
+    kotlin("kapt")
 }
 
 java {
@@ -8,4 +9,6 @@ java {
 }
 dependencies {
     testImplementation("junit:junit:4.13.2")
+    implementation ("com.google.dagger:hilt-core:2.41")
+    kapt ("com.google.dagger:hilt-compiler:2.41")
 }
