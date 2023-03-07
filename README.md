@@ -75,7 +75,9 @@
 - [ ] Game 클래스를 외부로 보낼 수 있도록 변경
   - [ ] Game 인터페이스 생성
   - [ ] GameImpl 클래스를 internal로 변경 및 Game 인터페이스 상속
-- [ ] Board 클래스, BoardState 클래스 책임 부여
+- [ ] Board 클래스 관련 변경사항
+  - [x] Board 클래스 생성 검증을 BoardState를 통해서 하도록 변경 및 테스트 추가
+  - [ ] BoardState 클래스를 Game에 주입하도록 변경
 - [ ] Turn 클래스를 Game 에 주입하도록 변경
     - [x] Player 구현체를 internal로 변경
     - [x] value class를 ParameterizedTest 하도록 변경

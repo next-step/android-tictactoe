@@ -16,7 +16,7 @@ internal fun createWinnningBlocks(indexes: List<Int>, turn: Turn): Board {
             blocks.add(EmptyBlock())
         }
     }
-    return Board(blocks)
+    return Board(BoardState(blocks))
 }
 
 @RunWith(Enclosed::class)
@@ -26,7 +26,7 @@ class BoardTest {
         @Test
         fun `3x3의 빈 보드를 생성할 수 있다`() {
             // when
-            val board = Board.createEmptyBoard()
+            val board = Board()
 
             // then
             assertTrue(board.isEmpty())
@@ -36,16 +36,18 @@ class BoardTest {
         @Test
         fun `길이가 9인 배열을 주입해서 생성할 수 있다`() {
             // given
-            val blocks = listOf(
-                XBlock,
-                OBlock,
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock(),
+            val blocks = BoardState(
+                listOf(
+                    XBlock,
+                    OBlock,
+                    EmptyBlock(),
+                    EmptyBlock(),
+                    EmptyBlock(),
+                    EmptyBlock(),
+                    EmptyBlock(),
+                    EmptyBlock(),
+                    EmptyBlock(),
+                )
             )
 
             // when
@@ -57,33 +59,9 @@ class BoardTest {
         }
 
         @Test
-        fun `길이가 9가 아닌 배열을 주입하면 예외를 던진다`() {
-            // given
-            val blocks = listOf(
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock(),
-            )
-
-            // when
-            val exception = assertThrows(IllegalArgumentException::class.java) {
-                Board(blocks)
-            }
-
-            // then
-            assertEquals("9개의 블록이 필요합니다.", exception.message)
-        }
-
-
-        @Test
         fun `하나라도 할당하면 isEmpty는 false를 반환한다`() {
             // given
-            val board = Board.createEmptyBoard()
+            val board = Board()
             assertTrue(board.isEmpty())
 
             // when
@@ -96,7 +74,7 @@ class BoardTest {
         @Test
         fun `Empty Block이 없으면 isDraw는 true를 반환한다`() {
             // given
-            val board = Board.createEmptyBoard()
+            val board = Board()
             assertFalse(board.isFull())
 
             // when
@@ -117,7 +95,7 @@ class BoardTest {
         @Test
         fun `이미 할당된 Block을 다시 할당하면 예외를 던진다`() {
             // given
-            val board = Board.createEmptyBoard()
+            val board = Board()
             board.assignBlock(Turn(0), 0)
 
             // when
