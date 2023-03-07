@@ -3,7 +3,6 @@ package camp.nextstep.edu.tictactoe
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.example.domain.Game
 import com.example.domain.GameState
 import com.example.domain.SelectMode
