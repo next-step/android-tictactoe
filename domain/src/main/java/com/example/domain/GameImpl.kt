@@ -1,10 +1,8 @@
 package com.example.domain
 
-import javax.inject.Inject
-
-internal class GameImpl @Inject constructor(
-    initialTurn: Turn = Turn(),
-    initialBoardState: BoardState = BoardState(),
+internal class GameImpl constructor(
+    initialTurn: Turn,
+    initialBoardState: BoardState
 ) : Game {
     private var turn: Turn
     private var board: Board
@@ -156,5 +154,11 @@ internal class GameImpl @Inject constructor(
         result = 31 * result + nowStatus.hashCode()
         result = 31 * result + _state.hashCode()
         return result
+    }
+
+    companion object {
+        internal fun createEmptyGame(): GameImpl {
+            return GameImpl(Turn(), BoardState())
+        }
     }
 }

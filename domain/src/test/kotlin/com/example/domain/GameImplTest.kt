@@ -8,7 +8,7 @@ class GameImplTest {
     @Test
     fun `기본생성자는 0턴 ongoing emptyBlock RandomMode 로 생성된다`() {
         // when
-        val gameImpl = GameImpl()
+        val gameImpl: GameImpl = GameImpl.createEmptyGame()
 
         // then
         assertEquals(gameImpl.state.turn, Turn(0))
@@ -20,7 +20,7 @@ class GameImplTest {
     @Test
     fun `assignBlock 이후 게임이 끝나지 않으면 Turn이 1 증가한다`() {
         // given
-        val gameImpl = GameImpl()
+        val gameImpl = GameImpl.createEmptyGame()
         gameImpl.changeMode(SelectMode.TwoPlayer)
         assertEquals(gameImpl.state.turn, Turn(0))
 
@@ -162,7 +162,7 @@ class GameImplTest {
     @Test
     fun `reset 하면 기본 기본 생성자로 생성한 Game과 같다 `() {
         // given
-        val gameImpl = GameImpl()
+        val gameImpl = GameImpl.createEmptyGame()
         gameImpl.assignBlock(0)
 
         // when
@@ -173,13 +173,13 @@ class GameImplTest {
         assertEquals(gameImpl.state.status, GameStatus.ONGOING)
         assertEquals(gameImpl.state.board.blocks, List(9) { EmptyBlock() })
         assertTrue(gameImpl.gameMode is DrawMode)
-        assertEquals(gameImpl, GameImpl())
+        assertEquals(gameImpl, GameImpl.createEmptyGame())
     }
 
     @Test
     fun `changeMode 를 통해 게임 모드를 변경할 수 있다`() {
         // given
-        val gameImpl = GameImpl()
+        val gameImpl = GameImpl.createEmptyGame()
         assertTrue(gameImpl.gameMode is DrawMode)
 
         // when
@@ -192,7 +192,7 @@ class GameImplTest {
     @Test
     fun `같은 모드로 변경을 시도하면 에러를 반환한다`() {
         // given
-        val gameImpl = GameImpl()
+        val gameImpl = GameImpl.createEmptyGame()
         assertTrue(gameImpl.gameMode is DrawMode)
 
         // when
@@ -207,7 +207,7 @@ class GameImplTest {
     @Test
     fun `랜덤모드에서 수를 두면 AI가 다음 수를 둔다`() {
         // given
-        val gameImpl = GameImpl()
+        val gameImpl = GameImpl.createEmptyGame()
         gameImpl.changeRandomMode(FirstEmptyBlockStrategy())
         assertTrue(gameImpl.gameMode is RandomMode)
 
