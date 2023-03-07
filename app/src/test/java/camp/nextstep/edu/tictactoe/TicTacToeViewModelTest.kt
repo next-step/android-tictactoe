@@ -19,7 +19,8 @@ class TicTacToeViewModelTest {
     @Test
     fun `짝수에 두는 경우 X 블록을 추가한다`() {
         // given
-        viewModel = TicTacToeViewModel(Game(gameMode = TwoPlayerMode))
+        viewModel = TicTacToeViewModel()
+        viewModel.changeGameMode(SelectMode.TwoPlayer)
         val blockIndex = 0
 
         // when
@@ -45,7 +46,8 @@ class TicTacToeViewModelTest {
     @Test
     fun `홀수에 두는 경우 O 블록을 추가한다`() {
         // given
-        viewModel = TicTacToeViewModel(Game(gameMode = TwoPlayerMode))
+        viewModel = TicTacToeViewModel()
+        viewModel.changeGameMode(SelectMode.TwoPlayer)
         viewModel.assign(0)
         assertEquals(
             viewModel.state.getOrAwaitValue().board.blocks,
@@ -100,7 +102,8 @@ class TicTacToeViewModelTest {
     @Test
     fun `게임이 끝난 경우에 또 두면 에러메세지를 받는다`() {
         // given
-        viewModel = TicTacToeViewModel(Game(gameMode = TwoPlayerMode))
+        viewModel = TicTacToeViewModel(Game())
+        viewModel.changeGameMode(SelectMode.TwoPlayer)
         viewModel.assign(0)
         viewModel.assign(1)
         viewModel.assign(3)
@@ -119,7 +122,8 @@ class TicTacToeViewModelTest {
     @Test
     fun `reset을 누르면 초기화된다`() {
         // given
-        viewModel = TicTacToeViewModel(Game(gameMode = TwoPlayerMode))
+        viewModel = TicTacToeViewModel(Game())
+        viewModel.changeGameMode(SelectMode.TwoPlayer)
         viewModel.assign(0)
         viewModel.assign(1)
         viewModel.assign(3)
@@ -159,26 +163,23 @@ class TicTacToeViewModelTest {
     fun `모드를 변경할 수 있다`() {
         // given
         viewModel = TicTacToeViewModel(Game())
-        assertTrue(viewModel.state.getOrAwaitValue().gameMode is RandomMode)
+        assertTrue(viewModel.mode.getOrAwaitValue() == SelectMode.Draw)
         // when
-        viewModel.changeMode(TwoPlayerMode)
+        viewModel.changeGameMode(SelectMode.TwoPlayer)
 
         // then
-        assertEquals(viewModel.state.getOrAwaitValue().gameMode, TwoPlayerMode)
+        assertTrue(viewModel.mode.getOrAwaitValue() == SelectMode.TwoPlayer)
     }
 
     @Test
     fun `모드를 변경하면 게임이 초기화된다`() {
         // given
-        viewModel = TicTacToeViewModel(Game(gameMode = TwoPlayerMode))
+        viewModel = TicTacToeViewModel(Game())
         viewModel.assign(0)
-        viewModel.assign(1)
-        viewModel.assign(3)
-        viewModel.assign(4)
-        viewModel.assign(6)
+
 
         // when
-        viewModel.changeMode(RandomMode())
+        viewModel.changeGameMode(SelectMode.TwoPlayer)
 
         // then
         val state = viewModel.state.getOrAwaitValue()
@@ -193,7 +194,8 @@ class TicTacToeViewModelTest {
         viewModel = TicTacToeViewModel()
 
         // when
-        viewModel.changeMode(RandomMode())
+
+        viewModel.changeGameMode(SelectMode.Draw)
 
         // then
         assertEquals(
@@ -205,26 +207,13 @@ class TicTacToeViewModelTest {
     fun `랜덤모드에서 플레이어가 두면 AI의 결과도 함께 나타난다`() {
         // given
         viewModel =
-            TicTacToeViewModel(Game(gameMode = RandomMode(algorithm = FirstEmptyBlockStrategy())))
-
+            TicTacToeViewModel()
+        assertEquals(viewModel.state.getOrAwaitValue().board.blocks.count { it is EmptyBlock }, 9)
 
         // when
         viewModel.assign(0)
 
         // then
-        assertEquals(
-            viewModel.state.getOrAwaitValue().board.blocks,
-            listOf(
-                XBlock,
-                OBlock,
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock(),
-                EmptyBlock()
-            )
-        )
+        assertEquals(viewModel.state.getOrAwaitValue().board.blocks.count { it is EmptyBlock }, 7)
     }
 }

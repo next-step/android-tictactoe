@@ -13,14 +13,15 @@ class GameTest {
         // then
         assertEquals(game.state.turn, Turn(0))
         assertEquals(game.state.status, GameStatus.ONGOING)
-        assertTrue(game.state.gameMode is RandomMode)
+        assertTrue(game.gameMode is DrawMode)
         assertEquals(game.state.board.blocks, List(9) { EmptyBlock() })
     }
 
     @Test
     fun `assignBlock 이후 게임이 끝나지 않으면 Turn이 1 증가한다`() {
         // given
-        val game = Game(gameMode = TwoPlayerMode)
+        val game = Game()
+        game.changeMode(SelectMode.TwoPlayer)
         assertEquals(game.state.turn, Turn(0))
 
         // when
@@ -35,19 +36,9 @@ class GameTest {
     fun `Draw가되면 Turn은 오르지않고 status가 DRAW로 변경된다`() {
         // given
         val game = Game(
-            turn = 8, board = Board(
-                listOf(
-                    XBlock,
-                    OBlock,
-                    XBlock,
-                    XBlock,
-                    OBlock,
-                    OBlock,
-                    OBlock,
-                    XBlock,
-                    EmptyBlock()
-                )
-            ), gameMode = TwoPlayerMode
+            turn = 8, board = listOf(
+                XBlock, OBlock, XBlock, XBlock, OBlock, OBlock, OBlock, XBlock, EmptyBlock()
+            ), TwoPlayerMode
         )
         assertEquals(game.state.turn, Turn(8))
 
@@ -63,19 +54,18 @@ class GameTest {
     fun `마지막 턴에 승리하는 경우 DRAW가 아니라 승리가 반환된다`() {
         // given
         val game = Game(
-            turn = 8, board = Board(
-                listOf(
-                    XBlock,
-                    OBlock,
-                    XBlock,
-                    XBlock,
-                    OBlock,
-                    OBlock,
-                    EmptyBlock(),
-                    XBlock,
-                    OBlock,
-                )
-            ), gameMode = TwoPlayerMode
+            turn = 8, board = listOf(
+                XBlock,
+                OBlock,
+                XBlock,
+                XBlock,
+                OBlock,
+                OBlock,
+                EmptyBlock(),
+                XBlock,
+                OBlock,
+            ),
+            TwoPlayerMode
         )
         assertEquals(game.state.turn, Turn(8))
         assertEquals(game.state.status, GameStatus.ONGOING)
@@ -92,19 +82,10 @@ class GameTest {
     fun `게임이 종료되었을 때 assign하면 Error를 던진다`() {
         // given
         val game = Game(
-            turn = 8, board = Board(
-                listOf(
-                    XBlock,
-                    OBlock,
-                    XBlock,
-                    XBlock,
-                    OBlock,
-                    OBlock,
-                    XBlock,
-                    OBlock,
-                    EmptyBlock()
-                )
-            ), gameMode = TwoPlayerMode
+            turn = 8, board = listOf(
+                XBlock, OBlock, XBlock, XBlock, OBlock, OBlock, XBlock, OBlock, EmptyBlock()
+            ),
+            TwoPlayerMode
         )
         assertEquals(game.state.status, GameStatus.X_WON)
 
@@ -120,19 +101,18 @@ class GameTest {
     fun `X가 승리하면 X_WON을 반환한다`() {
         // given
         val game = Game(
-            turn = 6, board = Board(
-                listOf(
-                    XBlock,
-                    OBlock,
-                    XBlock,
-                    XBlock,
-                    OBlock,
-                    OBlock,
-                    EmptyBlock(),
-                    EmptyBlock(),
-                    EmptyBlock()
-                )
-            ), gameMode = TwoPlayerMode
+            turn = 6, board = listOf(
+                XBlock,
+                OBlock,
+                XBlock,
+                XBlock,
+                OBlock,
+                OBlock,
+                EmptyBlock(),
+                EmptyBlock(),
+                EmptyBlock()
+            ),
+            TwoPlayerMode
         )
         assertEquals(game.state.status, GameStatus.ONGOING)
 
@@ -147,19 +127,18 @@ class GameTest {
     fun `O가 승리하면 O_WON을 반환한다`() {
         // given
         val game = Game(
-            turn = 5, board = Board(
-                listOf(
-                    XBlock,
-                    XBlock,
-                    OBlock,
-                    XBlock,
-                    EmptyBlock(),
-                    OBlock,
-                    EmptyBlock(),
-                    EmptyBlock(),
-                    EmptyBlock(),
-                ),
-            ), gameMode = TwoPlayerMode
+            turn = 5, board = listOf(
+                XBlock,
+                XBlock,
+                OBlock,
+                XBlock,
+                EmptyBlock(),
+                OBlock,
+                EmptyBlock(),
+                EmptyBlock(),
+                EmptyBlock(),
+            ),
+            TwoPlayerMode
         )
         assertEquals(game.state.status, GameStatus.ONGOING)
 
@@ -183,7 +162,7 @@ class GameTest {
         assertEquals(game.state.turn, Turn(0))
         assertEquals(game.state.status, GameStatus.ONGOING)
         assertEquals(game.state.board.blocks, List(9) { EmptyBlock() })
-        assertTrue(game.state.gameMode is RandomMode)
+        assertTrue(game.gameMode is DrawMode)
         assertEquals(game, Game())
     }
 
@@ -191,24 +170,24 @@ class GameTest {
     fun `changeMode 를 통해 게임 모드를 변경할 수 있다`() {
         // given
         val game = Game()
-        assertTrue(game.state.gameMode is RandomMode)
+        assertTrue(game.gameMode is DrawMode)
 
         // when
-        game.changeMode(TwoPlayerMode)
+        game.changeMode(SelectMode.TwoPlayer)
 
         // then
-        assertEquals(game.state.gameMode, TwoPlayerMode)
+        assertEquals(game.gameMode, TwoPlayerMode)
     }
 
     @Test
     fun `같은 모드로 변경을 시도하면 에러를 반환한다`() {
         // given
         val game = Game()
-        assertTrue(game.state.gameMode is RandomMode)
+        assertTrue(game.gameMode is DrawMode)
 
         // when
         val exception = assertThrows(IllegalArgumentException::class.java) {
-            game.changeMode(RandomMode())
+            game.changeMode(SelectMode.Draw)
         }
 
         // then
@@ -218,16 +197,16 @@ class GameTest {
     @Test
     fun `랜덤모드에서 수를 두면 AI가 다음 수를 둔다`() {
         // given
-        val game = Game(gameMode = RandomMode(algorithm = FirstEmptyBlockStrategy()))
-        assertTrue(game.state.gameMode is RandomMode)
+        val game = Game()
+        game.changeRandomMode(FirstEmptyBlockStrategy())
+        assertTrue(game.gameMode is RandomMode)
 
         // when
         game.assignBlock(0)
 
         // then
         assertEquals(
-            game.state.board.blocks,
-            listOf(
+            game.state.board.blocks, listOf(
                 XBlock,
                 OBlock,
                 EmptyBlock(),

@@ -3,11 +3,18 @@ package camp.nextstep.edu.tictactoe
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.domain.*
+import com.example.domain.Game
+import com.example.domain.GameState
+import com.example.domain.SelectMode
+
 
 class TicTacToeViewModel(game: Game = Game()) : ViewModel() {
 
     private val game: Game
+
+    private val _mode = MutableLiveData(SelectMode.Draw)
+    val mode: LiveData<SelectMode>
+        get() = _mode
 
     private val _state = MutableLiveData(game.state)
     val state: LiveData<GameState>
@@ -33,9 +40,12 @@ class TicTacToeViewModel(game: Game = Game()) : ViewModel() {
         _state.value = game.state
     }
 
-    fun changeMode(gameMode: GameMode) {
-        runCatching { game.changeMode(gameMode) }
-            .onSuccess { _state.value = game.state }
+    fun changeGameMode(mode: SelectMode) {
+        runCatching { game.changeMode(mode) }
+            .onSuccess {
+                _state.value = game.state
+                _mode.value = mode
+            }
             .onFailure { _exceptionMessage.value = it.message }
     }
 }

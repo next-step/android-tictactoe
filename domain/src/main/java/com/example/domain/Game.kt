@@ -2,39 +2,70 @@ package com.example.domain
 
 class Game(
     turn: Int = Turn.INIT_TURN,
-    board: Board = Board.createEmptyBoard(),
-    gameMode: GameMode = RandomMode()
+    board: List<Block> = List(9) { EmptyBlock() },
 ) {
 
     private var turn: Turn
     private var board: Board
     private var nowStatus: GameStatus
-    private var gameMode: GameMode
+    private var _gameMode: GameMode
+    internal val gameMode: GameMode
+        get() = _gameMode
+
+
     private var _state: GameState
     val state: GameState
         get() = _state
 
     init {
         this.turn = Turn(turn)
-        this.board = Board(board.state.blocks)
+        this.board = Board(board.toList())
         this.nowStatus = checkStatus()
-        this.gameMode = gameMode
-        _state = GameState(nowStatus, this.turn, board.state, this.gameMode)
+        this._gameMode = DrawMode()
+        _state = GameState(nowStatus, this.turn, this.board.state)
     }
 
-    fun changeMode(gameMode: GameMode) {
-        require(gameMode != this.gameMode) {
+    internal constructor(
+        turn: Int,
+        board: List<Block>,
+        gameMode: GameMode
+    ) : this() {
+        this.turn = Turn(turn)
+        this.board = Board(board.toList())
+        this.nowStatus = checkStatus()
+        this._gameMode = gameMode
+        _state = GameState(nowStatus, this.turn, this.board.state)
+    }
+
+    fun changeMode(mode: SelectMode) {
+        val gameMode: GameMode = when (mode) {
+            SelectMode.TwoPlayer -> TwoPlayerMode
+            SelectMode.Random -> RandomMode()
+            SelectMode.Draw -> DrawMode()
+        }
+
+        require(this._gameMode != gameMode) {
             "같은 모드로 변경하실 수 없습니다."
         }
-        this.gameMode = gameMode
+
+        this._gameMode = gameMode
         reset()
     }
+
+    internal fun changeRandomMode(algorithm: AssignAlgorithm) {
+        require(this._gameMode !is RandomMode) {
+            "같은 모드로 변경하실 수 없습니다."
+        }
+        this._gameMode = RandomMode(algorithm)
+        reset()
+    }
+
 
     fun reset() {
         board = Board.createEmptyBoard()
         turn = Turn()
         nowStatus = GameStatus.ONGOING
-        _state = GameState(nowStatus, this.turn, board.state, gameMode)
+        _state = GameState(nowStatus, this.turn, board.state)
     }
 
     fun assignBlock(blockIndex: Int) {
@@ -46,14 +77,27 @@ class Game(
         nowStatus = checkStatus()
         _state = makeState()
 
-        if (nowStatus == GameStatus.ONGOING && gameMode is RandomMode) {
-            assignBlockByRandom()
+        if (nowStatus == GameStatus.ONGOING) {
+            assignBlockByAlgorithm()
         }
-
     }
 
-    private fun assignBlockByRandom() {
-        board.assignBlock(turn, (gameMode as RandomMode).calculateNextDoing(board.state))
+    private fun assignBlockByAlgorithm() {
+        when (_gameMode) {
+            is RandomMode -> assignBlockByRandomAlgorithm()
+            is DrawMode -> assignBlockByDrawAlgorithm()
+            else -> {}
+        }
+    }
+
+    private fun assignBlockByRandomAlgorithm() {
+        board.assignBlock(turn, (_gameMode as RandomMode).calculateNextDoing(board.state))
+        nowStatus = checkStatus()
+        _state = makeState()
+    }
+
+    private fun assignBlockByDrawAlgorithm() {
+        board.assignBlock(turn, (_gameMode as DrawMode).calculateNextDoing(board.state))
         nowStatus = checkStatus()
         _state = makeState()
     }
@@ -62,16 +106,16 @@ class Game(
         return when (nowStatus) {
             GameStatus.ONGOING -> {
                 turn = turn.next()
-                GameState(GameStatus.ONGOING, turn, board.state, gameMode)
+                GameState(GameStatus.ONGOING, turn, board.state)
             }
             GameStatus.X_WON -> {
-                GameState(GameStatus.X_WON, turn, board.state, gameMode)
+                GameState(GameStatus.X_WON, turn, board.state)
             }
             GameStatus.O_WON -> {
-                GameState(GameStatus.O_WON, turn, board.state, gameMode)
+                GameState(GameStatus.O_WON, turn, board.state)
             }
             GameStatus.DRAW -> {
-                GameState(GameStatus.DRAW, turn, board.state, gameMode)
+                GameState(GameStatus.DRAW, turn, board.state)
             }
         }
     }

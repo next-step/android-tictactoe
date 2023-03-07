@@ -8,8 +8,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
 import com.example.domain.GameStatus
-import com.example.domain.RandomMode
-import com.example.domain.TwoPlayerMode
+import com.example.domain.SelectMode
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         init()
         observeException()
         observeGameState()
+        observeGameMode()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -33,11 +34,11 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_two ->
-                viewModel.changeMode(TwoPlayerMode)
+                viewModel.changeGameMode(SelectMode.TwoPlayer)
             R.id.menu_random ->
-                viewModel.changeMode(RandomMode())
+                viewModel.changeGameMode(SelectMode.Random)
             R.id.menu_draw ->
-                Toast.makeText(this, "TODO: 무승부 모드로 전환", Toast.LENGTH_SHORT).show()
+                viewModel.changeGameMode(SelectMode.Draw)
         }
         return true
     }
@@ -50,6 +51,18 @@ class MainActivity : AppCompatActivity() {
     private fun observeException() {
         viewModel.exceptionMessage.observe(this) {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun observeGameMode() {
+        viewModel.mode.observe(this) {
+            val message = when (it) {
+                SelectMode.TwoPlayer -> "2인"
+                SelectMode.Random -> "랜덤"
+                SelectMode.Draw -> "무승부"
+                else -> ""
+            }
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }
 
