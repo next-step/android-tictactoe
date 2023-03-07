@@ -8,12 +8,12 @@ value class Turn(private val value: Int = INIT_TURN) {
         }
     }
 
-    fun next(): Turn = Turn(value + 1)
+    internal fun next(): Turn = Turn(value + 1)
 
-    fun whoseTurn(): Player = if (value % 2 == 0) Player.X else Player.O
+    internal fun whoseTurn(): Player = if (value % 2 == 0) Player.X else Player.O
 
     companion object {
-        const val INIT_TURN = 0
-        const val MAX_TURN = Board.BOARD_SIZE
+        internal const val INIT_TURN = 0
+        internal const val MAX_TURN = Board.BOARD_SIZE
     }
 }

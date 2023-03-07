@@ -61,11 +61,21 @@
 # 4단계 - 틱택토(Hilt 마이그레이션)
 
 ## 기능 요구사항
+
 - [ ] 이전 단계의 기능 요구사항을 모두 만족해야 한다.
 
 ## 프로그래밍 요구사항
+
 - [ ] Hilt를 통해 의존성을 주입한다.
 - [ ] domain 모듈에서 외부로 노출될 필요가 없는 구현체들은 internal로 선언되어야 한다.
 
 ## 구현
+
 - [x] Hilt 의존성 추가
+- [ ] Game 클래스를 외부로 보낼 수 있도록 변경
+  - [ ] Game 인터페이스 생성
+  - [ ] GameImpl 클래스를 internal로 변경 및 Game 인터페이스 상속
+- [ ] Board 클래스, BoardState 클래스 책임 부여
+- [ ] Turn 클래스를 Game 에 주입하도록 변경
+    - [x] Player 구현체를 internal로 변경
+    - [x] value class를 ParameterizedTest 하도록 변경
