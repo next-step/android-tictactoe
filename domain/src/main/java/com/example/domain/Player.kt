@@ -1,5 +1,5 @@
 package com.example.domain
 
-enum class Player {
+internal enum class Player {
     O, X
 }

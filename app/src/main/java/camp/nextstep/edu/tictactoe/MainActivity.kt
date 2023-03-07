@@ -9,8 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
 import com.example.domain.GameStatus
 import com.example.domain.SelectMode
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: TicTacToeViewModel by viewModels()
