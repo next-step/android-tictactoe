@@ -37,19 +37,18 @@ class Game(
         _state = GameState(nowStatus, this.turn, this.board.state)
     }
 
-    fun changePlayerMode() {
-        require(this._gameMode !is TwoPlayerMode) {
-            "같은 모드로 변경하실 수 없습니다."
+    fun changeMode(mode: SelectMode) {
+        val gameMode: GameMode = when (mode) {
+            SelectMode.TwoPlayer -> TwoPlayerMode
+            SelectMode.Random -> RandomMode()
+            SelectMode.Draw -> DrawMode()
         }
-        this._gameMode = TwoPlayerMode
-        reset()
-    }
 
-    fun changeRandomMode() {
-        require(this._gameMode !is RandomMode) {
+        require(this._gameMode != gameMode) {
             "같은 모드로 변경하실 수 없습니다."
         }
-        this._gameMode = RandomMode()
+
+        this._gameMode = gameMode
         reset()
     }
 
@@ -58,14 +57,6 @@ class Game(
             "같은 모드로 변경하실 수 없습니다."
         }
         this._gameMode = RandomMode(algorithm)
-        reset()
-    }
-
-    fun changeDrawMode() {
-        require(this._gameMode !is DrawMode) {
-            "같은 모드로 변경하실 수 없습니다."
-        }
-        this._gameMode = DrawMode()
         reset()
     }
 

@@ -21,7 +21,7 @@ class GameTest {
     fun `assignBlock 이후 게임이 끝나지 않으면 Turn이 1 증가한다`() {
         // given
         val game = Game()
-        game.changePlayerMode()
+        game.changeMode(SelectMode.TwoPlayer)
         assertEquals(game.state.turn, Turn(0))
 
         // when
@@ -173,7 +173,7 @@ class GameTest {
         assertTrue(game.gameMode is DrawMode)
 
         // when
-        game.changePlayerMode()
+        game.changeMode(SelectMode.TwoPlayer)
 
         // then
         assertEquals(game.gameMode, TwoPlayerMode)
@@ -187,7 +187,7 @@ class GameTest {
 
         // when
         val exception = assertThrows(IllegalArgumentException::class.java) {
-            game.changeDrawMode()
+            game.changeMode(SelectMode.Draw)
         }
 
         // then
