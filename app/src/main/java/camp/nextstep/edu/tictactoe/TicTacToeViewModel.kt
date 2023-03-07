@@ -3,12 +3,16 @@ package camp.nextstep.edu.tictactoe
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.domain.Game
 import com.example.domain.GameState
 import com.example.domain.SelectMode
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 
-class TicTacToeViewModel(game: Game = Game()) : ViewModel() {
+@HiltViewModel
+class TicTacToeViewModel @Inject constructor(game: Game) : ViewModel() {
 
     private val game: Game
 
