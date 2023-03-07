@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
 import com.example.domain.GameStatus
+import com.example.domain.SelectMode
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,11 +34,11 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_two ->
-                viewModel.changeTwoPlayerMode()
+                viewModel.changeGameMode(SelectMode.TwoPlayer)
             R.id.menu_random ->
-                viewModel.changeRandomMode()
+                viewModel.changeGameMode(SelectMode.Random)
             R.id.menu_draw ->
-                viewModel.changeDrawMode()
+                viewModel.changeGameMode(SelectMode.Draw)
         }
         return true
     }
@@ -55,7 +56,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeGameMode() {
         viewModel.mode.observe(this) {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            val message = when (it) {
+                SelectMode.TwoPlayer -> "2인"
+                SelectMode.Random -> "랜덤"
+                SelectMode.Draw -> "무승부"
+                else -> ""
+            }
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }
 

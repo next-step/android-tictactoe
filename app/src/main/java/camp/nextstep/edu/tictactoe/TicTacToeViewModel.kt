@@ -3,14 +3,17 @@ package camp.nextstep.edu.tictactoe
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.domain.*
+import com.example.domain.Game
+import com.example.domain.GameState
+import com.example.domain.SelectMode
+
 
 class TicTacToeViewModel(game: Game = Game()) : ViewModel() {
 
     private val game: Game
 
-    private val _mode = MutableLiveData("무승부 모드")
-    val mode: LiveData<String>
+    private val _mode = MutableLiveData(SelectMode.Draw)
+    val mode: LiveData<SelectMode>
         get() = _mode
 
     private val _state = MutableLiveData(game.state)
@@ -37,29 +40,11 @@ class TicTacToeViewModel(game: Game = Game()) : ViewModel() {
         _state.value = game.state
     }
 
-    fun changeTwoPlayerMode() {
-        runCatching { game.changePlayerMode() }
+    fun changeGameMode(mode: SelectMode) {
+        runCatching { game.changeMode(mode) }
             .onSuccess {
                 _state.value = game.state
-                _mode.value = "2인 모드"
-            }
-            .onFailure { _exceptionMessage.value = it.message }
-    }
-
-    fun changeRandomMode() {
-        runCatching { game.changeRandomMode() }
-            .onSuccess {
-                _state.value = game.state
-                _mode.value = "랜덤 모드"
-            }
-            .onFailure { _exceptionMessage.value = it.message }
-    }
-
-    fun changeDrawMode() {
-        runCatching { game.changeDrawMode() }
-            .onSuccess {
-                _state.value = game.state
-                _mode.value = "무승부 모드"
+                _mode.value = mode
             }
             .onFailure { _exceptionMessage.value = it.message }
     }

@@ -20,7 +20,7 @@ class TicTacToeViewModelTest {
     fun `짝수에 두는 경우 X 블록을 추가한다`() {
         // given
         viewModel = TicTacToeViewModel()
-        viewModel.changeTwoPlayerMode()
+        viewModel.changeGameMode(SelectMode.TwoPlayer)
         val blockIndex = 0
 
         // when
@@ -47,7 +47,7 @@ class TicTacToeViewModelTest {
     fun `홀수에 두는 경우 O 블록을 추가한다`() {
         // given
         viewModel = TicTacToeViewModel()
-        viewModel.changeTwoPlayerMode()
+        viewModel.changeGameMode(SelectMode.TwoPlayer)
         viewModel.assign(0)
         assertEquals(
             viewModel.state.getOrAwaitValue().board.blocks,
@@ -103,7 +103,7 @@ class TicTacToeViewModelTest {
     fun `게임이 끝난 경우에 또 두면 에러메세지를 받는다`() {
         // given
         viewModel = TicTacToeViewModel(Game())
-        viewModel.changeTwoPlayerMode()
+        viewModel.changeGameMode(SelectMode.TwoPlayer)
         viewModel.assign(0)
         viewModel.assign(1)
         viewModel.assign(3)
@@ -123,7 +123,7 @@ class TicTacToeViewModelTest {
     fun `reset을 누르면 초기화된다`() {
         // given
         viewModel = TicTacToeViewModel(Game())
-        viewModel.changeTwoPlayerMode()
+        viewModel.changeGameMode(SelectMode.TwoPlayer)
         viewModel.assign(0)
         viewModel.assign(1)
         viewModel.assign(3)
@@ -163,12 +163,12 @@ class TicTacToeViewModelTest {
     fun `모드를 변경할 수 있다`() {
         // given
         viewModel = TicTacToeViewModel(Game())
-        assertTrue(viewModel.mode.getOrAwaitValue() == "무승부 모드")
+        assertTrue(viewModel.mode.getOrAwaitValue() == SelectMode.Draw)
         // when
-        viewModel.changeTwoPlayerMode()
+        viewModel.changeGameMode(SelectMode.TwoPlayer)
 
         // then
-        assertEquals(viewModel.mode.getOrAwaitValue(), "2인 모드")
+        assertTrue(viewModel.mode.getOrAwaitValue() == SelectMode.TwoPlayer)
     }
 
     @Test
@@ -179,7 +179,7 @@ class TicTacToeViewModelTest {
 
 
         // when
-        viewModel.changeTwoPlayerMode()
+        viewModel.changeGameMode(SelectMode.TwoPlayer)
 
         // then
         val state = viewModel.state.getOrAwaitValue()
@@ -195,7 +195,7 @@ class TicTacToeViewModelTest {
 
         // when
 
-        viewModel.changeDrawMode()
+        viewModel.changeGameMode(SelectMode.Draw)
 
         // then
         assertEquals(
