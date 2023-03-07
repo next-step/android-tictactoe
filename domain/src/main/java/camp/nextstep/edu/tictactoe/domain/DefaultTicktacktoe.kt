@@ -8,7 +8,7 @@ class DefaultTicktacktoe : Ticktacktoe(Turn.X) {
     override fun runOneTurn(position: Position): TurnResult {
         val result = super.put(position)
         switchTurn()
-        return TurnResult(result.first, mapOf(TurnResult.KEY_USER to result.second))
+        return TurnResult(result.first, result.second)
     }
 
 }

@@ -31,9 +31,5 @@ class GameManager(
         return ticktacktoe.runOneTurn(position)
     }
 
-    fun isLegalMove(position: Position): Boolean {
-        return ticktacktoe.isLegalMove(position)
-    }
-
 
 }

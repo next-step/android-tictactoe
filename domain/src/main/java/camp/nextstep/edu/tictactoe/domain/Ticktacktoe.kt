@@ -16,8 +16,8 @@ abstract class Ticktacktoe constructor(
     var isFinish: Boolean = false
         private set
 
-    fun put(position: Position): Pair<State, Cell> {
-
+    fun put(position: Position): Pair<State, Board> {
+        checkLegalMove(position)
         val cell = when (currentTurn) {
             Turn.X -> Cell.X(position)
             Turn.O -> Cell.O(position)
@@ -26,7 +26,7 @@ abstract class Ticktacktoe constructor(
         state = checkState()
 
         isFinish = state != State.InProgress
-        return Pair(state, cell)
+        return Pair(state, board)
     }
 
     private fun checkState(): State = when {
@@ -36,8 +36,12 @@ abstract class Ticktacktoe constructor(
         else -> State.InProgress
     }
 
-    fun isLegalMove(position: Position): Boolean {
-        return (board.isLegalMove(position) || isFinish)
+    private fun checkLegalMove(position: Position) {
+        if (board.isDuplicatedInput(position))
+            throw TurnError.DuplicatedInput("이미 선택된 좌표 입니다.")
+        if (isFinish)
+            throw TurnError.GameFinish("게임이 종료 되었습니다.")
+
     }
 
     abstract fun runOneTurn(position: Position): TurnResult

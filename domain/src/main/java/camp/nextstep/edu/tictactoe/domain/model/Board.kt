@@ -31,17 +31,17 @@ data class Board private constructor(
         diagonalLine1, diagonalLine2
     )
 
-    val cells: List<Cell> = listOf(
+    private val cells: List<Cell> = listOf(
         topLeft, top, topRight, middleLeft, middle, middleRight, bottomLeft, bottom, bottomRight
     )
 
-    fun isLegalMove(position: Position): Boolean {
+    fun isDuplicatedInput(position: Position): Boolean {
         val selectedCell = board.getValue(position)
         return (selectedCell !is Cell.Empty)
     }
 
     fun mark(cell: Cell): Board {
-        if (isLegalMove(cell.position)) return this
+        if (isDuplicatedInput(cell.position)) return this
         val newBoard = board.toMutableMap()
         newBoard[cell.position] = cell
         return Board(newBoard.toMap()) //방어적 복사

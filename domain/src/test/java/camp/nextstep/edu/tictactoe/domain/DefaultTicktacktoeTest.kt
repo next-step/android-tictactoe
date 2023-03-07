@@ -1,7 +1,6 @@
 package camp.nextstep.edu.tictactoe.domain
 
 import camp.nextstep.edu.tictactoe.domain.model.*
-import camp.nextstep.edu.tictactoe.domain.model.Board
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -92,11 +91,14 @@ class DefaultTicktacktoeTest {
     }
 
     @Test
-    fun `X가 마크한 곳을 O가 마크하면 아무것도 변경되지 않는다`() {
+    fun `X가 마크한 곳을 O가 마크하면 이셉션이 발생하고 아무것도 변하지 않는다`() {
         ticktacktoe.put(Position.CellTopLeft)
         ticktacktoe.switchTurn()
-        ticktacktoe.put(Position.CellTopLeft)
-
+        runCatching {
+            ticktacktoe.put(Position.CellTopLeft)
+        }.onFailure {
+            assertThat(it).isInstanceOf(TurnError.DuplicatedInput::class.java)
+        }
         assertThat(ticktacktoe.board.topLeft).isInstanceOf(Cell.X::class.java)
     }
 }
