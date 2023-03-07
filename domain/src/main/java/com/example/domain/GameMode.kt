@@ -4,7 +4,8 @@ internal sealed class GameMode
 
 internal object TwoPlayerMode : GameMode()
 
-internal class RandomMode(private var algorithm: AssignAlgorithm = RandomBlockStrategy()) : GameMode() {
+internal class RandomMode(private val algorithm: AssignAlgorithm = RandomBlockStrategy()) :
+    GameMode() {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
