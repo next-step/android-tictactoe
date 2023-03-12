@@ -5,10 +5,9 @@ import camp.nextstep.edu.tictactoe.domain.model.State
 import camp.nextstep.edu.tictactoe.domain.model.Turn
 import camp.nextstep.edu.tictactoe.domain.model.TurnResult
 
-class AiTicktacktoe : Ticktacktoe(Turn.X) {
-    private fun putFromAI(): Position {
-        return board.getRandomCell().position
-
+class AiTicktacktoe(private val strategy: AiStrategy) : Ticktacktoe(Turn.X) {
+    private fun getAiPosition(): Position {
+        return strategy.getAiPosition(board)
     }
 
     override fun runOneTurn(position: Position): TurnResult {
@@ -16,7 +15,7 @@ class AiTicktacktoe : Ticktacktoe(Turn.X) {
         switchTurn()
 
         if (userGameResult.first == State.InProgress) {
-            val aiPoint = putFromAI()
+            val aiPoint = getAiPosition()
             val aiGameResult = super.put(aiPoint)
             switchTurn()
             return TurnResult(

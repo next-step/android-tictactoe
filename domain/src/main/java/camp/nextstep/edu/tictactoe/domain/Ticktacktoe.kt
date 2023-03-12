@@ -56,9 +56,5 @@ abstract class Ticktacktoe constructor(
         currentTurn = currentTurn.switch()
     }
 
-    companion object {
-        const val BOARD_SIZE = 3
-    }
-
 }
 
