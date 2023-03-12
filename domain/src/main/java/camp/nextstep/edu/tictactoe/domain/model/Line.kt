@@ -21,6 +21,24 @@ data class Line(
                 && cells.filterIsInstance<Cell.X>().size < 3
     }
 
+    fun findXWinningPosition(): Position? {
+        if (cells.filterIsInstance<Cell.Empty>().size == 1
+            && cells.filterIsInstance<Cell.X>().size == 2
+        ) {
+            return cells.find { it is Cell.Empty }?.position
+        }
+        return null
+    }
+
+    fun findOWinningPosition(): Position? {
+        if (cells.filterIsInstance<Cell.Empty>().size == 1
+            && cells.filterIsInstance<Cell.O>().size == 2
+        ) {
+            return cells.find { it is Cell.Empty }?.position
+        }
+        return null
+    }
+
     companion object {
         fun of(cell1: Cell, cell2: Cell, cell3: Cell): Line {
             return Line(setOf(cell1, cell2, cell3))

@@ -13,14 +13,13 @@ class GameManager(
             GameMode.AI_MODE -> {
                 AiTicktacktoe()
             }
-            else -> {
+            GameMode.PlAYER_MODE -> {
                 DefaultTicktacktoe()
             }
+            GameMode.DRAW_AI_MODE -> {
+                DrawAiTicktacktoe()
+            }
         }
-    }
-
-    fun isFinish(): Boolean {
-        return ticktacktoe.isFinish
     }
 
     fun reset() {
