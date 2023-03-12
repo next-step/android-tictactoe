@@ -5,7 +5,7 @@ import camp.nextstep.edu.tictactoe.domain.model.State
 import camp.nextstep.edu.tictactoe.domain.model.Turn
 import camp.nextstep.edu.tictactoe.domain.model.TurnResult
 
-class AiTicktacktoe(private val strategy: AiStrategy) : Ticktacktoe(Turn.X) {
+internal class AiTicktacktoe(private val strategy: AiStrategy) : Ticktacktoe(Turn.X) {
     private fun getAiPosition(): Position {
         return strategy.getAiPosition(board)
     }
