@@ -18,7 +18,7 @@ class AiTicktacktoeTest {
 
     @Before
     fun setUp() {
-        ticktacktoe = AiTicktacktoe()
+        ticktacktoe = AiTicktacktoe(DrawStrategy())
     }
 
     @Test
