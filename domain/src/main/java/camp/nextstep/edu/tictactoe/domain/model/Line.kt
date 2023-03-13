@@ -4,7 +4,7 @@ data class Line(
     private val cells: Set<Cell>,
 ) {
     init {
-        require(cells.size == 3)
+        require(cells.size == 3) { "cell size가 3이 되어야 합니다." }
     }
 
     fun isX(): Boolean {
@@ -19,6 +19,24 @@ data class Line(
         return cells.filterIsInstance<Cell.Empty>().isEmpty()
                 && cells.filterIsInstance<Cell.O>().size < 3
                 && cells.filterIsInstance<Cell.X>().size < 3
+    }
+
+    fun findXWinningPosition(): Position? {
+        if (cells.filterIsInstance<Cell.Empty>().size == 1
+            && cells.filterIsInstance<Cell.X>().size == 2
+        ) {
+            return cells.find { it is Cell.Empty }?.position
+        }
+        return null
+    }
+
+    fun findOWinningPosition(): Position? {
+        if (cells.filterIsInstance<Cell.Empty>().size == 1
+            && cells.filterIsInstance<Cell.O>().size == 2
+        ) {
+            return cells.find { it is Cell.Empty }?.position
+        }
+        return null
     }
 
     companion object {
