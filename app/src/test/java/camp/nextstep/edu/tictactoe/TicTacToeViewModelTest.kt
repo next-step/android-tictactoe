@@ -148,7 +148,6 @@ class TicTacToeViewModelTest {
         viewModel.assign(6)
         val endState = viewModel.state.getOrAwaitValue()
         assertEquals(endState.status, GameStatus.X_WON)
-        assertEquals(endState.turn, Turn(4))
         assertEquals(
             endState.board,
             BoardState(
@@ -172,7 +171,6 @@ class TicTacToeViewModelTest {
         // then
         val state = viewModel.state.getOrAwaitValue()
         assertEquals(state.status, GameStatus.ONGOING)
-        assertEquals(state.turn, Turn(0))
         assertEquals(state.board, BoardState(List(9) { EmptyBlock() }))
     }
 
@@ -199,7 +197,6 @@ class TicTacToeViewModelTest {
         // then
         val state = viewModel.state.getOrAwaitValue()
         assertEquals(state.status, GameStatus.ONGOING)
-        assertEquals(state.turn, Turn(0))
         assertEquals(state.board, BoardState(List(9) { EmptyBlock() }))
     }
 

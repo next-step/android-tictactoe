@@ -4,7 +4,7 @@ internal class GameImpl constructor(
     initialTurn: Turn,
     initialBoardState: BoardState
 ) : Game {
-    private var turn: Turn
+    internal var turn: Turn
     private var board: Board
 
     private var nowStatus: GameStatus
@@ -24,7 +24,7 @@ internal class GameImpl constructor(
         this.nowStatus = checkStatus()
         this._gameMode = DrawMode()
 
-        _state = GameState(nowStatus, this.turn, this.board.state)
+        _state = GameState(nowStatus, this.board.state)
     }
 
     internal constructor(
@@ -36,7 +36,7 @@ internal class GameImpl constructor(
         this.board = Board(board)
         this.nowStatus = checkStatus()
         this._gameMode = gameMode
-        _state = GameState(nowStatus, this.turn, this.board.state)
+        _state = GameState(nowStatus, this.board.state)
     }
 
     override fun changeMode(mode: SelectMode) {
@@ -67,7 +67,7 @@ internal class GameImpl constructor(
         board = Board()
         turn = Turn()
         nowStatus = GameStatus.ONGOING
-        _state = GameState(nowStatus, this.turn, board.state)
+        _state = GameState(nowStatus, board.state)
     }
 
     override fun assignBlock(blockIndex: Int) {
@@ -108,16 +108,16 @@ internal class GameImpl constructor(
         return when (nowStatus) {
             GameStatus.ONGOING -> {
                 turn = turn.next()
-                GameState(GameStatus.ONGOING, turn, board.state)
+                GameState(GameStatus.ONGOING, board.state)
             }
             GameStatus.X_WON -> {
-                GameState(GameStatus.X_WON, turn, board.state)
+                GameState(GameStatus.X_WON, board.state)
             }
             GameStatus.O_WON -> {
-                GameState(GameStatus.O_WON, turn, board.state)
+                GameState(GameStatus.O_WON, board.state)
             }
             GameStatus.DRAW -> {
-                GameState(GameStatus.DRAW, turn, board.state)
+                GameState(GameStatus.DRAW, board.state)
             }
         }
     }

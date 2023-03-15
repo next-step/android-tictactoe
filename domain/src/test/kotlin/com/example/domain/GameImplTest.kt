@@ -11,7 +11,7 @@ class GameImplTest {
         val gameImpl: GameImpl = GameImpl.createEmptyGame()
 
         // then
-        assertEquals(gameImpl.state.turn, Turn(0))
+        assertEquals(gameImpl.turn, Turn(0))
         assertEquals(gameImpl.state.status, GameStatus.ONGOING)
         assertTrue(gameImpl.gameMode is DrawMode)
         assertEquals(gameImpl.state.board.blocks, List(9) { EmptyBlock() })
@@ -22,14 +22,14 @@ class GameImplTest {
         // given
         val gameImpl = GameImpl.createEmptyGame()
         gameImpl.changeMode(SelectMode.TwoPlayer)
-        assertEquals(gameImpl.state.turn, Turn(0))
+        assertEquals(gameImpl.turn, Turn(0))
 
         // when
         gameImpl.assignBlock(0)
 
         // then
         assertEquals(gameImpl.state.status, GameStatus.ONGOING)
-        assertEquals(gameImpl.state.turn, Turn(1))
+        assertEquals(gameImpl.turn, Turn(1))
     }
 
     @Test
@@ -42,14 +42,14 @@ class GameImplTest {
                 )
             ), TwoPlayerMode
         )
-        assertEquals(gameImpl.state.turn, Turn(8))
+        assertEquals(gameImpl.turn, Turn(8))
 
         // when
         gameImpl.assignBlock(8)
 
         // then
         assertEquals(gameImpl.state.status, GameStatus.DRAW)
-        assertEquals(gameImpl.state.turn, Turn(8))
+        assertEquals(gameImpl.turn, Turn(8))
     }
 
     @Test
@@ -71,7 +71,7 @@ class GameImplTest {
             ),
             TwoPlayerMode
         )
-        assertEquals(gameImpl.state.turn, Turn(8))
+        assertEquals(gameImpl.turn, Turn(8))
         assertEquals(gameImpl.state.status, GameStatus.ONGOING)
 
         // when
@@ -79,7 +79,7 @@ class GameImplTest {
 
         // then
         assertEquals(gameImpl.state.status, GameStatus.X_WON)
-        assertEquals(gameImpl.state.turn, Turn(8))
+        assertEquals(gameImpl.turn, Turn(8))
     }
 
     @Test
@@ -169,7 +169,7 @@ class GameImplTest {
         gameImpl.reset()
 
         // then
-        assertEquals(gameImpl.state.turn, Turn(0))
+        assertEquals(gameImpl.turn, Turn(0))
         assertEquals(gameImpl.state.status, GameStatus.ONGOING)
         assertEquals(gameImpl.state.board.blocks, List(9) { EmptyBlock() })
         assertTrue(gameImpl.gameMode is DrawMode)

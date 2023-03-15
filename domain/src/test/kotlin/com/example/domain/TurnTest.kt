@@ -11,7 +11,7 @@ import org.junit.runners.Parameterized
 class TurnTest {
 
     @RunWith(value = Parameterized::class)
-    class OddTurnTest(private val turn: Turn) {
+    internal class OddTurnTest(private val turn: Turn) {
         @Test
         fun `홀수는 Player O의 턴이다`() {
             // when
@@ -36,7 +36,7 @@ class TurnTest {
     }
 
     @RunWith(value = Parameterized::class)
-    class EvenTurnTest(private val turn: Turn) {
+    internal class EvenTurnTest(private val turn: Turn) {
         @Test
         fun `0을 포함한 짝수는 Player X의 턴이다`() {
             // when
@@ -62,7 +62,7 @@ class TurnTest {
     }
 
     @RunWith(value = Parameterized::class)
-    class TurnConstructorTest(private val turn: Turn) {
+    internal class TurnConstructorTest(private val turn: Turn) {
         @Test
         fun `생성 테스트`() {
             // then
