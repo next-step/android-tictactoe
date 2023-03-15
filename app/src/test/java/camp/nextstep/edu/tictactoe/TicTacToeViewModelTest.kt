@@ -63,7 +63,7 @@ class TicTacToeViewModelTest {
             )
         )
     }
-//
+
     @Test
     fun `홀수에 두는 경우 O 블록을 추가한다`() {
         // given
