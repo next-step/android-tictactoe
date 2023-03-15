@@ -57,3 +57,30 @@
     - [x] `DrawBlockStrategy` 생성
         - [x] 내부 알고리즘 구현
 - [x] `Game` 기본 값을 `DrawMode`로 변경
+
+# 4단계 - 틱택토(Hilt 마이그레이션)
+
+## 기능 요구사항
+
+- [x] 이전 단계의 기능 요구사항을 모두 만족해야 한다.
+
+## 프로그래밍 요구사항
+
+- [x] Hilt를 통해 의존성을 주입한다.
+- [x] domain 모듈에서 외부로 노출될 필요가 없는 구현체들은 internal로 선언되어야 한다.
+
+## 구현
+
+- [x] Hilt 의존성 추가
+- [x] Game 클래스를 외부로 보낼 수 있도록 변경
+    - [x] Game 인터페이스 생성
+    - [x] GameImpl 클래스를 internal로 변경 및 Game 인터페이스 상속
+- [x] Board 클래스 관련 변경사항
+    - [x] Board 클래스 생성 검증을 BoardState를 통해서 하도록 변경 및 테스트 추가
+    - [x] BoardState 클래스를 Game에 주입하도록 변경
+- [x] Turn 클래스를 Game 에 주입하도록 변경
+    - [x] Player 구현체를 internal로 변경
+    - [x] value class를 ParameterizedTest 하도록 변경
+- [x] App 모듈에 Hilt 적용
+  - [x] 실제 코드에 Hilt 적용 
+  - [x] 테스트 코드에 Hilt 적용

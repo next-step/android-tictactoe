@@ -1,15 +1,12 @@
 package com.example.domain
 
-internal class Board(blocks: List<Block>) {
-    private val blocks = blocks.toMutableList()
-
+internal class Board(boardState: BoardState = BoardState()) {
+    private val blocks: MutableList<Block>
     val state: BoardState
         get() = BoardState(blocks.toList())
 
     init {
-        require(blocks.size == BOARD_SIZE) {
-            "${BOARD_SIZE}개의 블록이 필요합니다."
-        }
+        blocks = boardState.blocks.toMutableList()
     }
 
     fun assignBlock(turn: Turn, blockIndex: Int): BoardState {
@@ -61,12 +58,7 @@ internal class Board(blocks: List<Block>) {
         private const val BOARD_WIDTH = 3
         private const val BOARD_HEIGHT = 3
         const val BOARD_SIZE = BOARD_WIDTH * BOARD_HEIGHT
-        fun createEmptyBoard(): Board {
-            val blocks = List(BOARD_SIZE) { EmptyBlock() }
-            return Board(blocks)
-        }
-
-        val winningIndexs: List<List<Int>> = listOf(
+        internal val winningIndexs: List<List<Int>> = listOf(
             listOf(0, 1, 2),
             listOf(3, 4, 5),
             listOf(6, 7, 8),
