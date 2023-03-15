@@ -6,10 +6,6 @@ internal class Board(boardState: BoardState = BoardState()) {
         get() = BoardState(blocks.toList())
 
     init {
-        require(boardState.blocks.size == BOARD_SIZE) {
-            "${BOARD_SIZE}개의 블록이 필요합니다."
-        }
-
         blocks = boardState.blocks.toMutableList()
     }
 
