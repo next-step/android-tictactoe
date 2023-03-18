@@ -41,7 +41,7 @@
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> vm.put(Position.CellTopLeft) }"
             tools:ignore="ContentDescription"
-            bind:drawOorXWithPoint="@{vm.board[0][0]}" />
+            bind:drawOorXWithPoint="@{vm.board.topLeft}" />
 
         <ImageView
             android:id="@+id/cell_top"
@@ -50,7 +50,7 @@
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> vm.put(Position.CellTop) }"
             tools:ignore="ContentDescription"
-            bind:drawOorXWithPoint="@{vm.board[0][1]}" />
+            bind:drawOorXWithPoint="@{vm.board.top}" />
 
         <ImageView
             android:id="@+id/cell_top_right"
@@ -59,7 +59,7 @@
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> vm.put(Position.CellTopRight) }"
             tools:ignore="ContentDescription"
-            bind:drawOorXWithPoint="@{vm.board[0][2]}" />
+            bind:drawOorXWithPoint="@{vm.board.topRight}" />
 
         <ImageView
             android:id="@+id/cell_middle_left"
@@ -68,7 +68,7 @@
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> vm.put(Position.CellMiddleLeft) }"
             tools:ignore="ContentDescription"
-            bind:drawOorXWithPoint="@{vm.board[1][0]}" />
+            bind:drawOorXWithPoint="@{vm.board.middleLeft}" />
 
         <ImageView
             android:id="@+id/cell_middle"
@@ -77,7 +77,7 @@
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> vm.put(Position.CellMiddle) }"
             tools:ignore="ContentDescription"
-            bind:drawOorXWithPoint="@{vm.board[1][1]}" />
+            bind:drawOorXWithPoint="@{vm.board.middle}" />
 
         <ImageView
             android:id="@+id/cell_middle_right"
@@ -86,7 +86,7 @@
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> vm.put(Position.CellMiddleRight) }"
             tools:ignore="ContentDescription"
-            bind:drawOorXWithPoint="@{vm.board[1][2]}" />
+            bind:drawOorXWithPoint="@{vm.board.middleRight}" />
 
         <ImageView
             android:id="@+id/cell_bottom_left"
@@ -95,7 +95,7 @@
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> vm.put(Position.CellBottomLeft) }"
             tools:ignore="ContentDescription"
-            bind:drawOorXWithPoint="@{vm.board[2][0]}" />
+            bind:drawOorXWithPoint="@{vm.board.bottomLeft}" />
 
         <ImageView
             android:id="@+id/cell_bottom"
@@ -104,7 +104,7 @@
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> vm.put(Position.CellBottom) }"
             tools:ignore="ContentDescription"
-            bind:drawOorXWithPoint="@{vm.board[2][1]}" />
+            bind:drawOorXWithPoint="@{vm.board.bottom}" />
 
         <ImageView
             android:id="@+id/cell_bottom_right"
@@ -113,7 +113,7 @@
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> vm.put(Position.CellBottomRight) }"
             tools:ignore="ContentDescription"
-            bind:drawOorXWithPoint="@{vm.board[2][2]}" />
+            bind:drawOorXWithPoint="@{vm.board.bottomRight}" />
         <!-- endregion -->
 
         <!-- region Divider -->

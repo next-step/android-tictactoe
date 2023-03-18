@@ -64,10 +64,12 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.menu_random -> {
                 Toast.makeText(this, "TODO: 랜덤 모드로 전환", Toast.LENGTH_SHORT).show()
-                viewModel.changeMode(GameMode.AI_MODE)
+                viewModel.changeMode(GameMode.RANDOM_AI_MODE)
             }
-            R.id.menu_draw ->
+            R.id.menu_draw -> {
                 Toast.makeText(this, "TODO: 무승부 모드로 전환", Toast.LENGTH_SHORT).show()
+                viewModel.changeMode(GameMode.DRAW_AI_MODE)
+            }
         }
         return true
     }

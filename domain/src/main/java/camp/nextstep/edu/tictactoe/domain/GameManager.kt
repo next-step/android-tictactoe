@@ -5,22 +5,21 @@ import camp.nextstep.edu.tictactoe.domain.model.Position
 import camp.nextstep.edu.tictactoe.domain.model.TurnResult
 
 class GameManager(
-    private var ticktacktoe: Ticktacktoe = AiTicktacktoe()
+    private var ticktacktoe: Ticktacktoe = AiTicktacktoe(RandomStrategy())
 ) {
 
     fun changeMode(mode: GameMode) {
         ticktacktoe = when (mode) {
-            GameMode.AI_MODE -> {
-                AiTicktacktoe()
+            GameMode.RANDOM_AI_MODE -> {
+                AiTicktacktoe(RandomStrategy())
             }
-            else -> {
+            GameMode.DRAW_AI_MODE -> {
+                AiTicktacktoe(DrawStrategy())
+            }
+            GameMode.PlAYER_MODE -> {
                 DefaultTicktacktoe()
             }
         }
-    }
-
-    fun isFinish(): Boolean {
-        return ticktacktoe.isFinish
     }
 
     fun reset() {
@@ -29,10 +28,6 @@ class GameManager(
 
     fun runOneTurn(position: Position): TurnResult {
         return ticktacktoe.runOneTurn(position)
-    }
-
-    fun isLegalMove(position: Position): Boolean {
-        return ticktacktoe.isLegalMove(position)
     }
 
 
