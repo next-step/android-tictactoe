@@ -4,16 +4,40 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityMainBinding
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater).apply {
+            viewmodel = viewModel
+            lifecycleOwner = this@MainActivity
+        }
         setContentView(binding.root)
+
+        observerToastMessage()
+    }
+
+    private fun observerToastMessage() {
+        viewModel.tictactocToastMessage.observe(this) {
+            when (it.peek()) {
+                TictactocToastMessage.WrongClick -> showToastMessage(R.string.wrong_click)
+                TictactocToastMessage.GameOver -> showToastMessage(R.string.game_over)
+                TictactocToastMessage.XWin -> showToastMessage(R.string.x_win)
+                TictactocToastMessage.OWin -> showToastMessage(R.string.o_win)
+                TictactocToastMessage.Tie -> showToastMessage(R.string.tie)
+            }
+        }
+    }
+
+    private fun showToastMessage(resId: Int) {
+        Toast.makeText(this, getString(resId), Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
