@@ -6,18 +6,18 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
+import camp.nextstep.edu.tictactoe.databinding.ActivityTictactocBinding
 
-class MainActivity : AppCompatActivity() {
+class TictactocActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-    private val viewModel: MainViewModel by viewModels()
+    private lateinit var binding: ActivityTictactocBinding
+    private val viewModel: TictactocViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater).apply {
+        binding = ActivityTictactocBinding.inflate(layoutInflater).apply {
             viewmodel = viewModel
-            lifecycleOwner = this@MainActivity
+            lifecycleOwner = this@TictactocActivity
         }
         setContentView(binding.root)
 
@@ -26,12 +26,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun observerToastMessage() {
         viewModel.tictactocToastMessage.observe(this) {
-            when (it.peek()) {
-                TictactocToastMessage.WrongClick -> showToastMessage(R.string.wrong_click)
-                TictactocToastMessage.GameOver -> showToastMessage(R.string.game_over)
-                TictactocToastMessage.XWin -> showToastMessage(R.string.x_win)
-                TictactocToastMessage.OWin -> showToastMessage(R.string.o_win)
-                TictactocToastMessage.Tie -> showToastMessage(R.string.tie)
+            it.consume()?.let { toastMessage ->
+                when (toastMessage) {
+                    TictactocToastMessage.WrongClick -> showToastMessage(R.string.wrong_click)
+                    TictactocToastMessage.GameOver -> showToastMessage(R.string.game_over)
+                    TictactocToastMessage.XWin -> showToastMessage(R.string.x_win)
+                    TictactocToastMessage.OWin -> showToastMessage(R.string.o_win)
+                    TictactocToastMessage.Tie -> showToastMessage(R.string.tie)
+                }
             }
         }
     }

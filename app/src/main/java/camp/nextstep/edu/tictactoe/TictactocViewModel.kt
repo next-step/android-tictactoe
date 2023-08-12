@@ -9,7 +9,7 @@ import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
 import com.nextstep.edu.tictactoe.domain.model.Turn
 
-class MainViewModel : ViewModel() {
+class TictactocViewModel : ViewModel() {
 
     private val tictactoe = Tictactoe(Turn.X, GameResultManager())
 
