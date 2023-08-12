@@ -12,9 +12,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${Version.kotlin}")
 
     // Junit
-    testImplementation("junit:junit:${Version.JUNIT4}")
-    testImplementation("com.google.truth:truth:${Version.TRUTH}")
+    testImplementation("junit:junit:${Version.junit4}")
+    testImplementation("com.google.truth:truth:${Version.truth}")
 
     // Mockk
-    testImplementation("io.mockk:mockk:${Version.MOCKK}")
+    testImplementation("io.mockk:mockk:${Version.mockk}")
 }
