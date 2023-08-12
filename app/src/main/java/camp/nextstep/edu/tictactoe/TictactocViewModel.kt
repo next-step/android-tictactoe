@@ -3,6 +3,7 @@ package camp.nextstep.edu.tictactoe
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import camp.nextstep.edu.tictactoe.utils.Event
 import com.nextstep.edu.tictactoe.domain.GameResultManager
 import com.nextstep.edu.tictactoe.domain.Tictactoe
 import com.nextstep.edu.tictactoe.domain.model.GameResult

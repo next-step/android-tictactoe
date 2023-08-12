@@ -1,4 +1,4 @@
-package camp.nextstep.edu.tictactoe
+package camp.nextstep.edu.tictactoe.utils
 
 class Event<out T>(private val content: T) {
     var consumed = false
