@@ -5,7 +5,7 @@ import com.nextstep.edu.tictactoe.domain.model.Point
 import com.nextstep.edu.tictactoe.domain.model.Status
 import com.nextstep.edu.tictactoe.domain.model.Turn
 
-class Ticktacktoe constructor(
+class Tictactoe constructor(
     private var currentTurn: Turn = Turn.X,
     private val gameResultManager: GameResultManager
 ) {

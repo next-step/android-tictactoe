@@ -19,7 +19,7 @@ class GameResultManager {
         var rowSum = 0
         var columnSum = 0
 
-        for (point in 0 until Ticktacktoe.MAP_SIZE) {
+        for (point in 0 until Tictactoe.MAP_SIZE) {
             rowSum += if (map[row][point] == currentTurn) 1 else 0
             columnSum += if (map[point][column] == currentTurn) 1 else 0
         }
@@ -27,19 +27,19 @@ class GameResultManager {
         var leftDiagonalSum = 0
         var rightDiagonalSum = 0
 
-        for (point in 0 until Ticktacktoe.MAP_SIZE) {
+        for (point in 0 until Tictactoe.MAP_SIZE) {
             leftDiagonalSum += if (map[point][point] == currentTurn) 1 else 0
-            rightDiagonalSum += if (map[point][Ticktacktoe.MAP_SIZE - point - 1] == currentTurn) 1 else 0
+            rightDiagonalSum += if (map[point][Tictactoe.MAP_SIZE - point - 1] == currentTurn) 1 else 0
         }
 
-        val existWinner = listOf(rowSum, columnSum, leftDiagonalSum, rightDiagonalSum).contains(Ticktacktoe.MAP_SIZE)
+        val existWinner = listOf(rowSum, columnSum, leftDiagonalSum, rightDiagonalSum).contains(Tictactoe.MAP_SIZE)
 
         val result =
             if (existWinner && currentTurn == Turn.X) {
                 GameResult.X_WIN
             } else if (existWinner && currentTurn == Turn.O) {
                 GameResult.O_WIN
-            } else if (!existWinner && (count == Ticktacktoe.MAP_SIZE * Ticktacktoe.MAP_SIZE)) {
+            } else if (!existWinner && (count == Tictactoe.MAP_SIZE * Tictactoe.MAP_SIZE)) {
                 GameResult.TIE
             } else {
                 GameResult.UNKNOWN

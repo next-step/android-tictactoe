@@ -7,13 +7,13 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
-class TicktacktoeTest {
+class TictactoeTest {
 
-    lateinit var ticktacktoe: Ticktacktoe
+    lateinit var tictactoe: Tictactoe
 
     @Before
     fun setUp() {
-        ticktacktoe = Ticktacktoe(Turn.X, GameResultManager())
+        tictactoe = Tictactoe(Turn.X, GameResultManager())
     }
 
     @Test
@@ -21,10 +21,10 @@ class TicktacktoeTest {
         // given: X턴으로 시작한다.
 
         // when: 턴을 변경한다.
-        ticktacktoe.changeTurn()
+        tictactoe.changeTurn()
 
         // then: O의 턴으로 변경된다.
-        val actual = ticktacktoe.getCurrentTurn()
+        val actual = tictactoe.getCurrentTurn()
         assertEquals(Turn.O, actual)
     }
 
@@ -33,11 +33,11 @@ class TicktacktoeTest {
         // given: X턴으로 시작한다.
 
         // when: 턴을 두번 변경한다.
-        ticktacktoe.changeTurn()
-        ticktacktoe.changeTurn()
+        tictactoe.changeTurn()
+        tictactoe.changeTurn()
 
         // then: X의 턴으로 변경된다.
-        val actual = ticktacktoe.getCurrentTurn()
+        val actual = tictactoe.getCurrentTurn()
         assertEquals(Turn.X, actual)
     }
 
@@ -46,7 +46,7 @@ class TicktacktoeTest {
         // given: X의 턴일 때
 
         // when: 세로줄이 체워진다.
-        val actual = ticktacktoe.put(Point.CellBottomLeft)
+        val actual = tictactoe.put(Point.CellBottomLeft)
 
         // then: 아직 모른다.
         assertEquals(GameResult.UNKNOWN, actual.first)
@@ -57,9 +57,7 @@ class TicktacktoeTest {
         // given: X의 턴일 때
 
         // when: 세로줄이 체워진다.
-        ticktacktoe.put(Point.CellTopLeft)
-        ticktacktoe.put(Point.CellMiddleLeft)
-        val actual = ticktacktoe.put(Point.CellBottomLeft)
+        val actual = tictactoe.fillTopColumnPoint()
 
         // then: X가 승리한다.
         assertEquals(GameResult.X_WIN, actual.first)
@@ -68,12 +66,10 @@ class TicktacktoeTest {
     @Test
     fun `O의 턴일 때 세로 줄이 채워지면 승리한다`() {
         // given: O의 턴일 때
-        ticktacktoe.changeTurn()
+        tictactoe.changeTurn()
 
         // when: 세로줄이 체워진다.
-        ticktacktoe.put(Point.CellTopLeft)
-        ticktacktoe.put(Point.CellMiddleLeft)
-        val actual = ticktacktoe.put(Point.CellBottomLeft)
+        val actual = tictactoe.fillTopColumnPoint()
 
         // then: O가 승리한다.
         assertEquals(GameResult.O_WIN, actual.first)
@@ -84,9 +80,7 @@ class TicktacktoeTest {
         // given: X의 턴일 때,
 
         // when: 가로줄이 채워진다.
-        ticktacktoe.put(Point.CellTopLeft)
-        ticktacktoe.put(Point.CellMiddleLeft)
-        val actual = ticktacktoe.put(Point.CellBottomLeft)
+        val actual = tictactoe.fillLeftRowPoint()
 
         // then: X가 승리한다.
         assertEquals(GameResult.X_WIN, actual.first)
@@ -95,12 +89,10 @@ class TicktacktoeTest {
     @Test
     fun `O의 턴일 때 가로 줄이 채워지면 O가 승리한다`() {
         // given: O의 턴일 때,
-        ticktacktoe.changeTurn()
+        tictactoe.changeTurn()
 
         // when: 가로줄이 채워진다.
-        ticktacktoe.put(Point.CellTopLeft)
-        ticktacktoe.put(Point.CellMiddleLeft)
-        val actual = ticktacktoe.put(Point.CellBottomLeft)
+        val actual = tictactoe.fillLeftRowPoint()
 
         // then: O가 승리한다.
         assertEquals(GameResult.O_WIN, actual.first)
@@ -111,9 +103,7 @@ class TicktacktoeTest {
         // given: X의 턴일 때
 
         // when: 대각선이 채워진다.
-        ticktacktoe.put(Point.CellTopLeft)
-        ticktacktoe.put(Point.CellMiddle)
-        val actual = ticktacktoe.put(Point.CellBottomRight)
+        val actual = tictactoe.fillLeftDiagonalPoint()
 
         // then: X가 승리한다.
         assertEquals(GameResult.X_WIN, actual.first)
@@ -122,12 +112,10 @@ class TicktacktoeTest {
     @Test
     fun `O의 턴일 때 대각선 줄이 채워지면 승리한다`() {
         // given: O의 턴일 때
-        ticktacktoe.changeTurn()
+        tictactoe.changeTurn()
 
         // when: 대각선이 채워진다.
-        ticktacktoe.put(Point.CellTopLeft)
-        ticktacktoe.put(Point.CellMiddle)
-        val actual = ticktacktoe.put(Point.CellBottomRight)
+        val actual = tictactoe.fillRightDiagonalPoint()
 
         // then: O가 승리한다.
         assertEquals(GameResult.O_WIN, actual.first)
