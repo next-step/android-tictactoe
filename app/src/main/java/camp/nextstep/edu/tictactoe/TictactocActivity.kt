@@ -25,15 +25,13 @@ class TictactocActivity : AppCompatActivity() {
     }
 
     private fun observerToastMessage() {
-        viewModel.tictactocToastMessage.observe(this) {
-            it.consume()?.let { toastMessage ->
-                when (toastMessage) {
-                    TictactocToastMessage.WrongClick -> showToastMessage(R.string.wrong_click)
-                    TictactocToastMessage.GameOver -> showToastMessage(R.string.game_over)
-                    TictactocToastMessage.XWin -> showToastMessage(R.string.x_win)
-                    TictactocToastMessage.OWin -> showToastMessage(R.string.o_win)
-                    TictactocToastMessage.Tie -> showToastMessage(R.string.tie)
-                }
+        viewModel.tictactocToastMessage.observe(this) { toastMessage ->
+            when (toastMessage) {
+                TictactocToastMessage.WrongClick -> showToastMessage(R.string.wrong_click)
+                TictactocToastMessage.GameOver -> showToastMessage(R.string.game_over)
+                TictactocToastMessage.XWin -> showToastMessage(R.string.x_win)
+                TictactocToastMessage.OWin -> showToastMessage(R.string.o_win)
+                TictactocToastMessage.Tie -> showToastMessage(R.string.tie)
             }
         }
     }
