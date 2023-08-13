@@ -4,11 +4,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="point"
+            type="com.nextstep.edu.tictactoe.domain.model.Point" />
+
+        <variable
+            name="viewmodel"
+            type="camp.nextstep.edu.tictactoe.TictactocViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        tools:context=".MainActivity">
+        tools:context=".TictactocActivity">
 
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/flow"
@@ -28,81 +41,90 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_x_black" />
+            tools:src="@drawable/ic_x_black"
+            android:onClick="@{() -> viewmodel.onSetBoardPoint(point.CellTopLeft)}"
+            app:drawPoint="@{viewmodel.tictactoeBoard[0][0]}" />
 
         <ImageView
             android:id="@+id/cell_top"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_o_black" />
+            tools:src="@drawable/ic_o_black"
+            android:onClick="@{() -> viewmodel.onSetBoardPoint(point.CellTop)}"
+            app:drawPoint="@{viewmodel.tictactoeBoard[0][1]}" />
 
         <ImageView
             android:id="@+id/cell_top_right"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_x_black" />
+            tools:src="@drawable/ic_x_black"
+            android:onClick="@{() -> viewmodel.onSetBoardPoint(point.CellTopRight)}"
+            app:drawPoint="@{viewmodel.tictactoeBoard[0][2]}" />
 
         <ImageView
             android:id="@+id/cell_middle_left"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_o_black" />
+            tools:src="@drawable/ic_o_black"
+            android:onClick="@{() -> viewmodel.onSetBoardPoint(point.CellMiddleLeft)}"
+            app:drawPoint="@{viewmodel.tictactoeBoard[1][0]}" />
 
         <ImageView
             android:id="@+id/cell_middle"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_x_black" />
+            tools:src="@drawable/ic_x_black"
+            android:onClick="@{() -> viewmodel.onSetBoardPoint(point.CellMiddle)}"
+            app:drawPoint="@{viewmodel.tictactoeBoard[1][1]}" />
 
         <ImageView
             android:id="@+id/cell_middle_right"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_o_black" />
+            tools:src="@drawable/ic_o_black"
+            android:onClick="@{() -> viewmodel.onSetBoardPoint(point.CellMiddleRight)}"
+            app:drawPoint="@{viewmodel.tictactoeBoard[1][2]}" />
 
         <ImageView
             android:id="@+id/cell_bottom_left"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_x_black" />
+            tools:src="@drawable/ic_x_black"
+            android:onClick="@{() -> viewmodel.onSetBoardPoint(point.CellBottomLeft)}"
+            app:drawPoint="@{viewmodel.tictactoeBoard[2][0]}" />
 
         <ImageView
             android:id="@+id/cell_bottom"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_o_black" />
+            tools:src="@drawable/ic_o_black"
+            android:onClick="@{() -> viewmodel.onSetBoardPoint(point.CellBottom)}"
+            app:drawPoint="@{viewmodel.tictactoeBoard[2][1]}" />
 
         <ImageView
             android:id="@+id/cell_bottom_right"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_x_black" />
+            tools:src="@drawable/ic_x_black"
+            android:onClick="@{() -> viewmodel.onSetBoardPoint(point.CellBottomRight)}"
+            app:drawPoint="@{viewmodel.tictactoeBoard[2][2]}" />
         <!-- endregion -->
 
         <!-- region Divider -->
@@ -190,6 +212,7 @@
             android:text="다시 시작하기"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/flow"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText"
+            android:onClick="@{() -> viewmodel.onRestBoard()}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
