@@ -8,7 +8,6 @@ import camp.nextstep.edu.tictactoe.utils.Event
 import com.nextstep.edu.tictactoe.domain.GameResultManager
 import com.nextstep.edu.tictactoe.domain.Tictactoe
 import com.nextstep.edu.tictactoe.domain.model.GameResult
-import com.nextstep.edu.tictactoe.domain.model.Point
 import com.nextstep.edu.tictactoe.domain.model.Turn
 
 class TictactocViewModel : ViewModel() {
@@ -29,13 +28,23 @@ class TictactocViewModel : ViewModel() {
 
     fun onSetBoardPoint(tictactocCell: TictactocCell) {
         val point = TictactocCell.toPoint(tictactocCell)
-        if (isInValidBoard(point)) return
 
         val (gameResult, gameState) = tictactoe.put(point)
-        tictactoe.changeTurn()
-
-        _tictactoeBoard[point.row][point.column].value = gameState.turn
-        isFinishGame(gameResult = gameResult)
+        when (gameResult) {
+            GameResult.FINISH_GAME -> {
+                _tictactocToastMessage.value = Event(TictactocToastMessage.GameOver)
+                return
+            }
+            GameResult.INVALID_POSITION -> {
+                _tictactocToastMessage.value = Event(TictactocToastMessage.WrongClick)
+                return
+            }
+            else -> {
+                tictactoe.changeTurn()
+                _tictactoeBoard[point.row][point.column].value = gameState.turn
+                isFinishGame(gameResult = gameResult)
+            }
+        }
     }
 
     fun onRestBoard() {
@@ -45,18 +54,6 @@ class TictactocViewModel : ViewModel() {
                 _tictactoeBoard[row][column].value = Turn.UNKNOWN
             }
         }
-    }
-
-    private fun isInValidBoard(point: Point): Boolean {
-        if (!tictactoe.isValidData(point)) {
-            if (tictactoe.isFinish) {
-                _tictactocToastMessage.value = Event(TictactocToastMessage.GameOver)
-            } else {
-                _tictactocToastMessage.value = Event(TictactocToastMessage.WrongClick)
-            }
-            return true
-        }
-        return false
     }
 
     private fun isFinishGame(gameResult: GameResult) {

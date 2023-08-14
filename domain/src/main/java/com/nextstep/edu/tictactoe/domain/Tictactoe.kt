@@ -26,13 +26,22 @@ class Tictactoe constructor(
         return currentTurn
     }
 
-    fun isValidData(point: Point): Boolean {
+    private fun isValidData(point: Point): Boolean {
         return !(tictactocMap.getMapRowColumn(row = point.row, column = point.column) != Turn.UNKNOWN || isFinish)
     }
 
     fun put(point: Point): Pair<GameResult, Status> {
         val row = point.row
         val column = point.column
+
+        if (!isValidData(point)) {
+            return if (isFinish) {
+                Pair(GameResult.FINISH_GAME, Status(point = point, turn = currentTurn))
+            } else {
+                Pair(GameResult.INVALID_POSITION, Status(point = point, turn = currentTurn))
+            }
+        }
+
         tictactocMap.setMapRowColumn(row = row, column = column, turn = currentTurn)
         count++
         val result = gameResultManager.getTurnResult(point, tictactocMap.getMap(), currentTurn, count)
