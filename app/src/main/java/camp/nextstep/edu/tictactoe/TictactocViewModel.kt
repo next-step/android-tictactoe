@@ -3,6 +3,7 @@ package camp.nextstep.edu.tictactoe
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import camp.nextstep.edu.tictactoe.model.TictactocCell
 import camp.nextstep.edu.tictactoe.utils.Event
 import com.nextstep.edu.tictactoe.domain.GameResultManager
 import com.nextstep.edu.tictactoe.domain.Tictactoe
@@ -26,7 +27,8 @@ class TictactocViewModel : ViewModel() {
     private val _tictactocToastMessage: MutableLiveData<Event<TictactocToastMessage>> = MutableLiveData()
     val tictactocToastMessage: LiveData<Event<TictactocToastMessage>> = _tictactocToastMessage
 
-    fun onSetBoardPoint(point: Point) {
+    fun onSetBoardPoint(tictactocCell: TictactocCell) {
+        val point = TictactocCell.toPoint(tictactocCell)
         if (isInValidBoard(point)) return
 
         val (gameResult, gameState) = tictactoe.put(point)
