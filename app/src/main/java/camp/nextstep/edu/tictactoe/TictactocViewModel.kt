@@ -13,10 +13,8 @@ import com.nextstep.edu.tictactoe.domain.model.Turn
 
 class TictactocViewModel : ViewModel() {
 
-    private val _gameGameMode: MutableLiveData<GameMode> = MutableLiveData()
-
-    private val tictactoe = Tictactoe(
-        gameMode = _gameGameMode.value ?: GameMode.TWO_PLAYER,
+    private var tictactoe = Tictactoe(
+        gameMode = GameMode.TWO_PLAYER,
         currentTurn = Turn.X,
         gameResultManager = GameResultManager()
     )
@@ -32,7 +30,11 @@ class TictactocViewModel : ViewModel() {
     }
 
     fun onSetGameMode(gameMode: GameMode) {
-        _gameGameMode.value = gameMode
+        tictactoe = Tictactoe(
+            gameMode = gameMode,
+            currentTurn = Turn.X,
+            gameResultManager = GameResultManager()
+        )
         onRestBoard()
     }
 
