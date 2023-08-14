@@ -49,7 +49,7 @@ class TictactoeTest {
         val actual = tictactoe.put(Point.CellBottomLeft)
 
         // then: 아직 모른다.
-        assertEquals(GameResult.UNKNOWN, actual.first)
+        assertEquals(GameResult.UNKNOWN, actual)
     }
 
     @Test
@@ -60,7 +60,7 @@ class TictactoeTest {
         val actual = tictactoe.fillTopColumnPoint()
 
         // then: X가 승리한다.
-        assertEquals(GameResult.X_WIN, actual.first)
+        assertEquals(GameResult.X_WIN, actual)
     }
 
     @Test
@@ -72,7 +72,7 @@ class TictactoeTest {
         val actual = tictactoe.fillTopColumnPoint()
 
         // then: O가 승리한다.
-        assertEquals(GameResult.O_WIN, actual.first)
+        assertEquals(GameResult.O_WIN, actual)
     }
 
     @Test
@@ -83,7 +83,7 @@ class TictactoeTest {
         val actual = tictactoe.fillLeftRowPoint()
 
         // then: X가 승리한다.
-        assertEquals(GameResult.X_WIN, actual.first)
+        assertEquals(GameResult.X_WIN, actual)
     }
 
     @Test
@@ -95,7 +95,7 @@ class TictactoeTest {
         val actual = tictactoe.fillLeftRowPoint()
 
         // then: O가 승리한다.
-        assertEquals(GameResult.O_WIN, actual.first)
+        assertEquals(GameResult.O_WIN, actual)
     }
 
     @Test
@@ -106,7 +106,7 @@ class TictactoeTest {
         val actual = tictactoe.fillLeftDiagonalPoint()
 
         // then: X가 승리한다.
-        assertEquals(GameResult.X_WIN, actual.first)
+        assertEquals(GameResult.X_WIN, actual)
     }
 
     @Test
@@ -118,7 +118,7 @@ class TictactoeTest {
         val actual = tictactoe.fillRightDiagonalPoint()
 
         // then: O가 승리한다.
-        assertEquals(GameResult.O_WIN, actual.first)
+        assertEquals(GameResult.O_WIN, actual)
     }
 
 }

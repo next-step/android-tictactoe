@@ -2,7 +2,6 @@ package com.nextstep.edu.tictactoe.domain
 
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
-import com.nextstep.edu.tictactoe.domain.model.Status
 import com.nextstep.edu.tictactoe.domain.model.Turn
 
 class GameResultManager {
@@ -12,7 +11,7 @@ class GameResultManager {
         map: Array<Array<Turn>>,
         currentTurn: Turn,
         count: Int
-    ): Pair<GameResult, Status> {
+    ): GameResult {
         val row = point.row
         val column = point.column
 
@@ -44,7 +43,7 @@ class GameResultManager {
             } else {
                 GameResult.UNKNOWN
             }
-        return Pair(result, Status(point, currentTurn))
+        return result
     }
 
 }

@@ -3,7 +3,6 @@ package com.nextstep.edu.tictactoe.domain
 import com.nextstep.edu.tictactoe.domain.model.TictactocMap
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
-import com.nextstep.edu.tictactoe.domain.model.Status
 import com.nextstep.edu.tictactoe.domain.model.Turn
 
 class Tictactoe constructor(
@@ -22,6 +21,10 @@ class Tictactoe constructor(
 
     private var count: Int = 0
 
+    fun getMap(): Array<Array<Turn>> {
+        return tictactocMap.getMap()
+    }
+
     fun getCurrentTurn(): Turn {
         return currentTurn
     }
@@ -30,23 +33,23 @@ class Tictactoe constructor(
         return !(tictactocMap.getMapRowColumn(row = point.row, column = point.column) != Turn.UNKNOWN || isFinish)
     }
 
-    fun put(point: Point): Pair<GameResult, Status> {
+    fun put(point: Point): GameResult {
         val row = point.row
         val column = point.column
 
         if (!isValidData(point)) {
             return if (isFinish) {
-                Pair(GameResult.FINISH_GAME, Status(point = point, turn = currentTurn))
+                GameResult.FINISH_GAME
             } else {
-                Pair(GameResult.INVALID_POSITION, Status(point = point, turn = currentTurn))
+                GameResult.INVALID_POSITION
             }
         }
 
         tictactocMap.setMapRowColumn(row = row, column = column, turn = currentTurn)
         count++
-        val result = gameResultManager.getTurnResult(point, tictactocMap.getMap(), currentTurn, count)
-        isFinish = result.first != GameResult.UNKNOWN
-        return result
+        val gameResult = gameResultManager.getTurnResult(point, tictactocMap.getMap(), currentTurn, count)
+        isFinish = gameResult != GameResult.UNKNOWN
+        return gameResult
     }
 
     fun reset() {

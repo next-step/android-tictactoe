@@ -14,22 +14,20 @@ class TictactocViewModel : ViewModel() {
 
     private val tictactoe = Tictactoe(Turn.X, GameResultManager())
 
-    private val _tictactoeBoard = Array(MAP_SIZE) { Array(MAP_SIZE) { MutableLiveData<Turn>(Turn.UNKNOWN) } }
-
-    val tictactoeBoard: Array<Array<LiveData<Turn>>> =
-        _tictactoeBoard.map { rowArray ->
-            rowArray.map { mutableLiveData ->
-                mutableLiveData as LiveData<Turn>
-            }.toTypedArray()
-        }.toTypedArray()
+    private val _tictactoeBoard: MutableLiveData<Array<Array<Turn>>> = MutableLiveData()
+    val tictactoeBoard: LiveData<Array<Array<Turn>>> = _tictactoeBoard
 
     private val _tictactocToastMessage: MutableLiveData<Event<TictactocToastMessage>> = MutableLiveData()
     val tictactocToastMessage: LiveData<Event<TictactocToastMessage>> = _tictactocToastMessage
 
+    init {
+        setBoardFromMap()
+    }
+
     fun onSetBoardPoint(tictactocCell: TictactocCell) {
         val point = TictactocCell.toPoint(tictactocCell)
 
-        val (gameResult, gameState) = tictactoe.put(point)
+        val gameResult = tictactoe.put(point)
         when (gameResult) {
             GameResult.FINISH_GAME -> {
                 _tictactocToastMessage.value = Event(TictactocToastMessage.GameOver)
@@ -41,7 +39,7 @@ class TictactocViewModel : ViewModel() {
             }
             else -> {
                 tictactoe.changeTurn()
-                _tictactoeBoard[point.row][point.column].value = gameState.turn
+                setBoardFromMap()
                 isFinishGame(gameResult = gameResult)
             }
         }
@@ -49,11 +47,7 @@ class TictactocViewModel : ViewModel() {
 
     fun onRestBoard() {
         tictactoe.reset()
-        for (row in 0 until MAP_SIZE) {
-            for (column in 0 until MAP_SIZE) {
-                _tictactoeBoard[row][column].value = Turn.UNKNOWN
-            }
-        }
+        setBoardFromMap()
     }
 
     private fun isFinishGame(gameResult: GameResult) {
@@ -65,7 +59,7 @@ class TictactocViewModel : ViewModel() {
         }
     }
 
-    companion object {
-        const val MAP_SIZE = Tictactoe.MAP_SIZE
+    private fun setBoardFromMap() {
+        _tictactoeBoard.value = tictactoe.getMap()
     }
 }
