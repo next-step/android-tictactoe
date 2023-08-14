@@ -23,8 +23,8 @@ class TictactocViewModel : ViewModel() {
             }.toTypedArray()
         }.toTypedArray()
 
-    private val _tictactocToastMessage: MutableLiveData<TictactocToastMessage> = MutableLiveData()
-    val tictactocToastMessage: LiveData<TictactocToastMessage> = _tictactocToastMessage
+    private val _tictactocToastMessage: MutableLiveData<Event<TictactocToastMessage>> = MutableLiveData()
+    val tictactocToastMessage: LiveData<Event<TictactocToastMessage>> = _tictactocToastMessage
 
     fun onSetBoardPoint(point: Point) {
         if (isInValidBoard(point)) return
@@ -48,9 +48,9 @@ class TictactocViewModel : ViewModel() {
     private fun isInValidBoard(point: Point): Boolean {
         if (!tictactoe.isValidData(point)) {
             if (tictactoe.isFinish) {
-                _tictactocToastMessage.value = TictactocToastMessage.GameOver
+                _tictactocToastMessage.value = Event(TictactocToastMessage.GameOver)
             } else {
-                _tictactocToastMessage.value = TictactocToastMessage.WrongClick
+                _tictactocToastMessage.value = Event(TictactocToastMessage.WrongClick)
             }
             return true
         }
@@ -59,9 +59,9 @@ class TictactocViewModel : ViewModel() {
 
     private fun isFinishGame(gameResult: GameResult) {
         when (gameResult) {
-            GameResult.X_WIN -> _tictactocToastMessage.value = TictactocToastMessage.XWin
-            GameResult.O_WIN -> _tictactocToastMessage.value = TictactocToastMessage.OWin
-            GameResult.TIE -> _tictactocToastMessage.value = TictactocToastMessage.Tie
+            GameResult.X_WIN -> _tictactocToastMessage.value = Event(TictactocToastMessage.XWin)
+            GameResult.O_WIN -> _tictactocToastMessage.value = Event(TictactocToastMessage.OWin)
+            GameResult.TIE -> _tictactocToastMessage.value = Event(TictactocToastMessage.Tie)
             else -> {}
         }
     }

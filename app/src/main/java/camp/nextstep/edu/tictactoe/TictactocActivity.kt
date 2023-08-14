@@ -25,8 +25,10 @@ class TictactocActivity : AppCompatActivity() {
     }
 
     private fun observerToastMessage() {
-        viewModel.tictactocToastMessage.observe(this) {
-            showToastMessage(getString(it.resId))
+        viewModel.tictactocToastMessage.observe(this) { event ->
+            event.consume()?.let {
+                showToastMessage(getString(it.resId))
+            }
         }
     }
 

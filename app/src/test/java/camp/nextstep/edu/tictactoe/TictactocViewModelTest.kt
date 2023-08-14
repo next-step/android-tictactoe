@@ -27,7 +27,7 @@ class TictactocViewModelTest {
         onSetBoardPoint(Point.CellTopLeft)
 
         // then: WrongClick이 발생한다.
-        val actual = viewModel.tictactocToastMessage.getOrAwaitValue()
+        val actual = viewModel.tictactocToastMessage.getOrAwaitValue().peek()
         assertEquals(TictactocToastMessage.WrongClick, actual)
     }
 
@@ -46,7 +46,7 @@ class TictactocViewModelTest {
         onSetBoardPoint(Point.CellTopRight)
 
         // then: x가 승리한다.
-        val actual = viewModel.tictactocToastMessage.getOrAwaitValue()
+        val actual = viewModel.tictactocToastMessage.getOrAwaitValue().peek()
         assertEquals(TictactocToastMessage.XWin, actual)
     }
 
@@ -66,7 +66,7 @@ class TictactocViewModelTest {
         onSetBoardPoint(Point.CellMiddleRight)
 
         // then: o가 승리한다.
-        val actual = viewModel.tictactocToastMessage.getOrAwaitValue()
+        val actual = viewModel.tictactocToastMessage.getOrAwaitValue().peek()
         assertEquals(TictactocToastMessage.OWin, actual)
     }
 
@@ -85,7 +85,7 @@ class TictactocViewModelTest {
         onSetBoardPoint(Point.CellBottomLeft)
 
         // then: x가 승리한다.
-        val actual = viewModel.tictactocToastMessage.getOrAwaitValue()
+        val actual = viewModel.tictactocToastMessage.getOrAwaitValue().peek()
         assertEquals(TictactocToastMessage.XWin, actual)
     }
 
@@ -105,7 +105,7 @@ class TictactocViewModelTest {
         onSetBoardPoint(Point.CellBottom)
 
         // then: o가 승리한다.
-        val actual = viewModel.tictactocToastMessage.getOrAwaitValue()
+        val actual = viewModel.tictactocToastMessage.getOrAwaitValue().peek()
         assertEquals(TictactocToastMessage.OWin, actual)
     }
 
@@ -124,7 +124,7 @@ class TictactocViewModelTest {
         onSetBoardPoint(Point.CellBottomRight)
 
         // then: x가 승리한다.
-        val actual = viewModel.tictactocToastMessage.getOrAwaitValue()
+        val actual = viewModel.tictactocToastMessage.getOrAwaitValue().peek()
         assertEquals(TictactocToastMessage.XWin, actual)
     }
 
@@ -144,7 +144,7 @@ class TictactocViewModelTest {
         onSetBoardPoint(Point.CellBottomLeft)
 
         // then: o가 승리한다.
-        val actual = viewModel.tictactocToastMessage.getOrAwaitValue()
+        val actual = viewModel.tictactocToastMessage.getOrAwaitValue().peek()
         assertEquals(TictactocToastMessage.OWin, actual)
     }
 
@@ -167,7 +167,7 @@ class TictactocViewModelTest {
         onSetBoardPoint(Point.CellBottomRight)
 
         // then: Tie가 발생한다.
-        val actual = viewModel.tictactocToastMessage.getOrAwaitValue()
+        val actual = viewModel.tictactocToastMessage.getOrAwaitValue().peek()
         assertEquals(TictactocToastMessage.Tie, actual)
     }
 
@@ -189,7 +189,7 @@ class TictactocViewModelTest {
         onSetBoardPoint(Point.CellBottomRight)
 
         // then: GameOver 발생한다.
-        val actual = viewModel.tictactocToastMessage.getOrAwaitValue()
+        val actual = viewModel.tictactocToastMessage.getOrAwaitValue().peek()
         assertEquals(TictactocToastMessage.GameOver, actual)
     }
 
@@ -215,7 +215,7 @@ class TictactocViewModelTest {
         onSetBoardPoint(Point.CellMiddle)
 
         // then: GameOver 발생한다.
-        val actual = viewModel.tictactocToastMessage.getOrAwaitValue()
+        val actual = viewModel.tictactocToastMessage.getOrAwaitValue().peek()
         assertEquals(TictactocToastMessage.GameOver, actual)
     }
 
@@ -252,7 +252,7 @@ class TictactocViewModelTest {
         onSetBoardPoint(Point.CellTopRight)
 
         // then: x가 승리한다.
-        val actual = viewModel.tictactocToastMessage.getOrAwaitValue()
+        val actual = viewModel.tictactocToastMessage.getOrAwaitValue().peek()
         assertEquals(TictactocToastMessage.XWin, actual)
     }
 
