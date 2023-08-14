@@ -1,11 +1,13 @@
 package com.nextstep.edu.tictactoe.domain
 
+import com.nextstep.edu.tictactoe.domain.model.GameMode
 import com.nextstep.edu.tictactoe.domain.model.TictactocMap
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
 import com.nextstep.edu.tictactoe.domain.model.Turn
 
 class Tictactoe constructor(
+    private val gameMode: GameMode,
     private var currentTurn: Turn = Turn.X,
     private val gameResultManager: GameResultManager
 ) {
@@ -34,18 +36,35 @@ class Tictactoe constructor(
     }
 
     fun put(point: Point): GameResult {
-        val row = point.row
-        val column = point.column
-
         if (!isValidData(point)) {
-            return if (isFinish) {
-                GameResult.FINISH_GAME
-            } else {
-                GameResult.INVALID_POSITION
-            }
+            return if (isFinish) GameResult.FINISH_GAME else GameResult.INVALID_POSITION
         }
 
-        tictactocMap.setMapRowColumn(row = row, column = column, turn = currentTurn)
+        var gameResult = getGameResult(point = point)
+
+        if (gameResult == GameResult.UNKNOWN && gameMode == GameMode.RANDOM) {
+            gameResult = randomPut(point = point)
+        }
+
+        return gameResult
+    }
+
+    private fun randomPut(point: Point): GameResult {
+        changeTurn()
+        val range = (0 until MAP_SIZE)
+
+        var randomPoint = point
+        while (!isValidData(randomPoint)) {
+            val row = range.random()
+            val column = range.random()
+            randomPoint = Point.of(row = row, column = column)
+        }
+
+        return getGameResult(point = randomPoint)
+    }
+
+    private fun getGameResult(point: Point): GameResult {
+        tictactocMap.setMapRowColumn(row = point.row, column = point.column, turn = currentTurn)
         count++
         val gameResult = gameResultManager.getTurnResult(point, tictactocMap.getMap(), currentTurn, count)
         isFinish = gameResult != GameResult.UNKNOWN

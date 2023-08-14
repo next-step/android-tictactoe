@@ -12,5 +12,11 @@ enum class Point(
     CellMiddleRight(1, 2),
     CellBottomLeft(2, 0),
     CellBottom(2, 1),
-    CellBottomRight(2, 2)
+    CellBottomRight(2, 2);
+
+    companion object {
+        fun of(row: Int, column: Int): Point {
+            return values().find { it.row == row && it.column == column } ?: CellTopLeft
+        }
+    }
 }

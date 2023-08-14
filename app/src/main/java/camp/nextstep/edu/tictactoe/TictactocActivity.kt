@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import camp.nextstep.edu.tictactoe.databinding.ActivityTictactocBinding
+import com.nextstep.edu.tictactoe.domain.model.GameMode
 
 class TictactocActivity : AppCompatActivity() {
 
@@ -20,7 +21,7 @@ class TictactocActivity : AppCompatActivity() {
             lifecycleOwner = this@TictactocActivity
         }
         setContentView(binding.root)
-
+        viewModel.onSetGameMode(gameMode = GameMode.RANDOM)
         observerToastMessage()
     }
 
@@ -43,12 +44,18 @@ class TictactocActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_two ->
-                Toast.makeText(this, "TODO: 2인 모드로 전환", Toast.LENGTH_SHORT).show()
-            R.id.menu_random ->
-                Toast.makeText(this, "TODO: 랜덤 모드로 전환", Toast.LENGTH_SHORT).show()
-            R.id.menu_draw ->
-                Toast.makeText(this, "TODO: 무승부 모드로 전환", Toast.LENGTH_SHORT).show()
+            R.id.menu_two -> {
+                Toast.makeText(this, getString(R.string.game_mode_two_player), Toast.LENGTH_SHORT).show()
+                viewModel.onSetGameMode(gameMode = GameMode.TWO_PLAYER)
+            }
+            R.id.menu_random -> {
+                Toast.makeText(this, getString(R.string.game_mode_random_player), Toast.LENGTH_SHORT).show()
+                viewModel.onSetGameMode(gameMode = GameMode.RANDOM)
+            }
+            R.id.menu_draw -> {
+                Toast.makeText(this, getString(R.string.game_mode_tie_player), Toast.LENGTH_SHORT).show()
+                viewModel.onSetGameMode(gameMode = GameMode.TIE)
+            }
         }
         return true
     }

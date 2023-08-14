@@ -7,12 +7,19 @@ import camp.nextstep.edu.tictactoe.model.TictactocCell
 import camp.nextstep.edu.tictactoe.utils.Event
 import com.nextstep.edu.tictactoe.domain.GameResultManager
 import com.nextstep.edu.tictactoe.domain.Tictactoe
+import com.nextstep.edu.tictactoe.domain.model.GameMode
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Turn
 
 class TictactocViewModel : ViewModel() {
 
-    private val tictactoe = Tictactoe(Turn.X, GameResultManager())
+    private val _gameGameMode: MutableLiveData<GameMode> = MutableLiveData()
+
+    private val tictactoe = Tictactoe(
+        gameMode = _gameGameMode.value ?: GameMode.TWO_PLAYER,
+        currentTurn = Turn.X,
+        gameResultManager = GameResultManager()
+    )
 
     private val _tictactoeBoard: MutableLiveData<Array<Array<Turn>>> = MutableLiveData()
     val tictactoeBoard: LiveData<Array<Array<Turn>>> = _tictactoeBoard
@@ -22,6 +29,11 @@ class TictactocViewModel : ViewModel() {
 
     init {
         setBoardFromMap()
+    }
+
+    fun onSetGameMode(gameMode: GameMode) {
+        _gameGameMode.value = gameMode
+        onRestBoard()
     }
 
     fun onSetBoardPoint(tictactocCell: TictactocCell) {
