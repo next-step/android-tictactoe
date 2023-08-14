@@ -25,19 +25,13 @@ class TictactocActivity : AppCompatActivity() {
     }
 
     private fun observerToastMessage() {
-        viewModel.tictactocToastMessage.observe(this) { toastMessage ->
-            when (toastMessage) {
-                TictactocToastMessage.WrongClick -> showToastMessage(R.string.wrong_click)
-                TictactocToastMessage.GameOver -> showToastMessage(R.string.game_over)
-                TictactocToastMessage.XWin -> showToastMessage(R.string.x_win)
-                TictactocToastMessage.OWin -> showToastMessage(R.string.o_win)
-                TictactocToastMessage.Tie -> showToastMessage(R.string.tie)
-            }
+        viewModel.tictactocToastMessage.observe(this) {
+            showToastMessage(getString(it.resId))
         }
     }
 
-    private fun showToastMessage(resId: Int) {
-        Toast.makeText(this, getString(resId), Toast.LENGTH_SHORT).show()
+    private fun showToastMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
