@@ -54,7 +54,7 @@ class TictactocViewModel : ViewModel() {
             else -> {
                 tictactoe.changeTurn()
                 setBoardFromMap()
-                isFinishGame(gameResult = gameResult)
+                gameResultToastEvent(gameResult = gameResult)
             }
         }
     }
@@ -64,7 +64,7 @@ class TictactocViewModel : ViewModel() {
         setBoardFromMap()
     }
 
-    private fun isFinishGame(gameResult: GameResult) {
+    private fun gameResultToastEvent(gameResult: GameResult) {
         when (gameResult) {
             GameResult.X_WIN -> _tictactocToastMessage.value = Event(TictactocToastMessage.XWin)
             GameResult.O_WIN -> _tictactocToastMessage.value = Event(TictactocToastMessage.OWin)
