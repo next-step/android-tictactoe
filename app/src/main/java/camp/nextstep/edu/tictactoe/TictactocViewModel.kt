@@ -5,7 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import camp.nextstep.edu.tictactoe.model.TictactocCell
 import camp.nextstep.edu.tictactoe.utils.Event
-import com.nextstep.edu.tictactoe.domain.GameResultManager
+import com.nextstep.edu.tictactoe.domain.PlayerTictactoc
+import com.nextstep.edu.tictactoe.domain.RandomTictactoc
 import com.nextstep.edu.tictactoe.domain.Tictactoe
 import com.nextstep.edu.tictactoe.domain.model.GameMode
 import com.nextstep.edu.tictactoe.domain.model.GameResult
@@ -13,11 +14,7 @@ import com.nextstep.edu.tictactoe.domain.model.Turn
 
 class TictactocViewModel : ViewModel() {
 
-    private var tictactoe = Tictactoe(
-        gameMode = GameMode.TWO_PLAYER,
-        currentTurn = Turn.X,
-        gameResultManager = GameResultManager()
-    )
+    private var tictactoe: Tictactoe = PlayerTictactoc()
 
     private val _tictactoeBoard: MutableLiveData<Array<Array<Turn>>> = MutableLiveData()
     val tictactoeBoard: LiveData<Array<Array<Turn>>> = _tictactoeBoard
@@ -30,11 +27,11 @@ class TictactocViewModel : ViewModel() {
     }
 
     fun onSetGameMode(gameMode: GameMode) {
-        tictactoe = Tictactoe(
-            gameMode = gameMode,
-            currentTurn = Turn.X,
-            gameResultManager = GameResultManager()
-        )
+        tictactoe = when (gameMode) {
+            GameMode.TWO_PLAYER -> PlayerTictactoc()
+            GameMode.RANDOM -> RandomTictactoc()
+            else -> PlayerTictactoc()
+        }
         onRestBoard()
     }
 

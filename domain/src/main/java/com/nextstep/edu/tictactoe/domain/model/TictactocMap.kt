@@ -1,11 +1,21 @@
 package com.nextstep.edu.tictactoe.domain.model
 
+import com.nextstep.edu.tictactoe.domain.Tictactoe.Companion.MAP_SIZE
+
 class TictactocMap {
 
     private lateinit var map: Array<Array<Turn>>
 
-    fun createBoard(size: Int) {
-        map = Array(size) { Array(size) { Turn.UNKNOWN } }
+    init {
+        createMap()
+    }
+
+    private fun createMap() {
+        map = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
+    }
+
+    fun resetMap() {
+        map = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
     }
 
     fun setMapRowColumn(row: Int, column: Int, turn: Turn) {
@@ -18,5 +28,9 @@ class TictactocMap {
 
     fun getMap(): Array<Array<Turn>> {
         return map
+    }
+
+    fun validData(point: Point, isFinish: Boolean): Boolean {
+        return !(map[point.row][point.column] != Turn.UNKNOWN || isFinish)
     }
 }

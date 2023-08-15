@@ -1,27 +1,20 @@
 package com.nextstep.edu.tictactoe.domain
 
-import com.nextstep.edu.tictactoe.domain.model.GameMode
-import com.nextstep.edu.tictactoe.domain.model.TictactocMap
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
+import com.nextstep.edu.tictactoe.domain.model.TictactocMap
 import com.nextstep.edu.tictactoe.domain.model.Turn
 
-class Tictactoe constructor(
-    private val gameMode: GameMode,
-    private var currentTurn: Turn = Turn.X,
-    private val gameResultManager: GameResultManager
-) {
+abstract class Tictactoe {
 
-    private val tictactocMap = TictactocMap()
+    abstract fun put(point: Point): GameResult
 
-    init {
-        tictactocMap.createBoard(MAP_SIZE)
-    }
-
-    var isFinish: Boolean = false
-        private set
-
+    private val gameResultManager = GameResultManager()
+    private val tictactocMap: TictactocMap = TictactocMap()
     private var count: Int = 0
+    private var currentTurn: Turn = Turn.X
+
+    protected var isFinish: Boolean = false
 
     fun getMap(): Array<Array<Turn>> {
         return tictactocMap.getMap()
@@ -31,39 +24,11 @@ class Tictactoe constructor(
         return currentTurn
     }
 
-    private fun isValidData(point: Point): Boolean {
-        return !(tictactocMap.getMapRowColumn(row = point.row, column = point.column) != Turn.UNKNOWN || isFinish)
+    protected fun isValidData(point: Point): Boolean {
+        return tictactocMap.validData(point = point, isFinish = isFinish)
     }
 
-    fun put(point: Point): GameResult {
-        if (!isValidData(point)) {
-            return if (isFinish) GameResult.FINISH_GAME else GameResult.INVALID_POSITION
-        }
-
-        var gameResult = getGameResult(point = point)
-
-        if (gameResult == GameResult.UNKNOWN && gameMode == GameMode.RANDOM) {
-            gameResult = randomPut(point = point)
-        }
-
-        return gameResult
-    }
-
-    private fun randomPut(point: Point): GameResult {
-        changeTurn()
-        val range = (0 until MAP_SIZE)
-
-        var randomPoint = point
-        while (!isValidData(randomPoint)) {
-            val row = range.random()
-            val column = range.random()
-            randomPoint = Point.of(row = row, column = column)
-        }
-
-        return getGameResult(point = randomPoint)
-    }
-
-    private fun getGameResult(point: Point): GameResult {
+    protected fun getGameResult(point: Point): GameResult {
         tictactocMap.setMapRowColumn(row = point.row, column = point.column, turn = currentTurn)
         count++
         val gameResult = gameResultManager.getTurnResult(point, tictactocMap.getMap(), currentTurn, count)
@@ -75,7 +40,7 @@ class Tictactoe constructor(
         isFinish = false
         count = 0
         currentTurn = Turn.X
-        tictactocMap.createBoard(MAP_SIZE)
+        tictactocMap.resetMap()
     }
 
     fun changeTurn() {

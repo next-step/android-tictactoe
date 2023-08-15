@@ -1,10 +1,9 @@
 package com.nextstep.edu.tictactoe.domain
 
-import com.nextstep.edu.tictactoe.domain.model.GameMode
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
 import com.nextstep.edu.tictactoe.domain.model.Turn
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
@@ -14,7 +13,7 @@ class TictactoeTest {
 
     @Before
     fun setUp() {
-        tictactoe = Tictactoe(gameMode = GameMode.TWO_PLAYER, Turn.X, GameResultManager())
+        tictactoe = PlayerTictactoc()
     }
 
     @Test
