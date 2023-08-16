@@ -3,6 +3,7 @@ package camp.nextstep.edu.tictactoe
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import camp.nextstep.edu.tictactoe.model.Board
 import camp.nextstep.edu.tictactoe.model.TictactocCell
 import camp.nextstep.edu.tictactoe.utils.Event
 import com.nextstep.edu.tictactoe.domain.PlayerTictactoc
@@ -10,21 +11,16 @@ import com.nextstep.edu.tictactoe.domain.RandomTictactoc
 import com.nextstep.edu.tictactoe.domain.Tictactoe
 import com.nextstep.edu.tictactoe.domain.model.GameMode
 import com.nextstep.edu.tictactoe.domain.model.GameResult
-import com.nextstep.edu.tictactoe.domain.model.Turn
 
 class TictactocViewModel : ViewModel() {
 
     private var tictactoe: Tictactoe = PlayerTictactoc()
 
-    private val _tictactoeBoard: MutableLiveData<Array<Array<Turn>>> = MutableLiveData()
-    val tictactoeBoard: LiveData<Array<Array<Turn>>> = _tictactoeBoard
-
     private val _tictactocToastMessage: MutableLiveData<Event<TictactocToastMessage>> = MutableLiveData()
     val tictactocToastMessage: LiveData<Event<TictactocToastMessage>> = _tictactocToastMessage
 
-    init {
-        setBoardFromMap()
-    }
+    private val _tictactocBoard: MutableLiveData<Board> = MutableLiveData(Board.Empty())
+    val tictactocBoard: LiveData<Board> = _tictactocBoard
 
     fun onSetGameMode(gameMode: GameMode) {
         tictactoe = when (gameMode) {
@@ -71,6 +67,6 @@ class TictactocViewModel : ViewModel() {
     }
 
     private fun setBoardFromMap() {
-        _tictactoeBoard.value = tictactoe.getMap()
+        _tictactocBoard.value = Board.NotEmpty(tictactoe.getMap())
     }
 }
