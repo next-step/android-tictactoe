@@ -6,7 +6,11 @@ data class Board(
 ) {
 
 	operator fun set(point: Point, marker: Marker): Board {
-		return this.copy(map = map + mapOf(point to marker))
+		return if (map.contains(point)) {
+			this
+		} else {
+			this.copy(map = map + mapOf(point to marker))
+		}
 	}
 
 	fun clear(): Board {
@@ -15,5 +19,7 @@ data class Board(
 
 	companion object {
 		const val DEFAULT_SIZE = 3
+
+		val EMPTY = Board()
 	}
 }
