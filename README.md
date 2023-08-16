@@ -5,6 +5,12 @@
         * [x] 앱을 시작하면 랜덤 모드로 시작한다.
         * [x] 유저는 X를 표기하고 AI는 O를 표기한다.
         * [x] AI는 남은 칸 중에서 랜덤으로 표기한다.
+    * 1차 피드백
+        * [x] showToastMessage 함수 @StringRes 에노테이션 추가
+        * [x] isFinish 함수명 수정(기능에 맞는 함수명으로)
+        * [x] activity_tictactoc 내부 variable -> import로 수정(잘못된 값을 참조할 수 있으므로)
+        * [x] Random, Player 기능을 하는 클래스 Tictactoc 상속 이용
+        * [x] tictactocBoard 이중 배열 타입으로 지정되어 있던 내용 Board 클래스로 수정
 
 # Step1(2023-08-13) #
     * 틱택토(2인)
