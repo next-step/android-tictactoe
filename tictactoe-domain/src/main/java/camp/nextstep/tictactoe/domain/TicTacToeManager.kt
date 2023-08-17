@@ -2,16 +2,13 @@ package camp.nextstep.tictactoe.domain
 
 class TicTacToeManager(initMode: Mode) {
 
-	var mode: Mode = initMode
-		private set
+	private var mode: Mode = initMode
+	private var currentPlayer: Player = mode.getFirst()
 
-	fun mark(player: Player, point: Point, board: Board): Board {
-		return when (player) {
-			is Player.Person -> markByPerson(player, point, board)
-		}
-	}
+	fun mark(point: Point, board: Board): Board {
+		val newBoard = board.set(point, currentPlayer.marker)
+		currentPlayer = mode.getNext(currentPlayer)
 
-	private fun markByPerson(player: Player, point: Point, board: Board): Board {
-		return board.set(point, player.marker)
+		return newBoard
 	}
 }
