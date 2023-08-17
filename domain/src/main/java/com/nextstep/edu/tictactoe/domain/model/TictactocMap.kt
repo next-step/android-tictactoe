@@ -4,15 +4,7 @@ import com.nextstep.edu.tictactoe.domain.Tictactoe.Companion.MAP_SIZE
 
 class TictactocMap {
 
-    private lateinit var map: Array<Array<Turn>>
-
-    init {
-        createMap()
-    }
-
-    private fun createMap() {
-        map = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
-    }
+    private var map: Array<Array<Turn>> = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
 
     fun resetMap() {
         map = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
