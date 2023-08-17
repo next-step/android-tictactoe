@@ -3,70 +3,70 @@ package camp.nextstep.edu.tictactoe
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import camp.nextstep.edu.tictactoe.model.Board
+import camp.nextstep.edu.tictactoe.model.TictactocCell
 import camp.nextstep.edu.tictactoe.utils.Event
-import com.nextstep.edu.tictactoe.domain.GameResultManager
+import com.nextstep.edu.tictactoe.domain.PlayerTictactoc
+import com.nextstep.edu.tictactoe.domain.RandomTictactoc
 import com.nextstep.edu.tictactoe.domain.Tictactoe
+import com.nextstep.edu.tictactoe.domain.model.GameMode
 import com.nextstep.edu.tictactoe.domain.model.GameResult
-import com.nextstep.edu.tictactoe.domain.model.Point
-import com.nextstep.edu.tictactoe.domain.model.Turn
 
 class TictactocViewModel : ViewModel() {
 
-    private val tictactoe = Tictactoe(Turn.X, GameResultManager())
+    private var tictactoe: Tictactoe = PlayerTictactoc()
 
-    private val _tictactoeBoard = Array(MAP_SIZE) { Array(MAP_SIZE) { MutableLiveData<Turn>(Turn.UNKNOWN) } }
+    private val _tictactocToastMessage: MutableLiveData<Event<TictactocToastMessage>> = MutableLiveData()
+    val tictactocToastMessage: LiveData<Event<TictactocToastMessage>> = _tictactocToastMessage
 
-    val tictactoeBoard: Array<Array<LiveData<Turn>>> =
-        _tictactoeBoard.map { rowArray ->
-            rowArray.map { mutableLiveData ->
-                mutableLiveData as LiveData<Turn>
-            }.toTypedArray()
-        }.toTypedArray()
+    private val _tictactocBoard: MutableLiveData<Board> = MutableLiveData(Board.Empty())
+    val tictactocBoard: LiveData<Board> = _tictactocBoard
 
-    private val _tictactocToastMessage: MutableLiveData<TictactocToastMessage> = MutableLiveData()
-    val tictactocToastMessage: LiveData<TictactocToastMessage> = _tictactocToastMessage
+    fun onSetGameMode(gameMode: GameMode) {
+        tictactoe = when (gameMode) {
+            GameMode.TWO_PLAYER -> PlayerTictactoc()
+            GameMode.RANDOM -> RandomTictactoc()
+            else -> PlayerTictactoc()
+        }
+        onRestBoard()
+    }
 
-    fun onSetBoardPoint(point: Point) {
-        if (isInValidBoard(point)) return
+    fun onSetBoardPoint(tictactocCell: TictactocCell) {
+        val point = TictactocCell.toPoint(tictactocCell)
 
-        val (gameResult, gameState) = tictactoe.put(point)
-        tictactoe.changeTurn()
-
-        _tictactoeBoard[point.row][point.column].value = gameState.turn
-        isFinishGame(gameResult = gameResult)
+        val gameResult = tictactoe.put(point)
+        when (gameResult) {
+            GameResult.FINISH_GAME -> {
+                _tictactocToastMessage.value = Event(TictactocToastMessage.GameOver)
+                return
+            }
+            GameResult.INVALID_POSITION -> {
+                _tictactocToastMessage.value = Event(TictactocToastMessage.WrongClick)
+                return
+            }
+            else -> {
+                tictactoe.changeTurn()
+                setBoardFromMap()
+                gameResultToastEvent(gameResult = gameResult)
+            }
+        }
     }
 
     fun onRestBoard() {
         tictactoe.reset()
-        for (row in 0 until MAP_SIZE) {
-            for (column in 0 until MAP_SIZE) {
-                _tictactoeBoard[row][column].value = Turn.UNKNOWN
-            }
-        }
+        setBoardFromMap()
     }
 
-    private fun isInValidBoard(point: Point): Boolean {
-        if (!tictactoe.isValidData(point)) {
-            if (tictactoe.isFinish) {
-                _tictactocToastMessage.value = TictactocToastMessage.GameOver
-            } else {
-                _tictactocToastMessage.value = TictactocToastMessage.WrongClick
-            }
-            return true
-        }
-        return false
-    }
-
-    private fun isFinishGame(gameResult: GameResult) {
+    private fun gameResultToastEvent(gameResult: GameResult) {
         when (gameResult) {
-            GameResult.X_WIN -> _tictactocToastMessage.value = TictactocToastMessage.XWin
-            GameResult.O_WIN -> _tictactocToastMessage.value = TictactocToastMessage.OWin
-            GameResult.TIE -> _tictactocToastMessage.value = TictactocToastMessage.Tie
+            GameResult.X_WIN -> _tictactocToastMessage.value = Event(TictactocToastMessage.XWin)
+            GameResult.O_WIN -> _tictactocToastMessage.value = Event(TictactocToastMessage.OWin)
+            GameResult.TIE -> _tictactocToastMessage.value = Event(TictactocToastMessage.Tie)
             else -> {}
         }
     }
 
-    companion object {
-        const val MAP_SIZE = Tictactoe.MAP_SIZE
+    private fun setBoardFromMap() {
+        _tictactocBoard.value = Board.NotEmpty(tictactoe.getMap())
     }
 }

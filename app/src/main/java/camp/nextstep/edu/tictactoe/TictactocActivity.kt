@@ -5,8 +5,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import camp.nextstep.edu.tictactoe.databinding.ActivityTictactocBinding
+import com.nextstep.edu.tictactoe.domain.model.GameMode
 
 class TictactocActivity : AppCompatActivity() {
 
@@ -20,23 +22,23 @@ class TictactocActivity : AppCompatActivity() {
             lifecycleOwner = this@TictactocActivity
         }
         setContentView(binding.root)
-
+        viewModel.onSetGameMode(gameMode = GameMode.RANDOM)
         observerToastMessage()
     }
 
     private fun observerToastMessage() {
-        viewModel.tictactocToastMessage.observe(this) { toastMessage ->
-            when (toastMessage) {
-                TictactocToastMessage.WrongClick -> showToastMessage(R.string.wrong_click)
-                TictactocToastMessage.GameOver -> showToastMessage(R.string.game_over)
-                TictactocToastMessage.XWin -> showToastMessage(R.string.x_win)
-                TictactocToastMessage.OWin -> showToastMessage(R.string.o_win)
-                TictactocToastMessage.Tie -> showToastMessage(R.string.tie)
+        viewModel.tictactocToastMessage.observe(this) { event ->
+            event.consume()?.let {
+                showToastMessage(it.resId)
             }
         }
     }
 
-    private fun showToastMessage(resId: Int) {
+    private fun showToastMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showToastMessage(@StringRes resId: Int) {
         Toast.makeText(this, getString(resId), Toast.LENGTH_SHORT).show()
     }
 
@@ -47,12 +49,18 @@ class TictactocActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_two ->
-                Toast.makeText(this, "TODO: 2인 모드로 전환", Toast.LENGTH_SHORT).show()
-            R.id.menu_random ->
-                Toast.makeText(this, "TODO: 랜덤 모드로 전환", Toast.LENGTH_SHORT).show()
-            R.id.menu_draw ->
-                Toast.makeText(this, "TODO: 무승부 모드로 전환", Toast.LENGTH_SHORT).show()
+            R.id.menu_two -> {
+                showToastMessage(R.string.game_mode_two_player)
+                viewModel.onSetGameMode(gameMode = GameMode.TWO_PLAYER)
+            }
+            R.id.menu_random -> {
+                showToastMessage(R.string.game_mode_random_player)
+                viewModel.onSetGameMode(gameMode = GameMode.RANDOM)
+            }
+            R.id.menu_draw -> {
+                showToastMessage(R.string.game_mode_tie_player)
+                viewModel.onSetGameMode(gameMode = GameMode.TIE)
+            }
         }
         return true
     }

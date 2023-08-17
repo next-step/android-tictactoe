@@ -5,4 +5,7 @@
     <string name="x_win">X 승리</string>
     <string name="o_win">O 승리</string>
     <string name="tie">무승부</string>
+    <string name="game_mode_two_player">2인 모드</string>
+    <string name="game_mode_random_player">랜덤 모드</string>
+    <string name="game_mode_tie_player">무승부 모드</string>
 </resources>

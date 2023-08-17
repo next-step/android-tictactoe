@@ -8,9 +8,7 @@
 
         <import type="android.view.View" />
 
-        <variable
-            name="point"
-            type="com.nextstep.edu.tictactoe.domain.model.Point" />
+        <import type="camp.nextstep.edu.tictactoe.model.TictactocCell" />
 
         <variable
             name="viewmodel"
@@ -43,8 +41,8 @@
             android:background="?attr/selectableItemBackground"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black"
-            android:onClick="@{() -> viewmodel.onSetBoardPoint(point.CellTopLeft)}"
-            app:drawPoint="@{viewmodel.tictactoeBoard[0][0]}" />
+            android:onClick="@{() -> viewmodel.onSetBoardPoint(TictactocCell.CellTopLeft)}"
+            app:drawPoint="@{viewmodel.tictactocBoard.getBoardRowColumn(TictactocCell.CellTopLeft)}" />
 
         <ImageView
             android:id="@+id/cell_top"
@@ -53,8 +51,8 @@
             android:background="?attr/selectableItemBackground"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black"
-            android:onClick="@{() -> viewmodel.onSetBoardPoint(point.CellTop)}"
-            app:drawPoint="@{viewmodel.tictactoeBoard[0][1]}" />
+            android:onClick="@{() -> viewmodel.onSetBoardPoint(TictactocCell.CellTop)}"
+            app:drawPoint="@{viewmodel.tictactocBoard.getBoardRowColumn(TictactocCell.CellTop)}" />
 
         <ImageView
             android:id="@+id/cell_top_right"
@@ -63,8 +61,8 @@
             android:background="?attr/selectableItemBackground"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black"
-            android:onClick="@{() -> viewmodel.onSetBoardPoint(point.CellTopRight)}"
-            app:drawPoint="@{viewmodel.tictactoeBoard[0][2]}" />
+            android:onClick="@{() -> viewmodel.onSetBoardPoint(TictactocCell.CellTopRight)}"
+            app:drawPoint="@{viewmodel.tictactocBoard.getBoardRowColumn(TictactocCell.CellTopRight)}" />
 
         <ImageView
             android:id="@+id/cell_middle_left"
@@ -73,8 +71,8 @@
             android:background="?attr/selectableItemBackground"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black"
-            android:onClick="@{() -> viewmodel.onSetBoardPoint(point.CellMiddleLeft)}"
-            app:drawPoint="@{viewmodel.tictactoeBoard[1][0]}" />
+            android:onClick="@{() -> viewmodel.onSetBoardPoint(TictactocCell.CellMiddleLeft)}"
+            app:drawPoint="@{viewmodel.tictactocBoard.getBoardRowColumn(TictactocCell.CellMiddleLeft)}" />
 
         <ImageView
             android:id="@+id/cell_middle"
@@ -83,8 +81,8 @@
             android:background="?attr/selectableItemBackground"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black"
-            android:onClick="@{() -> viewmodel.onSetBoardPoint(point.CellMiddle)}"
-            app:drawPoint="@{viewmodel.tictactoeBoard[1][1]}" />
+            android:onClick="@{() -> viewmodel.onSetBoardPoint(TictactocCell.CellMiddle)}"
+            app:drawPoint="@{viewmodel.tictactocBoard.getBoardRowColumn(TictactocCell.CellMiddle)}" />
 
         <ImageView
             android:id="@+id/cell_middle_right"
@@ -93,8 +91,8 @@
             android:background="?attr/selectableItemBackground"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black"
-            android:onClick="@{() -> viewmodel.onSetBoardPoint(point.CellMiddleRight)}"
-            app:drawPoint="@{viewmodel.tictactoeBoard[1][2]}" />
+            android:onClick="@{() -> viewmodel.onSetBoardPoint(TictactocCell.CellMiddleRight)}"
+            app:drawPoint="@{viewmodel.tictactocBoard.getBoardRowColumn(TictactocCell.CellMiddleRight)}" />
 
         <ImageView
             android:id="@+id/cell_bottom_left"
@@ -103,8 +101,8 @@
             android:background="?attr/selectableItemBackground"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black"
-            android:onClick="@{() -> viewmodel.onSetBoardPoint(point.CellBottomLeft)}"
-            app:drawPoint="@{viewmodel.tictactoeBoard[2][0]}" />
+            android:onClick="@{() -> viewmodel.onSetBoardPoint(TictactocCell.CellBottomLeft)}"
+            app:drawPoint="@{viewmodel.tictactocBoard.getBoardRowColumn(TictactocCell.CellBottomLeft)}" />
 
         <ImageView
             android:id="@+id/cell_bottom"
@@ -113,8 +111,8 @@
             android:background="?attr/selectableItemBackground"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black"
-            android:onClick="@{() -> viewmodel.onSetBoardPoint(point.CellBottom)}"
-            app:drawPoint="@{viewmodel.tictactoeBoard[2][1]}" />
+            android:onClick="@{() -> viewmodel.onSetBoardPoint(TictactocCell.CellBottom)}"
+            app:drawPoint="@{viewmodel.tictactocBoard.getBoardRowColumn(TictactocCell.CellBottom)}" />
 
         <ImageView
             android:id="@+id/cell_bottom_right"
@@ -123,8 +121,8 @@
             android:background="?attr/selectableItemBackground"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black"
-            android:onClick="@{() -> viewmodel.onSetBoardPoint(point.CellBottomRight)}"
-            app:drawPoint="@{viewmodel.tictactoeBoard[2][2]}" />
+            android:onClick="@{() -> viewmodel.onSetBoardPoint(TictactocCell.CellBottomRight)}"
+            app:drawPoint="@{viewmodel.tictactocBoard.getBoardRowColumn(TictactocCell.CellBottomRight)}" />
         <!-- endregion -->
 
         <!-- region Divider -->

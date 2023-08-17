@@ -2,44 +2,45 @@ package com.nextstep.edu.tictactoe.domain
 
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
-import com.nextstep.edu.tictactoe.domain.model.Status
+import com.nextstep.edu.tictactoe.domain.model.TictactocMap
 import com.nextstep.edu.tictactoe.domain.model.Turn
 
-class Tictactoe constructor(
-    private var currentTurn: Turn = Turn.X,
-    private val gameResultManager: GameResultManager
-) {
+abstract class Tictactoe {
 
-    private var map = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
+    abstract fun put(point: Point): GameResult
 
-    var isFinish: Boolean = false
-        private set
-
+    private val gameResultManager = GameResultManager()
+    private val tictactocMap: TictactocMap = TictactocMap()
     private var count: Int = 0
+    private var currentTurn: Turn = Turn.X
+
+    protected var isFinish: Boolean = false
+
+    fun getMap(): Array<Array<Turn>> {
+        return tictactocMap.getMap()
+    }
 
     fun getCurrentTurn(): Turn {
         return currentTurn
     }
 
-    fun isValidData(point: Point): Boolean {
-        return !(map[point.row][point.column] != Turn.UNKNOWN || isFinish)
+    protected fun isValidData(point: Point): Boolean {
+        return tictactocMap.validData(point = point, isFinish = isFinish)
     }
 
-    fun put(point: Point): Pair<GameResult, Status> {
-        val r = point.row
-        val c = point.column
-        map[r][c] = currentTurn
+    protected fun getGameResult(point: Point): GameResult {
+        tictactocMap.setMapRowColumn(row = point.row, column = point.column, turn = currentTurn)
         count++
-        val result = gameResultManager.getTurnResult(point, map, currentTurn, count)
-        isFinish = result.first != GameResult.UNKNOWN
-        return result
+        val gameResult = gameResultManager.getTurnResult(point, tictactocMap.getMap(), currentTurn, count)
+        isFinish = gameResult != GameResult.UNKNOWN
+        return gameResult
     }
 
     fun reset() {
         isFinish = false
         count = 0
         currentTurn = Turn.X
-        map = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
+        tictactocMap.resetMap()
     }
 
     fun changeTurn() {
