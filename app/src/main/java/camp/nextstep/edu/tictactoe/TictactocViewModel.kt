@@ -19,7 +19,7 @@ class TictactocViewModel : ViewModel() {
     private val _tictactocToastMessage: MutableLiveData<Event<TictactocToastMessage>> = MutableLiveData()
     val tictactocToastMessage: LiveData<Event<TictactocToastMessage>> = _tictactocToastMessage
 
-    private val _tictactocBoard: MutableLiveData<Board> = MutableLiveData(Board.Empty())
+    private val _tictactocBoard: MutableLiveData<Board> = MutableLiveData(Board.Empty)
     val tictactocBoard: LiveData<Board> = _tictactocBoard
 
     fun onSetGameMode(gameMode: GameMode) {

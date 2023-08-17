@@ -7,9 +7,9 @@ sealed class Board {
 
     abstract val map: Array<Array<Turn>>
 
-    class Empty(
+    object Empty : Board() {
         override val map: Array<Array<Turn>> = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
-    ): Board()
+    }
 
     class NotEmpty(
         override val map: Array<Array<Turn>>
