@@ -11,7 +11,6 @@ abstract class Tictactoe {
 
     private val gameResultManager = GameResultManager()
     private val tictactocMap: TictactocMap = TictactocMap()
-    private var count: Int = 0
     private var currentTurn: Turn = Turn.X
 
     protected var isFinish: Boolean = false
@@ -30,15 +29,13 @@ abstract class Tictactoe {
 
     protected fun getGameResult(point: Point): GameResult {
         tictactocMap.setMapRowColumn(row = point.row, column = point.column, turn = currentTurn)
-        count++
-        val gameResult = gameResultManager.getTurnResult(point, tictactocMap.getMap(), currentTurn, count)
+        val gameResult = gameResultManager.getTurnResult(point, tictactocMap.getMap(), currentTurn)
         isFinish = gameResult != GameResult.UNKNOWN
         return gameResult
     }
 
     fun reset() {
         isFinish = false
-        count = 0
         currentTurn = Turn.X
         tictactocMap.resetMap()
     }

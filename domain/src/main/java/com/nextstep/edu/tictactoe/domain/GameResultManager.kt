@@ -9,8 +9,7 @@ class GameResultManager {
     fun getTurnResult(
         point: Point,
         map: Array<Array<Turn>>,
-        currentTurn: Turn,
-        count: Int
+        currentTurn: Turn
     ): GameResult {
         val row = point.row
         val column = point.column
@@ -33,12 +32,17 @@ class GameResultManager {
 
         val existWinner = listOf(rowSum, columnSum, leftDiagonalSum, rightDiagonalSum).contains(Tictactoe.MAP_SIZE)
 
+        var emptyBlock = 0
+        for (i in 0 until 3) {
+            emptyBlock += map[i].filter { it == Turn.UNKNOWN }.size
+        }
+
         val result =
             if (existWinner && currentTurn == Turn.X) {
                 GameResult.X_WIN
             } else if (existWinner && currentTurn == Turn.O) {
                 GameResult.O_WIN
-            } else if (!existWinner && (count == Tictactoe.MAP_SIZE * Tictactoe.MAP_SIZE)) {
+            } else if (!existWinner && emptyBlock == 0) {
                 GameResult.TIE
             } else {
                 GameResult.UNKNOWN
