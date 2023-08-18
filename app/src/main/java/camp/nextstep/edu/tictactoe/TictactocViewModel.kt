@@ -68,6 +68,6 @@ class TictactocViewModel : ViewModel() {
     }
 
     private fun setBoardFromMap() {
-        _tictactocBoard.value = Board.NotEmpty(tictactoe.getMap())
+        _tictactocBoard.value = Board(tictactoe.getMap())
     }
 }
