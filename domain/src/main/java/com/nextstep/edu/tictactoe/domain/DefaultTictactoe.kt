@@ -5,9 +5,8 @@ import com.nextstep.edu.tictactoe.domain.model.Point
 import com.nextstep.edu.tictactoe.domain.model.TictactocMap
 import com.nextstep.edu.tictactoe.domain.model.Turn
 
-abstract class Tictactoe {
+abstract class DefaultTictactoe: TictactocPut {
 
-    abstract fun put(point: Point): GameResult
     private val tictactocMap: TictactocMap = TictactocMap()
     private var currentTurn: Turn = Turn.X
 

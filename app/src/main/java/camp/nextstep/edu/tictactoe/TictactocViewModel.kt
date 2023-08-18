@@ -9,13 +9,13 @@ import camp.nextstep.edu.tictactoe.utils.Event
 import com.nextstep.edu.tictactoe.domain.PlayerTictactoc
 import com.nextstep.edu.tictactoe.domain.RandomMiddleTictactoc
 import com.nextstep.edu.tictactoe.domain.RandomTictactoc
-import com.nextstep.edu.tictactoe.domain.Tictactoe
+import com.nextstep.edu.tictactoe.domain.DefaultTictactoe
 import com.nextstep.edu.tictactoe.domain.model.GameMode
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 
 class TictactocViewModel : ViewModel() {
 
-    private var tictactoe: Tictactoe = PlayerTictactoc()
+    private var tictactoe: DefaultTictactoe = PlayerTictactoc()
 
     private val _tictactocToastMessage: MutableLiveData<Event<TictactocToastMessage>> = MutableLiveData()
     val tictactocToastMessage: LiveData<Event<TictactocToastMessage>> = _tictactocToastMessage

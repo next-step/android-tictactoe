@@ -9,7 +9,7 @@ import org.junit.Test
 
 class TictactoeTest {
 
-    lateinit var tictactoe: Tictactoe
+    lateinit var tictactoe: PlayerTictactoc
 
     @Before
     fun setUp() {
