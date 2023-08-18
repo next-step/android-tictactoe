@@ -5,9 +5,11 @@ import com.nextstep.edu.tictactoe.domain.DefaultTictactoe.Companion.MAP_SIZE
 class TictactocMap {
 
     private var map: Array<Array<Turn>> = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
+    private var isFinish: Boolean = false
 
     fun resetMap() {
         map = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
+        isFinish = false
     }
 
     fun getGameResultFromSetMapPoint(point: Point, turn: Turn): GameResult {
@@ -23,8 +25,12 @@ class TictactocMap {
         return map
     }
 
-    fun validData(point: Point, isFinish: Boolean): Boolean {
+    fun validData(point: Point): Boolean {
         return !(map[point.row][point.column] != Turn.UNKNOWN || isFinish)
+    }
+
+    fun getIsFinish(): Boolean {
+        return isFinish
     }
 
     private fun getGameResult(
@@ -60,12 +66,16 @@ class TictactocMap {
 
         val result =
             if (existWinner && currentTurn == Turn.X) {
+                isFinish = true
                 GameResult.X_WIN
             } else if (existWinner && currentTurn == Turn.O) {
+                isFinish = true
                 GameResult.O_WIN
             } else if (!existWinner && emptyBlock == 0) {
+                isFinish = true
                 GameResult.TIE
             } else {
+                isFinish = false
                 GameResult.UNKNOWN
             }
         return result

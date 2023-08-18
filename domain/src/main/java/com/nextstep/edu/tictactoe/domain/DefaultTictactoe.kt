@@ -7,10 +7,8 @@ import com.nextstep.edu.tictactoe.domain.model.Turn
 
 abstract class DefaultTictactoe: TictactocPut {
 
-    private val tictactocMap: TictactocMap = TictactocMap()
+    protected val tictactocMap: TictactocMap = TictactocMap()
     private var currentTurn: Turn = Turn.X
-
-    protected var isFinish: Boolean = false
 
     fun getMap(): Array<Array<Turn>> {
         return tictactocMap.getMap()
@@ -21,17 +19,14 @@ abstract class DefaultTictactoe: TictactocPut {
     }
 
     protected fun isValidData(point: Point): Boolean {
-        return tictactocMap.validData(point = point, isFinish = isFinish)
+        return tictactocMap.validData(point = point)
     }
 
     protected fun getGameResult(point: Point): GameResult {
-        val gameResult = tictactocMap.getGameResultFromSetMapPoint(point = point, turn = currentTurn)
-        isFinish = gameResult != GameResult.UNKNOWN
-        return gameResult
+        return tictactocMap.getGameResultFromSetMapPoint(point = point, turn = currentTurn)
     }
 
     fun reset() {
-        isFinish = false
         currentTurn = Turn.X
         tictactocMap.resetMap()
     }

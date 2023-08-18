@@ -7,7 +7,7 @@ class PlayerTictactoc: DefaultTictactoe() {
 
     override fun put(point: Point): GameResult {
         if (!isValidData(point)) {
-            return if (isFinish) GameResult.FINISH_GAME else GameResult.INVALID_POSITION
+            return if (tictactocMap.getIsFinish()) GameResult.FINISH_GAME else GameResult.INVALID_POSITION
         }
 
         return getGameResult(point = point)
