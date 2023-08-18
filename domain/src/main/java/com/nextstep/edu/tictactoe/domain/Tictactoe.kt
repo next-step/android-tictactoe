@@ -8,8 +8,6 @@ import com.nextstep.edu.tictactoe.domain.model.Turn
 abstract class Tictactoe {
 
     abstract fun put(point: Point): GameResult
-
-    private val gameResultManager = GameResultManager()
     private val tictactocMap: TictactocMap = TictactocMap()
     private var currentTurn: Turn = Turn.X
 
@@ -28,8 +26,7 @@ abstract class Tictactoe {
     }
 
     protected fun getGameResult(point: Point): GameResult {
-        tictactocMap.setMapRowColumn(row = point.row, column = point.column, turn = currentTurn)
-        val gameResult = gameResultManager.getTurnResult(point, tictactocMap.getMap(), currentTurn)
+        val gameResult = tictactocMap.getGameResultFromSetMapPoint(point = point, turn = currentTurn)
         isFinish = gameResult != GameResult.UNKNOWN
         return gameResult
     }
