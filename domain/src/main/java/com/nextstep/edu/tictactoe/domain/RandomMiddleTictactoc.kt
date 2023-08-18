@@ -1,7 +1,9 @@
 package com.nextstep.edu.tictactoe.domain
 
+import com.nextstep.edu.tictactoe.domain.model.Behavior
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
+import com.nextstep.edu.tictactoe.domain.model.RandomBehavior
 import com.nextstep.edu.tictactoe.domain.model.TictactocMap
 import com.nextstep.edu.tictactoe.domain.model.Turn
 
@@ -156,13 +158,4 @@ class RandomMiddleTictactoc : TictactocStrategy {
             else -> RandomBehavior(behavior = Behavior.UNKNOWN, putPoint)
         }
     }
-}
-
-data class RandomBehavior(
-    val behavior: Behavior,
-    val point: Point
-)
-
-enum class Behavior {
-    INTERRUPT, WIN, UNKNOWN
 }
