@@ -15,7 +15,7 @@ abstract class DefaultTictactoe: TictactocPut {
     }
 
     fun getCurrentTurn(): Turn {
-        return currentTurn
+        return tictactocMap.getCurrentTurn()
     }
 
     protected fun isValidData(point: Point): Boolean {
@@ -23,17 +23,15 @@ abstract class DefaultTictactoe: TictactocPut {
     }
 
     protected fun getGameResult(point: Point): GameResult {
-        return tictactocMap.getGameResultFromSetMapPoint(point = point, turn = currentTurn)
+        return tictactocMap.getGameResultFromSetMapPoint(point = point)
     }
 
     fun reset() {
-        currentTurn = Turn.X
         tictactocMap.resetMap()
     }
 
     fun changeTurn() {
-        currentTurn = if (currentTurn == Turn.X) Turn.O
-        else Turn.X
+        tictactocMap.changeTurn()
     }
 
     companion object {

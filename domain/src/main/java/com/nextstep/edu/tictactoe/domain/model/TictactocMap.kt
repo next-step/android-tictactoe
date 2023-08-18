@@ -5,16 +5,23 @@ import com.nextstep.edu.tictactoe.domain.DefaultTictactoe.Companion.MAP_SIZE
 class TictactocMap {
 
     private var map: Array<Array<Turn>> = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
+
     private var isFinish: Boolean = false
+    private var currentTurn: Turn = Turn.X
 
     fun resetMap() {
         map = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
         isFinish = false
+        currentTurn = Turn.X
     }
 
-    fun getGameResultFromSetMapPoint(point: Point, turn: Turn): GameResult {
-        map[point.row][point.column] = turn
-        return getGameResult(point = point, map = map, currentTurn = turn)
+    fun changeTurn() {
+        currentTurn = if (currentTurn == Turn.X) Turn.O else Turn.X
+    }
+
+    fun getGameResultFromSetMapPoint(point: Point): GameResult {
+        map[point.row][point.column] = currentTurn
+        return getGameResult(point = point, map = map, currentTurn = currentTurn)
     }
 
     fun getMapRowColumn(row: Int, column: Int): Turn {
@@ -31,6 +38,10 @@ class TictactocMap {
 
     fun getIsFinish(): Boolean {
         return isFinish
+    }
+
+    fun getCurrentTurn(): Turn {
+        return currentTurn
     }
 
     private fun getGameResult(
@@ -64,18 +75,16 @@ class TictactocMap {
             emptyBlock += map[i].filter { it == Turn.UNKNOWN }.size
         }
 
+        isFinish = (existWinner || (emptyBlock == 0))
+
         val result =
             if (existWinner && currentTurn == Turn.X) {
-                isFinish = true
                 GameResult.X_WIN
             } else if (existWinner && currentTurn == Turn.O) {
-                isFinish = true
                 GameResult.O_WIN
             } else if (!existWinner && emptyBlock == 0) {
-                isFinish = true
                 GameResult.TIE
             } else {
-                isFinish = false
                 GameResult.UNKNOWN
             }
         return result
