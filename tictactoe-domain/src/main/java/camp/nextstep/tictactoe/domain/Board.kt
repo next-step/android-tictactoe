@@ -6,9 +6,13 @@ data class Board(
 ) {
 	val totalMarkerCount = map.size
 
-	operator fun set(point: Point, marker: Marker): Board {
+	operator fun get(x: Int, y: Int): Marker? {
+		return map[Point(x, y)]
+	}
+
+	operator fun set(point: Point, marker: Marker): Board? {
 		return if (map.contains(point)) {
-			this
+			null
 		} else {
 			this.copy(map = map + mapOf(point to marker))
 		}

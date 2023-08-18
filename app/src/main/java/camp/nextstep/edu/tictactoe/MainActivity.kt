@@ -4,16 +4,30 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
+import camp.nextstep.tictactoe.domain.GameStatus
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.lifecycleOwner = this
+        binding.viewModel = mainViewModel
+
+        mainViewModel.gameStatus.observe(this) { gameStatus ->
+            when (gameStatus) {
+                is GameStatus.End -> Toast.makeText(this, "${gameStatus.winnerMarker} 승리", Toast.LENGTH_LONG).show()
+                is GameStatus.Draw -> Toast.makeText(this, "무승부", Toast.LENGTH_LONG).show()
+                else -> Unit
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

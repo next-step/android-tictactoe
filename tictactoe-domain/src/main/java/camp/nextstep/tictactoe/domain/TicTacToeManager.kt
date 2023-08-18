@@ -5,8 +5,8 @@ class TicTacToeManager(initMode: Mode) {
 	private var mode: Mode = initMode
 	private var currentPlayer: Player = mode.getFirst()
 
-	fun mark(point: Point, board: Board): Board {
-		val newBoard = board.set(point, currentPlayer.marker)
+	fun mark(point: Point, board: Board): Board? {
+		val newBoard = board.set(point, currentPlayer.marker) ?: return null
 		currentPlayer = mode.getNext(currentPlayer)
 
 		return newBoard
@@ -39,7 +39,7 @@ class TicTacToeManager(initMode: Mode) {
 		getWinner(board) { point -> point.x == point.y }?.let { return it }
 
 		// 오른쪽 -> 왼쪽 대각선
-		getWinner(board) { point -> point.x + point.y == board.size }?.let { return it }
+		getWinner(board) { point -> point.x + point.y == board.size - 1 }?.let { return it }
 
 		return null
 	}
@@ -63,5 +63,9 @@ class TicTacToeManager(initMode: Mode) {
 
 	private fun isDraw(board: Board): Boolean {
 		return board.totalMarkerCount == board.size * board.size
+	}
+
+	fun restart() {
+		currentPlayer = mode.getFirst()
 	}
 }

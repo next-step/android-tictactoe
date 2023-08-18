@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import camp.nextstep.tictactoe.domain.Board
 import camp.nextstep.tictactoe.domain.GameStatus
-import camp.nextstep.tictactoe.domain.Marker
 import camp.nextstep.tictactoe.domain.Mode
 import camp.nextstep.tictactoe.domain.Point
 import camp.nextstep.tictactoe.domain.TicTacToeManager
@@ -21,39 +20,21 @@ class MainViewModel : ViewModel() {
 	private val _board: MutableStateFlow<Board> = MutableStateFlow(Board.EMPTY)
 	val board: StateFlow<Board> = _board.asStateFlow()
 
-	private val _showWinner: MutableLiveData<Marker> = SingleLiveEvent()
-	val showWinner: LiveData<Marker>
-		get() = _showWinner
+	private val _gameStatus: MutableLiveData<GameStatus> = MutableLiveData()
+	val gameStatus: LiveData<GameStatus>
+		get() = _gameStatus
 
-	private val _showDraw: MutableLiveData<Unit> = SingleLiveEvent()
-	val showDraw: LiveData<Unit>
-		get() = _showDraw
-
-	fun mark(point: Point) {
-		val boardSnapshot = _board.value
-
-		val newBoard = ticTacToeManager.mark(point = point, board = boardSnapshot)
-		updateBoard(newBoard)
-
-		sendUiEventIfNeed(newBoard)
+	init {
+		_gameStatus.value = GameStatus.InProgress
 	}
 
-	private fun sendUiEventIfNeed(newBoard: Board) {
-		when (val gameStatus = ticTacToeManager.getGameStatus(newBoard)) {
-			is GameStatus.End -> {
-				_showWinner.value = gameStatus.winnerMarker
-				updateBoard(Board.EMPTY)
-			}
+	fun mark(x: Int, y: Int) {
+		val boardSnapshot = _board.value
 
-			is GameStatus.Draw -> {
-				_showDraw.value = Unit
-				updateBoard(Board.EMPTY)
-			}
+		val newBoard = ticTacToeManager.mark(point = Point(x, y), board = boardSnapshot) ?: return
 
-			is GameStatus.InProgress -> {
-				Unit
-			}
-		}
+		updateBoard(newBoard)
+		updateGameStatus(newBoard)
 	}
 
 	private fun updateBoard(newBoard: Board) {
@@ -62,7 +43,13 @@ class MainViewModel : ViewModel() {
 		}
 	}
 
-	private fun clearBoard() {
+	private fun updateGameStatus(newBoard: Board) {
+		_gameStatus.value = ticTacToeManager.getGameStatus(newBoard)
+	}
+
+	fun restartGame() {
+		_gameStatus.value = GameStatus.InProgress
 		updateBoard(Board.EMPTY)
+		ticTacToeManager.restart()
 	}
 }
