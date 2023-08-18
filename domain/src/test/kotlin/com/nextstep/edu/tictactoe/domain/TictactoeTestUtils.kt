@@ -5,56 +5,49 @@ import com.nextstep.edu.tictactoe.domain.model.Point
 
 fun DefaultTictactoe.fillLeftRowPoint(): GameResult {
     val tictactoe = this
-    tictactoe.put(Point.CellTopLeft)
-    tictactoe.put(Point.CellMiddleLeft)
-    return tictactoe.put(Point.CellBottomLeft)
+    tictactoe.strategy.put(Point.CellTopLeft)
+    tictactoe.strategy.put(Point.CellMiddleLeft)
+    return tictactoe.strategy.put(Point.CellBottomLeft)
 }
 
 fun DefaultTictactoe.fillMiddleRowPoint(): GameResult {
-    val tictactoe = this
-    tictactoe.put(Point.CellTop)
-    tictactoe.put(Point.CellMiddle)
-    return tictactoe.put(Point.CellBottom)
+    strategy.put(Point.CellTop)
+    strategy.put(Point.CellMiddle)
+    return strategy.put(Point.CellBottom)
 }
 
 fun DefaultTictactoe.fillRightRowPoint(): GameResult {
-    val tictactoe = this
-    tictactoe.put(Point.CellTopRight)
-    tictactoe.put(Point.CellMiddleRight)
-    return tictactoe.put(Point.CellBottomRight)
+    strategy.put(Point.CellTopRight)
+    strategy.put(Point.CellMiddleRight)
+    return strategy.put(Point.CellBottomRight)
 }
 
 fun DefaultTictactoe.fillTopColumnPoint(): GameResult {
-    val tictactoe = this
-    tictactoe.put(Point.CellTopLeft)
-    tictactoe.put(Point.CellTop)
-    return tictactoe.put(Point.CellTopRight)
+    strategy.put(Point.CellTopLeft)
+    strategy.put(Point.CellTop)
+    return strategy.put(Point.CellTopRight)
 }
 
 fun DefaultTictactoe.fillMiddleColumnPoint(): GameResult {
-    val tictactoe = this
-    tictactoe.put(Point.CellMiddleLeft)
-    tictactoe.put(Point.CellMiddle)
-    return tictactoe.put(Point.CellMiddleRight)
+    strategy.put(Point.CellMiddleLeft)
+    strategy.put(Point.CellMiddle)
+    return strategy.put(Point.CellMiddleRight)
 }
 
 fun DefaultTictactoe.fillBottomColumnPoint(): GameResult {
-    val tictactoe = this
-    tictactoe.put(Point.CellBottomLeft)
-    tictactoe.put(Point.CellBottom)
-    return tictactoe.put(Point.CellBottomRight)
+    strategy.put(Point.CellBottomLeft)
+    strategy.put(Point.CellBottom)
+    return strategy.put(Point.CellBottomRight)
 }
 
 fun DefaultTictactoe.fillLeftDiagonalPoint(): GameResult {
-    val tictactoe = this
-    tictactoe.put(Point.CellTopLeft)
-    tictactoe.put(Point.CellMiddle)
-    return tictactoe.put(Point.CellBottomRight)
+    strategy.put(Point.CellTopLeft)
+    strategy.put(Point.CellMiddle)
+    return strategy.put(Point.CellBottomRight)
 }
 
 fun DefaultTictactoe.fillRightDiagonalPoint(): GameResult {
-    val tictactoe = this
-    tictactoe.put(Point.CellTopRight)
-    tictactoe.put(Point.CellMiddle)
-    return tictactoe.put(Point.CellBottomLeft)
+    strategy.put(Point.CellTopRight)
+    strategy.put(Point.CellMiddle)
+    return strategy.put(Point.CellBottomLeft)
 }

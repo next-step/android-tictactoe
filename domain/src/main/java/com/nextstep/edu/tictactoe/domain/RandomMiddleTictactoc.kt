@@ -2,9 +2,12 @@ package com.nextstep.edu.tictactoe.domain
 
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
+import com.nextstep.edu.tictactoe.domain.model.TictactocMap
 import com.nextstep.edu.tictactoe.domain.model.Turn
 
-class RandomMiddleTictactoc : DefaultTictactoe() {
+class RandomMiddleTictactoc : TictactocStrategy {
+
+    private val tictactocMap: TictactocMap = TictactocMap()
 
     override fun put(point: Point): GameResult {
         if (!isValidData(point)) {
@@ -27,14 +30,14 @@ class RandomMiddleTictactoc : DefaultTictactoe() {
             behaviorList.find {
                 it.behavior == Behavior.WIN
             }?.let {
-                changeTurn()
+                tictactocMap.changeTurn()
                 return getGameResult(it.point)
             }
 
             behaviorList.find {
                 it.behavior == Behavior.INTERRUPT
             }?.let {
-                changeTurn()
+                tictactocMap.changeTurn()
                 return getGameResult(it.point)
             }
 
@@ -44,9 +47,25 @@ class RandomMiddleTictactoc : DefaultTictactoe() {
         return gameResult
     }
 
+    override fun isValidData(point: Point): Boolean {
+        return tictactocMap.validData(point = point)
+    }
+
+    override fun getGameResult(point: Point): GameResult {
+        return tictactocMap.getGameResultFromSetMapPoint(point = point)
+    }
+
+    override fun resetMap() = tictactocMap.resetMap()
+
+    override fun changeTurn() = tictactocMap.changeTurn()
+
+    override fun getCurrentTurn(): Turn = tictactocMap.getCurrentTurn()
+
+    override fun getMap(): Array<Array<Turn>> = tictactocMap.getMap()
+
     private fun randomPut(point: Point): GameResult {
-        changeTurn()
-        val range = (0 until MAP_SIZE)
+        tictactocMap.changeTurn()
+        val range = (0 until DefaultTictactoe.MAP_SIZE)
 
         var randomPoint = point
         while (!isValidData(randomPoint)) {
@@ -59,7 +78,7 @@ class RandomMiddleTictactoc : DefaultTictactoe() {
     }
 
     private fun isLeftDialogBehavior(): RandomBehavior {
-        val map = getMap()
+        val map = tictactocMap.getMap()
         var dialogSum = 0
         var putPoint = Point.of(0, 0)
         for (point in 0 until 3) {
@@ -79,7 +98,7 @@ class RandomMiddleTictactoc : DefaultTictactoe() {
     }
 
     private fun isRightDialogBehavior(): RandomBehavior {
-        val map = getMap()
+        val map = tictactocMap.getMap()
         var dialogSum = 0
         var putPoint = Point.of(0, 0)
         for (point in 0 until 3) {
@@ -99,7 +118,7 @@ class RandomMiddleTictactoc : DefaultTictactoe() {
     }
 
     private fun isColumnBehavior(column: Int): RandomBehavior {
-        val map = getMap()
+        val map = tictactocMap.getMap()
         var columnSum = 0
         var putPoint = Point.of(0, 0)
         for (point in 0 until 3) {
@@ -119,7 +138,7 @@ class RandomMiddleTictactoc : DefaultTictactoe() {
     }
 
     private fun isRowBehavior(row: Int): RandomBehavior {
-        val map = getMap()
+        val map = tictactocMap.getMap()
         var columnSum = 0
         var putPoint = Point.of(0, 0)
         for (point in 0 until 3) {

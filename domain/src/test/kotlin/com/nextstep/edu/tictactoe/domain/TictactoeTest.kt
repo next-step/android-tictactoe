@@ -9,11 +9,11 @@ import org.junit.Test
 
 class TictactoeTest {
 
-    lateinit var tictactoe: PlayerTictactoc
+    lateinit var tictactoe: DefaultTictactoe
 
     @Before
     fun setUp() {
-        tictactoe = PlayerTictactoc()
+        tictactoe = DefaultTictactoe(PlayerTictactoc())
     }
 
     @Test
@@ -46,7 +46,7 @@ class TictactoeTest {
         // given: X의 턴일 때
 
         // when: 세로줄이 체워진다.
-        val actual = tictactoe.put(Point.CellBottomLeft)
+        val actual = tictactoe.strategy.put(Point.CellBottomLeft)
 
         // then: 아직 모른다.
         assertEquals(GameResult.UNKNOWN, actual)

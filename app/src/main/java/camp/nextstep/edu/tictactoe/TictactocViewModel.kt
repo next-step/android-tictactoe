@@ -6,16 +6,16 @@ import androidx.lifecycle.ViewModel
 import camp.nextstep.edu.tictactoe.model.Board
 import camp.nextstep.edu.tictactoe.model.TictactocCell
 import camp.nextstep.edu.tictactoe.utils.Event
-import com.nextstep.edu.tictactoe.domain.PlayerTictactoc
 import com.nextstep.edu.tictactoe.domain.RandomMiddleTictactoc
 import com.nextstep.edu.tictactoe.domain.RandomTictactoc
 import com.nextstep.edu.tictactoe.domain.DefaultTictactoe
+import com.nextstep.edu.tictactoe.domain.PlayerTictactoc
 import com.nextstep.edu.tictactoe.domain.model.GameMode
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 
 class TictactocViewModel : ViewModel() {
 
-    private var tictactoe: DefaultTictactoe = PlayerTictactoc()
+    private var tictactoe = DefaultTictactoe(PlayerTictactoc())
 
     private val _tictactocToastMessage: MutableLiveData<Event<TictactocToastMessage>> = MutableLiveData()
     val tictactocToastMessage: LiveData<Event<TictactocToastMessage>> = _tictactocToastMessage
@@ -25,9 +25,9 @@ class TictactocViewModel : ViewModel() {
 
     fun onSetGameMode(gameMode: GameMode) {
         tictactoe = when (gameMode) {
-            GameMode.TWO_PLAYER -> PlayerTictactoc()
-            GameMode.RANDOM -> RandomTictactoc()
-            GameMode.RANDOM_MIDDLE -> RandomMiddleTictactoc()
+            GameMode.TWO_PLAYER -> DefaultTictactoe(PlayerTictactoc())
+            GameMode.RANDOM -> DefaultTictactoe(RandomTictactoc())
+            GameMode.RANDOM_MIDDLE -> DefaultTictactoe(RandomMiddleTictactoc())
         }
         onRestBoard()
     }
@@ -35,7 +35,7 @@ class TictactocViewModel : ViewModel() {
     fun onSetBoardPoint(tictactocCell: TictactocCell) {
         val point = TictactocCell.toPoint(tictactocCell)
 
-        val gameResult = tictactoe.put(point)
+        val gameResult = tictactoe.strategy.put(point)
         when (gameResult) {
             GameResult.FINISH_GAME -> {
                 _tictactocToastMessage.value = Event(TictactocToastMessage.GameOver)
@@ -68,6 +68,6 @@ class TictactocViewModel : ViewModel() {
     }
 
     private fun setBoardFromMap() {
-        _tictactocBoard.value = Board(tictactoe.getMap())
+        _tictactocBoard.value = Board(tictactoe.strategy.getMap())
     }
 }
