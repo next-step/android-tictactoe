@@ -23,7 +23,7 @@ class BoardTest {
 	}
 
 	@Test
-	fun `key 값이 존재할 때, 값을 set 하면, 기존 Board 를 반환한다`() {
+	fun `key 값이 존재할 때, 값을 set 하면, null 을 반환한다`() {
 		// given
 		board = Board(map = mapOf(Point(0, 0) to Marker.X))
 
@@ -31,7 +31,7 @@ class BoardTest {
 		val actual = board.set(Point(0, 0), Marker.O)
 
 		// then
-		assertThat(actual).isEqualTo(Board(map = mapOf(Point(0, 0) to Marker.X)))
+		assertThat(actual).isEqualTo(null)
 	}
 
 	@Test

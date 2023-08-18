@@ -3,6 +3,7 @@ package camp.nextstep.edu.tictactoe
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import camp.nextstep.tictactoe.domain.Board
+import camp.nextstep.tictactoe.domain.GameStatus
 import camp.nextstep.tictactoe.domain.Marker
 import camp.nextstep.tictactoe.domain.Point
 import com.google.common.truth.Truth.assertThat
@@ -26,7 +27,7 @@ class MainViewModelTest {
 	@Test
 	fun `특정 좌표를 mark 하면, 특정 좌표가 mark 된 Board 로 갱신한다`() = runBlocking {
 		// when
-		mainViewModel.mark(Point(0, 0))
+		mainViewModel.mark(0, 0)
 
 		// then
 		mainViewModel.board.test {
@@ -40,8 +41,8 @@ class MainViewModelTest {
 		setBoardToEndGame()
 
 		// then
-		val actual = mainViewModel.showWinner.getOrAwaitValue()
-		assertThat(actual).isEqualTo(Marker.X)
+		val actual = mainViewModel.gameStatus.getOrAwaitValue()
+		assertThat(actual).isEqualTo(GameStatus.End(Marker.X))
 	}
 
 	@Test
@@ -49,56 +50,62 @@ class MainViewModelTest {
 		setBoardToDrawGame()
 
 		// then
-		val actual1 = mainViewModel.showDraw.getOrAwaitValue()
-		assertThat(actual1).isEqualTo(Unit)
+		val actual1 = mainViewModel.gameStatus.getOrAwaitValue()
+		assertThat(actual1).isEqualTo(GameStatus.Draw)
 
 	}
 
 	@Test
-	fun `특정 좌표를 mark 했을 때, 승자가 나왔다면, Board 를 초기화한다`() = runBlocking {
-		setBoardToEndGame()
+	fun `게임을 다시 시작하면, 게임 상태가 InProgress 상태로 설정된다`() {
+		// given
+		mainViewModel.mark(0, 0)
+
+		// when
+		mainViewModel.restartGame()
 
 		// then
-		mainViewModel.board.test {
-			val actual2 = awaitItem()
-			assertThat(actual2).isEqualTo(Board.EMPTY)
-		}
+		val actual = mainViewModel.gameStatus.getOrAwaitValue()
+		assertThat(actual).isEqualTo(GameStatus.InProgress)
 	}
 
 	@Test
-	fun `특정 좌표를 mark 했을 때, 무승부면, Board 를 초기화한다`() = runBlocking {
-		setBoardToDrawGame()
+	fun `게임을 다시 시작하면, Board 가 초기화된다`() = runBlocking {
+		// given
+		mainViewModel.mark(0, 0)
+
+		// when
+		mainViewModel.restartGame()
 
 		// then
 		mainViewModel.board.test {
-			val actual2 = awaitItem()
-			assertThat(actual2).isEqualTo(Board.EMPTY)
+			val actual = awaitItem()
+			assertThat(actual).isEqualTo(Board.EMPTY)
 		}
 	}
 
 	private fun setBoardToEndGame() {
 		// given
-		mainViewModel.mark(Point(0, 0))
-		mainViewModel.mark(Point(1, 0))
-		mainViewModel.mark(Point(0, 1))
-		mainViewModel.mark(Point(2, 0))
+		mainViewModel.mark(0, 0)
+		mainViewModel.mark(1, 0)
+		mainViewModel.mark(0, 1)
+		mainViewModel.mark(2, 0)
 
 		// when
-		mainViewModel.mark(Point(0, 2))
+		mainViewModel.mark(0, 2)
 	}
 
 	private fun setBoardToDrawGame() {
 		// given
-		mainViewModel.mark(Point(0, 0))
-		mainViewModel.mark(Point(0, 1))
-		mainViewModel.mark(Point(0, 2))
-		mainViewModel.mark(Point(1, 0))
-		mainViewModel.mark(Point(1, 1))
-		mainViewModel.mark(Point(2, 0))
-		mainViewModel.mark(Point(1, 2))
-		mainViewModel.mark(Point(2, 2))
+		mainViewModel.mark(0, 0)
+		mainViewModel.mark(0, 1)
+		mainViewModel.mark(0, 2)
+		mainViewModel.mark(1, 0)
+		mainViewModel.mark(1, 1)
+		mainViewModel.mark(2, 0)
+		mainViewModel.mark(1, 2)
+		mainViewModel.mark(2, 2)
 
 		// when
-		mainViewModel.mark(Point(2, 1))
+		mainViewModel.mark(2, 1)
 	}
 }

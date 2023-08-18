@@ -57,13 +57,30 @@ class TicTacToeManagerTest {
 	}
 
 	@Test
-	fun `대각선 한줄이 X 표시로 채워졌을 때, 게임 상태를 가져오면, 게임 종료 상태를 반환한다`() {
+	fun `왼쪽에서 오른쪽으로의 대각선 한줄이 X 표시로 채워졌을 때, 게임 상태를 가져오면, 게임 종료 상태를 반환한다`() {
 		// given
 		val board = Board(
 			map = mapOf(
 				Point(0, 0) to Marker.X,
 				Point(1, 1) to Marker.X,
 				Point(2, 2) to Marker.X,
+			))
+
+		// when
+		val actual = ticTacToeManager.getGameStatus(board)
+
+		// then
+		assertThat(actual).isEqualTo(GameStatus.End(Marker.X))
+	}
+
+	@Test
+	fun `오른쪽에서 왼쪽으로의 대각선 한줄이 X 표시로 채워졌을 때, 게임 상태를 가져오면, 게임 종료 상태를 반환한다`() {
+		// given
+		val board = Board(
+			map = mapOf(
+				Point(0, 2 ) to Marker.X,
+				Point(1, 1) to Marker.X,
+				Point(2, 0) to Marker.X,
 			))
 
 		// when
