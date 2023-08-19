@@ -35,7 +35,7 @@ class TictactocViewModel : ViewModel() {
     fun onSetBoardPoint(tictactocCell: TictactocCell) {
         val point = TictactocCell.toPoint(tictactocCell)
 
-        val gameResult = tictactoe.strategy.put(point)
+        val gameResult = tictactoe.put(point)
         when (gameResult) {
             GameResult.FINISH_GAME -> {
                 _tictactocToastMessage.value = Event(TictactocToastMessage.GameOver)
@@ -68,6 +68,6 @@ class TictactocViewModel : ViewModel() {
     }
 
     private fun setBoardFromMap() {
-        _tictactocBoard.value = Board(tictactoe.strategy.getMap())
+        _tictactocBoard.value = Board(tictactoe.getMap())
     }
 }

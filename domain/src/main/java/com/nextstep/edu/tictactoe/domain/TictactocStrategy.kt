@@ -7,17 +7,5 @@ import com.nextstep.edu.tictactoe.domain.model.Turn
 
 interface TictactocStrategy {
 
-    fun put(point: Point): GameResult
-
-    fun isValidData(point: Point): Boolean
-
-    fun getGameResult(point: Point): GameResult
-
-    fun resetMap()
-
-    fun changeTurn()
-
-    fun getCurrentTurn(): Turn
-
-    fun getMap(): Array<Array<Turn>>
+    fun put(point: Point, tictactocMap: TictactocMap): GameResult
 }
