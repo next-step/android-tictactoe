@@ -19,11 +19,6 @@ class TictactocMap {
         currentTurn = if (currentTurn == Turn.X) Turn.O else Turn.X
     }
 
-    fun getGameResultFromSetMapPoint(point: Point): GameResult {
-        map[point.row][point.column] = currentTurn
-        return getGameResult(point = point, map = map, currentTurn = currentTurn)
-    }
-
     fun getMapRowColumn(row: Int, column: Int): Turn {
         return map[row][column]
     }
@@ -44,11 +39,11 @@ class TictactocMap {
         return currentTurn
     }
 
-    private fun getGameResult(
+    fun getGameResultFromSetMapPoint(
         point: Point,
-        map: Array<Array<Turn>>,
-        currentTurn: Turn
     ): GameResult {
+        map[point.row][point.column] = currentTurn
+
         val row = point.row
         val column = point.column
 

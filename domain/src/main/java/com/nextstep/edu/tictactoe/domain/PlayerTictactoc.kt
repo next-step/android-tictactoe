@@ -12,6 +12,7 @@ class PlayerTictactoc : TictactocStrategy {
             return if (tictactocMap.getIsFinish()) GameResult.FINISH_GAME else GameResult.INVALID_POSITION
         }
 
+
         val gameResult = tictactocMap.getGameResultFromSetMapPoint(point = point)
         return gameResult
     }
