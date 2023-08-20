@@ -4,6 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <import type="camp.nextstep.edu.tictactoe.domain.CellPosition" />
+        <variable
+            name="model"
+            type="camp.nextstep.edu.tictactoe.viewmodel.TictactoeViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,7 +35,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> model.clickCell(CellPosition.TOP_LEFT)}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
 
@@ -37,7 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> model.clickCell(CellPosition.TOP)}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black" />
 
@@ -46,7 +53,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> model.clickCell(CellPosition.TOP_RIGHT)}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
 
@@ -55,7 +62,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> model.clickCell(CellPosition.MIDDLE_LEFT)}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black" />
 
@@ -64,7 +71,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> model.clickCell(CellPosition.MIDDLE)}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
 
@@ -73,7 +80,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> model.clickCell(CellPosition.MIDDLE_RIGHT)}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black" />
 
@@ -82,7 +89,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> model.clickCell(CellPosition.BOTTOM_LEFT)}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
 
@@ -91,7 +98,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> model.clickCell(CellPosition.BOTTOM)}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black" />
 
@@ -100,7 +107,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> model.clickCell(CellPosition.BOTTOM_RIGHT)}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
         <!-- endregion -->
