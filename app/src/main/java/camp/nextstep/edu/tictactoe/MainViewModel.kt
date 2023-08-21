@@ -1,7 +1,5 @@
 package camp.nextstep.edu.tictactoe
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import camp.nextstep.tictactoe.domain.Board
 import camp.nextstep.tictactoe.domain.GameStatus
@@ -20,13 +18,8 @@ class MainViewModel : ViewModel() {
 	private val _board: MutableStateFlow<Board> = MutableStateFlow(Board.EMPTY)
 	val board: StateFlow<Board> = _board.asStateFlow()
 
-	private val _gameStatus: MutableLiveData<GameStatus> = MutableLiveData()
-	val gameStatus: LiveData<GameStatus>
-		get() = _gameStatus
-
-	init {
-		_gameStatus.value = GameStatus.InProgress
-	}
+	private val _gameStatus: MutableStateFlow<GameStatus> = MutableStateFlow(GameStatus.InProgress)
+	val gameStatus: StateFlow<GameStatus> = _gameStatus.asStateFlow()
 
 	fun mark(x: Int, y: Int) {
 		val boardSnapshot = _board.value
@@ -44,11 +37,15 @@ class MainViewModel : ViewModel() {
 	}
 
 	private fun updateGameStatus(newBoard: Board) {
-		_gameStatus.value = ticTacToeManager.getGameStatus(newBoard)
+		_gameStatus.update {
+			ticTacToeManager.getGameStatus(newBoard)
+		}
 	}
 
 	fun restartGame() {
-		_gameStatus.value = GameStatus.InProgress
+		_gameStatus.update {
+			GameStatus.InProgress
+		}
 		updateBoard(Board.EMPTY)
 		ticTacToeManager.restart()
 	}

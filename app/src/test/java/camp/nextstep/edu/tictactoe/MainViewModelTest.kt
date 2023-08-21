@@ -37,12 +37,14 @@ class MainViewModelTest {
 	}
 
 	@Test
-	fun `특정 좌표를 mark 했을 때, 승자가 나왔다면, 승자를 전달한다`() {
+	fun `특정 좌표를 mark 했을 때, 승자가 나왔다면, 승자를 전달한다`() = runBlocking {
 		setBoardToEndGame()
 
 		// then
-		val actual = mainViewModel.gameStatus.getOrAwaitValue()
-		assertThat(actual).isEqualTo(GameStatus.End(Marker.X))
+		mainViewModel.gameStatus.test {
+			val actual = awaitItem()
+			assertThat(actual).isEqualTo(GameStatus.End(Marker.X))
+		}
 	}
 
 	@Test
@@ -50,13 +52,14 @@ class MainViewModelTest {
 		setBoardToDrawGame()
 
 		// then
-		val actual1 = mainViewModel.gameStatus.getOrAwaitValue()
-		assertThat(actual1).isEqualTo(GameStatus.Draw)
-
+		mainViewModel.gameStatus.test {
+			val actual = awaitItem()
+			assertThat(actual).isEqualTo(GameStatus.Draw)
+		}
 	}
 
 	@Test
-	fun `게임을 다시 시작하면, 게임 상태가 InProgress 상태로 설정된다`() {
+	fun `게임을 다시 시작하면, 게임 상태가 InProgress 상태로 설정된다`() = runBlocking {
 		// given
 		mainViewModel.mark(0, 0)
 
@@ -64,8 +67,10 @@ class MainViewModelTest {
 		mainViewModel.restartGame()
 
 		// then
-		val actual = mainViewModel.gameStatus.getOrAwaitValue()
-		assertThat(actual).isEqualTo(GameStatus.InProgress)
+		mainViewModel.gameStatus.test {
+			val actual = awaitItem()
+			assertThat(actual).isEqualTo(GameStatus.InProgress)
+		}
 	}
 
 	@Test

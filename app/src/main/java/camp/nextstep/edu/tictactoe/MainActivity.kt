@@ -6,8 +6,12 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
 import camp.nextstep.tictactoe.domain.GameStatus
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -21,11 +25,15 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = mainViewModel
 
-        mainViewModel.gameStatus.observe(this) { gameStatus ->
-            when (gameStatus) {
-                is GameStatus.End -> Toast.makeText(this, "${gameStatus.winnerMarker} 승리", Toast.LENGTH_LONG).show()
-                is GameStatus.Draw -> Toast.makeText(this, "무승부", Toast.LENGTH_LONG).show()
-                else -> Unit
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                mainViewModel.gameStatus.collect { gameStatus ->
+                    when (gameStatus) {
+                        is GameStatus.End -> Toast.makeText(this@MainActivity, "${gameStatus.winnerMarker} 승리", Toast.LENGTH_LONG).show()
+                        is GameStatus.Draw -> Toast.makeText(this@MainActivity, "무승부", Toast.LENGTH_LONG).show()
+                        else -> Unit
+                    }
+                }
             }
         }
     }
