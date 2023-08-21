@@ -1,3 +1,3 @@
 rootProject.name = "android-tictactoe"
-include(":app")
+include(":tictactoe-app")
 include(":tictactoe-domain")
