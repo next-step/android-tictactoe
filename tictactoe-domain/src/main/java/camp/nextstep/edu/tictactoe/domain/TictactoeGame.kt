@@ -4,24 +4,22 @@ import camp.nextstep.edu.tictactoe.domain.CellPosition.BOTTOM
 import camp.nextstep.edu.tictactoe.domain.CellPosition.BOTTOM_LEFT
 import camp.nextstep.edu.tictactoe.domain.CellPosition.BOTTOM_RIGHT
 import camp.nextstep.edu.tictactoe.domain.CellPosition.MIDDLE
-import camp.nextstep.edu.tictactoe.domain.CellPosition.TOP_LEFT
-import camp.nextstep.edu.tictactoe.domain.CellPosition.TOP
-import camp.nextstep.edu.tictactoe.domain.CellPosition.TOP_RIGHT
 import camp.nextstep.edu.tictactoe.domain.CellPosition.MIDDLE_LEFT
 import camp.nextstep.edu.tictactoe.domain.CellPosition.MIDDLE_RIGHT
-import java.lang.IllegalStateException
+import camp.nextstep.edu.tictactoe.domain.CellPosition.TOP
+import camp.nextstep.edu.tictactoe.domain.CellPosition.TOP_LEFT
+import camp.nextstep.edu.tictactoe.domain.CellPosition.TOP_RIGHT
 
 class TictactoeGame {
-
     private val tictactoeMap = CellPosition.values().toMutableSet()
 
     private var xPositions = listOf<CellPosition>()
     private var oPositions = listOf<CellPosition>()
 
-    fun setPosition(isXTurn: Boolean, position: CellPosition) : GameResult {
-        if(tictactoeMap.contains(position)) {
+    fun setPosition(isXTurn: Boolean, position: CellPosition): GameResult {
+        if (tictactoeMap.contains(position)) {
             tictactoeMap.remove(position)
-            if(isXTurn) {
+            if (isXTurn) {
                 xPositions = xPositions + position
             } else {
                 oPositions = oPositions + position
@@ -34,17 +32,32 @@ class TictactoeGame {
 
     private fun checkGameResult(): GameResult {
         WIN_SET.forEach {
-            if(xPositions.containsAll(it)) {
+            if (xPositions.containsAll(it)) {
                 return GameResult(GameResult.GAME_X_WIN)
             }
-            if(oPositions.containsAll(it)) {
+            if (oPositions.containsAll(it)) {
                 return GameResult(GameResult.GAME_O_WIN)
             }
         }
-        if(xPositions.size == GAME_DRAW_SIZE) {
+        if (xPositions.size == GAME_DRAW_SIZE) {
             return GameResult(GameResult.GAME_DRAW)
         }
         return GameResult(GameResult.GAME_ING)
+    }
+
+    fun getCellPosition(cellPosition: CellPosition): Boolean? {
+        if (xPositions.contains(cellPosition)) {
+            return true
+        }
+        if (oPositions.contains(cellPosition)) {
+            return false
+        }
+        return null
+    }
+
+    fun gameReset() {
+        xPositions = listOf()
+        oPositions = listOf()
     }
 
     companion object {
@@ -57,7 +70,7 @@ class TictactoeGame {
             listOf(TOP, MIDDLE, BOTTOM),
             listOf(TOP_RIGHT, MIDDLE_RIGHT, BOTTOM_RIGHT),
             listOf(TOP_LEFT, MIDDLE, BOTTOM_RIGHT),
-            listOf(TOP_RIGHT, MIDDLE, BOTTOM_LEFT),
+            listOf(TOP_RIGHT, MIDDLE, BOTTOM_LEFT)
         )
     }
 }

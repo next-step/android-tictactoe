@@ -36,6 +36,8 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> model.clickCell(CellPosition.TOP_LEFT)}"
+            position="@{CellPosition.TOP_LEFT}"
+            data="@{model.tictactoeMap}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
 
@@ -45,6 +47,8 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> model.clickCell(CellPosition.TOP)}"
+            position="@{CellPosition.TOP}"
+            data="@{model.tictactoeMap}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black" />
 
@@ -54,6 +58,8 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> model.clickCell(CellPosition.TOP_RIGHT)}"
+            position="@{CellPosition.TOP_RIGHT}"
+            data="@{model.tictactoeMap}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
 
@@ -63,6 +69,8 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> model.clickCell(CellPosition.MIDDLE_LEFT)}"
+            position="@{CellPosition.MIDDLE_LEFT}"
+            data="@{model.tictactoeMap}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black" />
 
@@ -72,6 +80,8 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> model.clickCell(CellPosition.MIDDLE)}"
+            position="@{CellPosition.MIDDLE}"
+            data="@{model.tictactoeMap}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
 
@@ -81,6 +91,8 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> model.clickCell(CellPosition.MIDDLE_RIGHT)}"
+            position="@{CellPosition.MIDDLE_RIGHT}"
+            data="@{model.tictactoeMap}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black" />
 
@@ -90,6 +102,8 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> model.clickCell(CellPosition.BOTTOM_LEFT)}"
+            position="@{CellPosition.BOTTOM_LEFT}"
+            data="@{model.tictactoeMap}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
 
@@ -99,6 +113,8 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> model.clickCell(CellPosition.BOTTOM)}"
+            position="@{CellPosition.BOTTOM}"
+            data="@{model.tictactoeMap}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black" />
 
@@ -108,6 +124,8 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> model.clickCell(CellPosition.BOTTOM_RIGHT)}"
+            position="@{CellPosition.BOTTOM_RIGHT}"
+            data="@{model.tictactoeMap}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
         <!-- endregion -->
@@ -197,6 +215,7 @@
             android:text="다시 시작하기"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/flow"
+            android:onClick="@{() -> model.gameReset()}"
             tools:ignore="HardcodedText" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

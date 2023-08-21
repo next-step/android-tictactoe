@@ -1,7 +1,7 @@
 package camp.nextstep.edu.tictactoe.domain
 
 @JvmInline
-value class GameResult(val result : Int) {
+value class GameResult(val result: Int) {
 
     companion object {
         const val GAME_ING = 0

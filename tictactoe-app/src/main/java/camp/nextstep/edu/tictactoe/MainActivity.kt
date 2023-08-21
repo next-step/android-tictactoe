@@ -21,6 +21,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.lifecycleOwner = this
         binding.model = viewModel
+
+        viewModel.uiState.observe(this) {
+            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
