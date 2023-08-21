@@ -26,13 +26,16 @@ class MainViewModelTest {
 
 	@Test
 	fun `특정 좌표를 mark 하면, 특정 좌표가 mark 된 Board 로 갱신한다`() = runBlocking {
+		// given
+		val expected = Board(map = mapOf(Point(0, 0) to Marker.X))
+
 		// when
 		mainViewModel.mark(0, 0)
 
 		// then
 		mainViewModel.board.test {
 			val actual = awaitItem()
-			assertThat(actual).isEqualTo(Board(map = mapOf(Point(0, 0) to Marker.X)))
+			assertThat(actual).isEqualTo(expected)
 		}
 	}
 
