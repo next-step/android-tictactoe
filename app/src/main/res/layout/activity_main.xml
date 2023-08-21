@@ -3,6 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View"/>
+
+        <variable
+            name="viewModel"
+            type="camp.nextstep.edu.tictactoe.MainViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -28,7 +35,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> viewModel.clickBlock(0)}"
+            setImgRes="@{viewModel.blockChecks.get(0)}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
 
@@ -36,8 +44,9 @@
             android:id="@+id/cell_top"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{() -> viewModel.clickBlock(1)}"
+            setImgRes="@{viewModel.blockChecks.get(1)}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black" />
 
@@ -46,7 +55,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> viewModel.clickBlock(2)}"
+            setImgRes="@{viewModel.blockChecks.get(2)}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
 
@@ -54,8 +64,9 @@
             android:id="@+id/cell_middle_left"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{() -> viewModel.clickBlock(3)}"
+            setImgRes="@{viewModel.blockChecks.get(3)}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black" />
 
@@ -64,7 +75,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> viewModel.clickBlock(4)}"
+            setImgRes="@{viewModel.blockChecks.get(4)}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
 
@@ -73,7 +85,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> viewModel.clickBlock(5)}"
+            setImgRes="@{viewModel.blockChecks.get(5)}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black" />
 
@@ -82,7 +95,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> viewModel.clickBlock(6)}"
+            setImgRes="@{viewModel.blockChecks.get(6)}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
 
@@ -91,7 +105,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> viewModel.clickBlock(7)}"
+            setImgRes="@{viewModel.blockChecks.get(7)}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black" />
 
@@ -100,7 +115,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> viewModel.clickBlock(8)}"
+            setImgRes="@{viewModel.blockChecks.get(8)}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
         <!-- endregion -->
@@ -188,6 +204,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="다시 시작하기"
+            android:onClick="@{() -> viewModel.clickRestart()}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/flow"
             tools:ignore="HardcodedText" />
