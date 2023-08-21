@@ -40,10 +40,6 @@ class TictactoeViewModel(private val tictactoeGame: TictactoeGame) : ViewModel()
         }
     }
 
-    fun getXOResource(cellPosition: CellPosition): Boolean? {
-        return tictactoeGame.getCellPosition(cellPosition)
-    }
-
     fun gameReset() {
         isXturn = true
         _tictactoeMap.value = HashMap()

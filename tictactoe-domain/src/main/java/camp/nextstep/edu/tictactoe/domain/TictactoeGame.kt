@@ -45,19 +45,11 @@ class TictactoeGame {
         return GameResult(GameResult.GAME_ING)
     }
 
-    fun getCellPosition(cellPosition: CellPosition): Boolean? {
-        if (xPositions.contains(cellPosition)) {
-            return true
-        }
-        if (oPositions.contains(cellPosition)) {
-            return false
-        }
-        return null
-    }
-
     fun gameReset() {
         xPositions = listOf()
         oPositions = listOf()
+        tictactoeMap.clear()
+        tictactoeMap.addAll(CellPosition.values().toMutableSet())
     }
 
     companion object {
