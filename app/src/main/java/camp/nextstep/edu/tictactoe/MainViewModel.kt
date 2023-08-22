@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.update
 class MainViewModel(
 	private val markBoard: MarkBoardUseCase,
 	private val getGameStatus: GetGameStatusUseCase,
-	private val getRandomPointCandidates: GetRandomPointCandidatesUseCase
+	private val getRandomPointCandidates: GetRandomPointCandidatesUseCase,
 ) : ViewModel() {
 
 	private val _ticTaeToc: MutableStateFlow<TicTacToe> = MutableStateFlow(TicTacToe.INIT)
@@ -29,7 +29,24 @@ class MainViewModel(
 	fun mark(x: Int, y: Int) {
 		val ticTaeTocSnapshot = _ticTaeToc.value
 
-		val newTicTaeToc = markBoard(Point(x, y), ticTaeTocSnapshot)
+		mark(Point(x, y), ticTaeTocSnapshot)
+	}
+
+	fun mark() {
+		val ticTaeTocSnapshot = _ticTaeToc.value
+
+		val pointCandidates = getRandomPointCandidates(ticTaeTocSnapshot.board)
+		if (pointCandidates.isEmpty()) {
+			return
+		}
+
+		val point = pointCandidates.random()
+		mark(point, ticTaeTocSnapshot)
+	}
+
+	private fun mark(point: Point, ticTacToe: TicTacToe) {
+		val newTicTaeToc = markBoard(point, ticTacToe)
+
 		updateGameStatus(getGameStatus(newTicTaeToc.board))
 		updateTicTaeToc(newTicTaeToc)
 	}
@@ -56,19 +73,5 @@ class MainViewModel(
 			)
 		)
 		updateGameStatus(GameStatus.InProgress)
-	}
-
-	fun mark() {
-		val ticTaeTocSnapshot = _ticTaeToc.value
-
-		val pointCandidates = getRandomPointCandidates(ticTaeTocSnapshot.board)
-		if (pointCandidates.isEmpty()) {
-			return
-		}
-
-		val point = pointCandidates.random()
-		val newTicTaeToc = markBoard(point, ticTaeTocSnapshot)
-		updateGameStatus(getGameStatus(newTicTaeToc.board))
-		updateTicTaeToc(newTicTaeToc)
 	}
 }

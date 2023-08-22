@@ -9,6 +9,7 @@ import camp.nextstep.tictactoe.domain.Mode
 import camp.nextstep.tictactoe.domain.Point
 import camp.nextstep.tictactoe.domain.TicTacToe
 import camp.nextstep.tictactoe.domain.usecase.GetGameStatusUseCase
+import camp.nextstep.tictactoe.domain.usecase.GetRandomPointCandidatesUseCase
 import camp.nextstep.tictactoe.domain.usecase.MarkBoardUseCase
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
@@ -26,13 +27,15 @@ class MainViewModelTest {
 
 	private lateinit var markBoardUseCase: MarkBoardUseCase
 	private lateinit var getGetGameStatusUseCase: GetGameStatusUseCase
+	private lateinit var getRandomPointCandidatesUseCase: GetRandomPointCandidatesUseCase
 	private lateinit var mainViewModel: MainViewModel
 
 	@Before
 	fun setUp() {
 		markBoardUseCase = mockk(relaxed = true)
 		getGetGameStatusUseCase = mockk(relaxed = true)
-		mainViewModel = MainViewModel(markBoardUseCase, getGetGameStatusUseCase)
+		getRandomPointCandidatesUseCase = mockk(relaxed = true)
+		mainViewModel = MainViewModel(markBoardUseCase, getGetGameStatusUseCase, getRandomPointCandidatesUseCase)
 	}
 
 	@Test
@@ -137,5 +140,31 @@ class MainViewModelTest {
 			val actual = awaitItem()
 			assertThat(actual).isEqualTo(GameStatus.InProgress)
 		}
+	}
+
+	@Test
+	fun `랜덤으로 가져온 좌표가 존재할 때, mark 하면, Board 에 mark 하고 게임 상태를 갱신한다`() {
+		// given
+		every { getRandomPointCandidatesUseCase(any())} returns listOf(Point(0, 0))
+
+		// when
+		mainViewModel.mark()
+
+		// then
+		verify { markBoardUseCase(any(), any()) }
+		verify { getGetGameStatusUseCase(any()) }
+	}
+
+	@Test
+	fun `랜덤으로 가져온 좌표가 존재하지 않을 때, mark 하면, Board 에 mark 하지 않고 게임 상태를 갱신하지 않는다`() {
+		// given
+		every { getRandomPointCandidatesUseCase(any())} returns listOf()
+
+		// when
+		mainViewModel.mark()
+
+		// then
+		verify(inverse = true) { markBoardUseCase(any(), any()) }
+		verify(inverse = true) { getGetGameStatusUseCase(any()) }
 	}
 }
