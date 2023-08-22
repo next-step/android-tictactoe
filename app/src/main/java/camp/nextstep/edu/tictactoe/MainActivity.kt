@@ -12,6 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
 import camp.nextstep.tictactoe.domain.GameStatus
 import camp.nextstep.tictactoe.domain.Mode
+import camp.nextstep.tictactoe.domain.Player
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -30,11 +31,22 @@ class MainActivity : AppCompatActivity() {
 
 		lifecycleScope.launch {
 			repeatOnLifecycle(Lifecycle.State.RESUMED) {
-				mainViewModel.gameStatus.collect { gameStatus ->
-					when (gameStatus) {
-						is GameStatus.End -> Toast.makeText(this@MainActivity, "${gameStatus.winnerMarker} 승리", Toast.LENGTH_LONG).show()
-						is GameStatus.Draw -> Toast.makeText(this@MainActivity, "무승부", Toast.LENGTH_LONG).show()
-						else -> Unit
+				launch {
+					mainViewModel.gameStatus.collect { gameStatus ->
+						when (gameStatus) {
+							is GameStatus.End -> Toast.makeText(this@MainActivity, "${gameStatus.winnerMarker} 승리", Toast.LENGTH_LONG).show()
+							is GameStatus.Draw -> Toast.makeText(this@MainActivity, "무승부", Toast.LENGTH_LONG).show()
+							else -> Unit
+						}
+					}
+				}
+
+				launch {
+					mainViewModel.ticTaeToc.collect { ticTaeToe ->
+						when (ticTaeToe.player) {
+							is Player.Ai -> mainViewModel.mark()
+							else -> Unit
+						}
 					}
 				}
 			}
