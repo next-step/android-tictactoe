@@ -1,5 +1,10 @@
 package camp.nextstep.tictactoe.domain
 
+sealed interface SetBoardStatus {
+	object AlreadyExist : SetBoardStatus
+	data class Success(val board: Board) : SetBoardStatus
+}
+
 data class Board(
 	val size: Int = DEFAULT_SIZE,
 	private val map: Map<Point, Marker> = mapOf(),
@@ -10,20 +15,16 @@ data class Board(
 		return map[Point(x, y)]
 	}
 
-	operator fun set(point: Point, marker: Marker): Board? {
+	operator fun set(point: Point, marker: Marker): SetBoardStatus {
 		return if (map.contains(point)) {
-			null
+			SetBoardStatus.AlreadyExist
 		} else {
-			this.copy(map = map + mapOf(point to marker))
+			SetBoardStatus.Success(this.copy(map = map + mapOf(point to marker)))
 		}
 	}
 
 	fun filter(predicate: (Map.Entry<Point, Marker>) -> Boolean): Map<Point, Marker> {
 		return this.map.filter(predicate)
-	}
-
-	fun clear(): Board {
-		return this.copy(map = mapOf())
 	}
 
 	companion object {

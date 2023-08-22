@@ -1,18 +1,13 @@
-package camp.nextstep.tictactoe.domain
+package camp.nextstep.tictactoe.domain.usecase
 
-class TicTacToeManager(initMode: Mode) {
+import camp.nextstep.tictactoe.domain.Board
+import camp.nextstep.tictactoe.domain.GameStatus
+import camp.nextstep.tictactoe.domain.Marker
+import camp.nextstep.tictactoe.domain.Point
 
-	private var mode: Mode = initMode
-	private var currentPlayer: Player = mode.getFirst()
+class GetGameStatusUseCase {
 
-	fun mark(point: Point, board: Board): Board? {
-		val newBoard = board.set(point, currentPlayer.marker) ?: return null
-		currentPlayer = mode.getNext(currentPlayer)
-
-		return newBoard
-	}
-
-	fun getGameStatus(board: Board): GameStatus {
+	operator fun invoke(board: Board): GameStatus {
 		getWinner(board)?.let { winnerMarker ->
 			return GameStatus.End(winnerMarker)
 		}
@@ -44,7 +39,6 @@ class TicTacToeManager(initMode: Mode) {
 		return null
 	}
 
-
 	private fun getWinner(board: Board, condition: (Point) -> Boolean): Marker? {
 		return when {
 			hasWinner(board) { (point, marker) -> condition(point) && marker == Marker.X } -> Marker.X
@@ -63,9 +57,5 @@ class TicTacToeManager(initMode: Mode) {
 
 	private fun isDraw(board: Board): Boolean {
 		return board.totalMarkerCount == board.size * board.size
-	}
-
-	fun restart() {
-		currentPlayer = mode.getFirst()
 	}
 }
