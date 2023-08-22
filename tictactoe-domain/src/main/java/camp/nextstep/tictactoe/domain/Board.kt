@@ -27,6 +27,10 @@ data class Board(
 		return this.map.filter(predicate)
 	}
 
+	fun getKeys(): List<Point> {
+		return map.map { it.key }.toList()
+	}
+
 	companion object {
 		const val DEFAULT_SIZE = 3
 
