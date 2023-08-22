@@ -2,6 +2,7 @@ package camp.nextstep.tictactoe.domain.usecase
 
 import camp.nextstep.tictactoe.domain.Board
 import camp.nextstep.tictactoe.domain.Marker
+import camp.nextstep.tictactoe.domain.Mode
 import camp.nextstep.tictactoe.domain.Player
 import camp.nextstep.tictactoe.domain.Point
 import camp.nextstep.tictactoe.domain.TicTacToe
@@ -22,10 +23,12 @@ class MarkBoardUseCaseTest {
 	fun `존재하지 않는 좌표에 mark 하면, mark 된 Board 와 다음 Player 가 갱신된 TicTaeToe 를 반환한다`() {
 		// given
 		val ticTacToe = TicTacToe(
+			mode = Mode.TwoPerson,
 			player = Player.Person(Marker.X),
 			board = Board(map = mapOf())
 		)
 		val expected = TicTacToe(
+			mode = Mode.TwoPerson,
 			player = Player.Person(Marker.O),
 			board = Board(map = mapOf(Point(0, 0) to Marker.X))
 		)
