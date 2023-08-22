@@ -1,7 +1,7 @@
 package camp.nextstep.tictactoe.domain
 
 data class TicTacToe(
-	val mode: Mode = Mode.TwoPerson,
+	val mode: Mode = Mode.Random,
 	val player: Player = mode.getFirst(),
 	val board: Board = Board.EMPTY,
 ) {
@@ -12,8 +12,8 @@ data class TicTacToe(
 
 	companion object {
 		val INIT = TicTacToe(
-			mode = Mode.TwoPerson,
-			player = Mode.TwoPerson.getFirst(),
+			mode = Mode.Random,
+			player = Mode.Random.getFirst(),
 			board = Board.EMPTY
 		)
 	}

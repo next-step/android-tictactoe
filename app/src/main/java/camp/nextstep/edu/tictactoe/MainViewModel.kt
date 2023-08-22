@@ -1,7 +1,9 @@
 package camp.nextstep.edu.tictactoe
 
 import androidx.lifecycle.ViewModel
+import camp.nextstep.tictactoe.domain.Board
 import camp.nextstep.tictactoe.domain.GameStatus
+import camp.nextstep.tictactoe.domain.Mode
 import camp.nextstep.tictactoe.domain.Point
 import camp.nextstep.tictactoe.domain.TicTacToe
 import camp.nextstep.tictactoe.domain.usecase.GetGameStatusUseCase
@@ -40,6 +42,17 @@ class MainViewModel(
 
 	fun restartGame() {
 		updateTicTaeToc(TicTacToe.INIT)
+		updateGameStatus(GameStatus.InProgress)
+	}
+
+	fun updateMode(mode: Mode) {
+		updateTicTaeToc(
+			TicTacToe(
+				mode = mode,
+				player = mode.getFirst(),
+				board = Board.EMPTY
+			)
+		)
 		updateGameStatus(GameStatus.InProgress)
 	}
 }
