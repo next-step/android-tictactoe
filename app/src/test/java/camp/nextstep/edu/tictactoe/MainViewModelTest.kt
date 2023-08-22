@@ -5,6 +5,7 @@ import app.cash.turbine.test
 import camp.nextstep.tictactoe.domain.Board
 import camp.nextstep.tictactoe.domain.GameStatus
 import camp.nextstep.tictactoe.domain.Marker
+import camp.nextstep.tictactoe.domain.Mode
 import camp.nextstep.tictactoe.domain.Point
 import camp.nextstep.tictactoe.domain.TicTacToe
 import camp.nextstep.tictactoe.domain.usecase.GetGameStatusUseCase
@@ -99,6 +100,37 @@ class MainViewModelTest {
 	fun `게임을 다시 시작하면, 게임 상태가 InProgress 상태로 설정된다`() = runBlocking {
 		// when
 		mainViewModel.restartGame()
+
+		// then
+		mainViewModel.gameStatus.test {
+			val actual = awaitItem()
+			assertThat(actual).isEqualTo(GameStatus.InProgress)
+		}
+	}
+
+	@Test
+	fun `게임 모드를 변경하면, 모드가 변경되고 Board 와 Player 가 초기화된다`() = runBlocking {
+		// given
+		val expected = TicTacToe(
+			mode = Mode.Random,
+			player = Mode.Random.getFirst(),
+			board = Board.EMPTY
+		)
+
+		// when
+		mainViewModel.updateMode(Mode.Random)
+
+		// then
+		mainViewModel.ticTaeToc.test {
+			val actual = awaitItem()
+			assertThat(actual).isEqualTo(expected)
+		}
+	}
+
+	@Test
+	fun `게임 모드를 변경하면, 게임 상태가 InProgress 상태로 설정된다`() = runBlocking {
+		// when
+		mainViewModel.updateMode(Mode.Random)
 
 		// then
 		mainViewModel.gameStatus.test {
