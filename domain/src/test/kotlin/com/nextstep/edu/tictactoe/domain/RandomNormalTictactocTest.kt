@@ -13,7 +13,7 @@ class RandomNormalTictactocTest {
 
     @Before
     fun setUp() {
-        tictactoe = DefaultTictactoe(RandomNormalTictactoc(RandomStrategyModule.provideRandomNormalTictactoc()))
+        tictactoe = DefaultTictactoe(RandomStrategyModule.provideRandomNormalTictactoc())
     }
 
     @Test
