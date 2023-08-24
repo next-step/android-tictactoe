@@ -36,7 +36,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:onClick="@{() -> viewModel.mark(0, 0)}"
                 app:isImageClickable="@{viewModel.gameStatus}"
-                app:markerSrc="@{viewModel.gameStatus.ticTacToe.board.get(0, 0)}"
+                app:markerSrc="@{viewModel.ticTacToe.board.get(0, 0)}"
                 tools:ignore="ContentDescription"
                 tools:src="@drawable/ic_x_black" />
 
@@ -47,7 +47,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:onClick="@{() -> viewModel.mark(0, 1)}"
                 app:isImageClickable="@{viewModel.gameStatus}"
-                app:markerSrc="@{viewModel.gameStatus.ticTacToe.board.get(0, 1)}"
+                app:markerSrc="@{viewModel.ticTacToe.board.get(0, 1)}"
                 tools:ignore="ContentDescription"
                 tools:src="@drawable/ic_o_black" />
 
@@ -58,7 +58,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:onClick="@{() -> viewModel.mark(0, 2)}"
                 app:isImageClickable="@{viewModel.gameStatus}"
-                app:markerSrc="@{viewModel.gameStatus.ticTacToe.board.get(0, 2)}"
+                app:markerSrc="@{viewModel.ticTacToe.board.get(0, 2)}"
                 tools:ignore="ContentDescription"
                 tools:src="@drawable/ic_x_black" />
 
@@ -69,7 +69,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:onClick="@{() -> viewModel.mark(1, 0)}"
                 app:isImageClickable="@{viewModel.gameStatus}"
-                app:markerSrc="@{viewModel.gameStatus.ticTacToe.board.get(1, 0)}"
+                app:markerSrc="@{viewModel.ticTacToe.board.get(1, 0)}"
                 tools:ignore="ContentDescription"
                 tools:src="@drawable/ic_o_black" />
 
@@ -80,7 +80,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:onClick="@{() -> viewModel.mark(1, 1)}"
                 app:isImageClickable="@{viewModel.gameStatus}"
-                app:markerSrc="@{viewModel.gameStatus.ticTacToe.board.get(1, 1)}"
+                app:markerSrc="@{viewModel.ticTacToe.board.get(1, 1)}"
                 tools:ignore="ContentDescription"
                 tools:src="@drawable/ic_x_black" />
 
@@ -91,7 +91,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:onClick="@{() -> viewModel.mark(1, 2)}"
                 app:isImageClickable="@{viewModel.gameStatus}"
-                app:markerSrc="@{viewModel.gameStatus.ticTacToe.board.get(1, 2)}"
+                app:markerSrc="@{viewModel.ticTacToe.board.get(1, 2)}"
                 tools:ignore="ContentDescription"
                 tools:src="@drawable/ic_o_black" />
 
@@ -102,7 +102,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:onClick="@{() -> viewModel.mark(2, 0)}"
                 app:isImageClickable="@{viewModel.gameStatus}"
-                app:markerSrc="@{viewModel.gameStatus.ticTacToe.board.get(2, 0)}"
+                app:markerSrc="@{viewModel.ticTacToe.board.get(2, 0)}"
                 tools:ignore="ContentDescription"
                 tools:src="@drawable/ic_x_black" />
 
@@ -113,7 +113,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:onClick="@{() -> viewModel.mark(2, 1)}"
                 app:isImageClickable="@{viewModel.gameStatus}"
-                app:markerSrc="@{viewModel.gameStatus.ticTacToe.board.get(2, 1)}"
+                app:markerSrc="@{viewModel.ticTacToe.board.get(2, 1)}"
                 tools:ignore="ContentDescription"
                 tools:src="@drawable/ic_o_black" />
 
@@ -124,7 +124,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:onClick="@{() -> viewModel.mark(2, 2)}"
                 app:isImageClickable="@{viewModel.gameStatus}"
-                app:markerSrc="@{viewModel.gameStatus.ticTacToe.board.get(2, 2)}"
+                app:markerSrc="@{viewModel.ticTacToe.board.get(2, 2)}"
                 tools:ignore="ContentDescription"
                 tools:src="@drawable/ic_x_black" />
         <!-- endregion -->
