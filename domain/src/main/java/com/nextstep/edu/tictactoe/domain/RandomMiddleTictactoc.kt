@@ -8,12 +8,11 @@ import com.nextstep.edu.tictactoe.domain.model.TictactocMap
 class RandomMiddleTictactoc : TictactocStrategy {
 
     override fun put(point: Point, tictactocMap: TictactocMap): GameResult {
-        val isValidData = tictactocMap.validData(point = point)
-        if (!isValidData) {
+        if (!isValidData(point = point, tictactocMap = tictactocMap)) {
             return if (tictactocMap.getIsFinish()) GameResult.FINISH_GAME else GameResult.INVALID_POSITION
         }
 
-        var gameResult = tictactocMap.getGameResultFromSetMapPoint(point = point)
+        var gameResult = getGameResult(point = point, tictactocMap = tictactocMap)
 
         if (gameResult == GameResult.UNKNOWN) {
             val winPoints = tictactocMap.getNextPutPointsFromBehavior(behavior = Behavior.WIN)
@@ -26,7 +25,7 @@ class RandomMiddleTictactoc : TictactocStrategy {
 
             if (interceptorPoints.isNotEmpty()) {
                 tictactocMap.changeTurn()
-                return tictactocMap.getGameResultFromSetMapPoint(point = winPoints.first())
+                return tictactocMap.getGameResultFromSetMapPoint(point = interceptorPoints.first())
             }
 
             gameResult = randomPut(point = point, tictactocMap = tictactocMap)
@@ -40,13 +39,20 @@ class RandomMiddleTictactoc : TictactocStrategy {
         val range = (0 until DefaultTictactoe.MAP_SIZE)
 
         var randomPoint = point
-
-        while (!tictactocMap.validData(point = point)) {
+        while (!isValidData(point = randomPoint, tictactocMap = tictactocMap)) {
             val row = range.random()
             val column = range.random()
             randomPoint = Point.of(row = row, column = column)
         }
 
-        return tictactocMap.getGameResultFromSetMapPoint(point = randomPoint)
+        return getGameResult(point = randomPoint, tictactocMap = tictactocMap)
+    }
+
+    private fun isValidData(point: Point, tictactocMap: TictactocMap): Boolean {
+        return tictactocMap.validData(point = point)
+    }
+
+    private fun getGameResult(point: Point, tictactocMap: TictactocMap): GameResult {
+        return tictactocMap.getGameResultFromSetMapPoint(point = point)
     }
 }
