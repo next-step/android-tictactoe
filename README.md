@@ -5,6 +5,12 @@
         * [x] AI는 승리 직전의 상태(2목)이면 남은 한 자리에 둔다.
         * [x] AI는 상대가 승리 직전의 상태(2목)이면 남은 한 자리에 두어서 방해한다.
         * [x] 이외의 상황에서는 랜덤으로 둔다.
+    * 1차 피드백
+        * [x] 전략에서는 돌을 놓는 put만 가지도록 수정
+        * [x] TictactocMap 에서 getGameResultFromSetMapPoint를 통해서 gameResult 호출하던 내용 수정
+        * [x] TictactocMap 에서 다음에 랜덤으로 둘 곳 판별하는 로직 가지도록 수정
+        * [x] RandomStrategy 에서 사용하는 함수들 통합 
+        * [x] 랜덤 전략 테스트 코드 추가
 
 # Step2(2023-08-14) #
     * 틱택토(랜덤)
