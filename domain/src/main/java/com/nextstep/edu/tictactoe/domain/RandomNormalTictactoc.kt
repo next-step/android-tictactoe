@@ -1,13 +1,12 @@
 package com.nextstep.edu.tictactoe.domain
 
 import com.nextstep.edu.tictactoe.domain.di.RandomStrategyModule
-import com.nextstep.edu.tictactoe.domain.model.Behavior
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
 import com.nextstep.edu.tictactoe.domain.model.TictactocMap
 
-class RandomMiddleTictactoc(
-    randomStrategy: RandomStrategy = RandomStrategyModule.provideRandomMiddleTictactoc()
+class RandomNormalTictactoc(
+    randomStrategy: RandomStrategy = RandomStrategyModule.provideRandomNormalTictactoc()
 ) : TictactocStrategy,
     RandomStrategy by randomStrategy {
 
@@ -19,19 +18,6 @@ class RandomMiddleTictactoc(
         var gameResult = getGameResult(point = point, tictactocMap = tictactocMap)
 
         if (gameResult == GameResult.UNKNOWN) {
-            val winPoints = tictactocMap.getNextPutPointsFromBehavior(behavior = Behavior.WIN)
-            val interceptorPoints = tictactocMap.getNextPutPointsFromBehavior(behavior = Behavior.INTERRUPT)
-
-            if (winPoints.isNotEmpty()) {
-                tictactocMap.changeTurn()
-                return tictactocMap.getGameResultFromSetMapPoint(point = winPoints.first())
-            }
-
-            if (interceptorPoints.isNotEmpty()) {
-                tictactocMap.changeTurn()
-                return tictactocMap.getGameResultFromSetMapPoint(point = interceptorPoints.first())
-            }
-
             gameResult = randomPut(point = point, tictactocMap = tictactocMap)
         }
 
