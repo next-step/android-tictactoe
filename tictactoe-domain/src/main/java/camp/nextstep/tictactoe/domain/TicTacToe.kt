@@ -1,20 +1,64 @@
 package camp.nextstep.tictactoe.domain
 
 data class TicTacToe(
-	val mode: Mode = Mode.Random,
+	val mode: Mode,
 	val player: Player = mode.getFirst(),
 	val board: Board = Board.EMPTY,
 ) {
 
-	fun getNextPlayer(): Player {
-		return mode.getNext(player)
+	fun mark(point: Point, player: Player): GameStatus {
+		return when (val boardStatus = board.set(point, player.marker)) {
+			is SetBoardStatus.AlreadyExist -> GameStatus.InProgress(this, player)
+			is SetBoardStatus.Success -> getGameStatus(boardStatus.board, player)
+		}
+	}
+
+	private fun getGameStatus(newBoard: Board, player: Player): GameStatus {
+		newBoard.getWinner()?.let { winner ->
+			return GameStatus.End(this.copy(board = newBoard), winner)
+		}
+
+		val remainPoints = newBoard.getRemainPoints()
+		return if (remainPoints.isEmpty()) {
+			GameStatus.Draw(this.copy(board = newBoard))
+		} else {
+			when (player) {
+				is Player.Person -> {
+					when (mode) {
+						Mode.TwoPerson -> {
+							GameStatus.InProgress(
+								this.copy(board = newBoard),
+								mode.getNext(player)
+							)
+						}
+
+						Mode.Random -> {
+							val randomPoint = remainPoints.random()
+							mark(randomPoint, newBoard, Player.RandomAi())
+						}
+					}
+				}
+
+				is Player.RandomAi -> {
+					GameStatus.InProgress(
+						this.copy(board = newBoard),
+						mode.getNext(player)
+					)
+				}
+			}
+		}
+	}
+
+	private fun mark(point: Point, board: Board, player: Player): GameStatus {
+		return when (val boardStatus = board.set(point, player.marker)) {
+			is SetBoardStatus.AlreadyExist -> GameStatus.InProgress(this, player)
+			is SetBoardStatus.Success -> getGameStatus(boardStatus.board, player)
+		}
 	}
 
 	companion object {
-		val INIT = TicTacToe(
-			mode = Mode.Random,
-			player = Mode.Random.getFirst(),
-			board = Board.EMPTY
-		)
+		val INIT = TicTacToe(mode = Mode.Random)
+
+		fun create(mode: Mode) = TicTacToe(mode = mode)
 	}
 }

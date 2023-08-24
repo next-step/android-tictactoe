@@ -17,9 +17,7 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 	private lateinit var binding: ActivityMainBinding
-	private val mainViewModel: MainViewModel by viewModels {
-		ViewModelFactory()
-	}
+	private val mainViewModel: MainViewModel by viewModels()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -31,22 +29,11 @@ class MainActivity : AppCompatActivity() {
 
 		lifecycleScope.launch {
 			repeatOnLifecycle(Lifecycle.State.RESUMED) {
-				launch {
-					mainViewModel.gameStatus.collect { gameStatus ->
-						when (gameStatus) {
-							is GameStatus.End -> Toast.makeText(this@MainActivity, "${gameStatus.winnerMarker} 승리", Toast.LENGTH_LONG).show()
-							is GameStatus.Draw -> Toast.makeText(this@MainActivity, "무승부", Toast.LENGTH_LONG).show()
-							else -> Unit
-						}
-					}
-				}
-
-				launch {
-					mainViewModel.ticTaeToc.collect { ticTaeToe ->
-						when (ticTaeToe.player) {
-							is Player.Ai -> mainViewModel.mark()
-							else -> Unit
-						}
+				mainViewModel.gameStatus.collect { gameStatus ->
+					when (gameStatus) {
+						is GameStatus.End -> Toast.makeText(this@MainActivity, "${gameStatus.winnerMarker} 승리", Toast.LENGTH_LONG).show()
+						is GameStatus.Draw -> Toast.makeText(this@MainActivity, "무승부", Toast.LENGTH_LONG).show()
+						else -> Unit
 					}
 				}
 			}

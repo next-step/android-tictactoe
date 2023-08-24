@@ -18,6 +18,6 @@ fun setMarkerImageResource(imageView: ImageView, marker: Marker?) {
 fun setImageClickable(imageView: ImageView, gameStatus: GameStatus) {
 	return when (gameStatus) {
 		is GameStatus.InProgress -> imageView.isClickable = true
-		is GameStatus.End, GameStatus.Draw -> imageView.isClickable = false
+		is GameStatus.End, is GameStatus.Draw -> imageView.isClickable = false
 	}
 }
