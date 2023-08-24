@@ -84,4 +84,101 @@ class TictactocMap {
             }
         return result
     }
+
+    fun getNextPutPointsFromBehavior(behavior: Behavior): List<Point> {
+        val interceptorList = ArrayList<Point>()
+        isLeftDialogBehavior().let {
+            if (it.behavior == behavior) interceptorList.add(it.point)
+        }
+        isRightDialogBehavior().let {
+            if (it.behavior == behavior) interceptorList.add(it.point)
+        }
+
+        for (index in 0 until 3) {
+            isRowBehavior(index).let {
+                if (it.behavior == behavior) interceptorList.add(it.point)
+            }
+            isColumnBehavior(index).let {
+                if (it.behavior == behavior) interceptorList.add(it.point)
+            }
+        }
+
+        return interceptorList.toList()
+    }
+
+    private fun isLeftDialogBehavior(): RandomBehavior {
+        var dialogSum = 0
+        var putPoint = Point.of(0, 0)
+        for (point in 0 until 3) {
+            val turn = map[point][point]
+            when (turn) {
+                Turn.UNKNOWN -> putPoint = Point.of(row = point, column = point)
+                Turn.O -> dialogSum += 1
+                Turn.X -> dialogSum -= 1
+            }
+        }
+
+        return when (dialogSum) {
+            2 -> RandomBehavior(behavior = Behavior.WIN, putPoint)
+            -2 -> RandomBehavior(behavior = Behavior.INTERRUPT, putPoint)
+            else -> RandomBehavior(behavior = Behavior.UNKNOWN, putPoint)
+        }
+    }
+
+    private fun isRightDialogBehavior(): RandomBehavior {
+        var dialogSum = 0
+        var putPoint = Point.of(0, 0)
+        for (point in 0 until 3) {
+            val turn = map[point][2-point]
+            when (turn) {
+                Turn.UNKNOWN -> putPoint = Point.of(row = point, column = point)
+                Turn.O -> dialogSum += 1
+                Turn.X -> dialogSum -= 1
+            }
+        }
+
+        return when (dialogSum) {
+            2 -> RandomBehavior(behavior = Behavior.WIN, putPoint)
+            -2 -> RandomBehavior(behavior = Behavior.INTERRUPT, putPoint)
+            else -> RandomBehavior(behavior = Behavior.UNKNOWN, putPoint)
+        }
+    }
+
+    private fun isColumnBehavior(column: Int): RandomBehavior {
+        var columnSum = 0
+        var putPoint = Point.of(0, 0)
+        for (point in 0 until 3) {
+            val turn = map[point][column]
+            when (turn) {
+                Turn.UNKNOWN -> putPoint = Point.of(row = point, column = column)
+                Turn.O -> columnSum += 1
+                Turn.X -> columnSum -= 1
+            }
+        }
+
+        return when (columnSum) {
+            2 -> RandomBehavior(behavior = Behavior.WIN, putPoint)
+            -2 -> RandomBehavior(behavior = Behavior.INTERRUPT, putPoint)
+            else -> RandomBehavior(behavior = Behavior.UNKNOWN, putPoint)
+        }
+    }
+
+    private fun isRowBehavior(row: Int): RandomBehavior {
+        var columnSum = 0
+        var putPoint = Point.of(0, 0)
+        for (point in 0 until 3) {
+            val turn = map[row][point]
+            when (turn) {
+                Turn.UNKNOWN -> putPoint = Point.of(row = row, column = point)
+                Turn.O -> columnSum += 1
+                Turn.X -> columnSum -= 1
+            }
+        }
+
+        return when (columnSum) {
+            2 -> RandomBehavior(behavior = Behavior.WIN, putPoint)
+            -2 -> RandomBehavior(behavior = Behavior.INTERRUPT, putPoint)
+            else -> RandomBehavior(behavior = Behavior.UNKNOWN, putPoint)
+        }
+    }
 }

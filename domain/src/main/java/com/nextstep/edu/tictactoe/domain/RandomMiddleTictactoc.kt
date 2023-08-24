@@ -3,9 +3,7 @@ package com.nextstep.edu.tictactoe.domain
 import com.nextstep.edu.tictactoe.domain.model.Behavior
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
-import com.nextstep.edu.tictactoe.domain.model.RandomBehavior
 import com.nextstep.edu.tictactoe.domain.model.TictactocMap
-import com.nextstep.edu.tictactoe.domain.model.Turn
 
 class RandomMiddleTictactoc : TictactocStrategy {
 
@@ -18,28 +16,17 @@ class RandomMiddleTictactoc : TictactocStrategy {
         var gameResult = tictactocMap.getGameResultFromSetMapPoint(point = point)
 
         if (gameResult == GameResult.UNKNOWN) {
-            val behaviorList = ArrayList<RandomBehavior>().apply {
-                add(isLeftDialogBehavior(tictactocMap = tictactocMap))
-                add(isRightDialogBehavior(tictactocMap = tictactocMap))
-            }
+            val winPoints = tictactocMap.getNextPutPointsFromBehavior(behavior = Behavior.WIN)
+            val interceptorPoints = tictactocMap.getNextPutPointsFromBehavior(behavior = Behavior.INTERRUPT)
 
-            for (index in 0 until 3) {
-                behaviorList.add(isRowBehavior(row = index, tictactocMap = tictactocMap))
-                behaviorList.add(isColumnBehavior(column = index, tictactocMap = tictactocMap))
-            }
-
-            behaviorList.find {
-                it.behavior == Behavior.WIN
-            }?.let {
+            if (winPoints.isNotEmpty()) {
                 tictactocMap.changeTurn()
-                return tictactocMap.getGameResultFromSetMapPoint(point = it.point)
+                return tictactocMap.getGameResultFromSetMapPoint(point = winPoints.first())
             }
 
-            behaviorList.find {
-                it.behavior == Behavior.INTERRUPT
-            }?.let {
+            if (interceptorPoints.isNotEmpty()) {
                 tictactocMap.changeTurn()
-                return tictactocMap.getGameResultFromSetMapPoint(point = it.point)
+                return tictactocMap.getGameResultFromSetMapPoint(point = winPoints.first())
             }
 
             gameResult = randomPut(point = point, tictactocMap = tictactocMap)
@@ -61,85 +48,5 @@ class RandomMiddleTictactoc : TictactocStrategy {
         }
 
         return tictactocMap.getGameResultFromSetMapPoint(point = randomPoint)
-    }
-
-    private fun isLeftDialogBehavior(tictactocMap: TictactocMap): RandomBehavior {
-        val map = tictactocMap.getMap()
-        var dialogSum = 0
-        var putPoint = Point.of(0, 0)
-        for (point in 0 until 3) {
-            val turn = map[point][point]
-            when (turn) {
-                Turn.UNKNOWN -> putPoint = Point.of(row = point, column = point)
-                Turn.O -> dialogSum += 1
-                Turn.X -> dialogSum -= 1
-            }
-        }
-
-        return when (dialogSum) {
-            2 -> RandomBehavior(behavior = Behavior.WIN, putPoint)
-            -2 -> RandomBehavior(behavior = Behavior.INTERRUPT, putPoint)
-            else -> RandomBehavior(behavior = Behavior.UNKNOWN, putPoint)
-        }
-    }
-
-    private fun isRightDialogBehavior(tictactocMap: TictactocMap): RandomBehavior {
-        val map = tictactocMap.getMap()
-        var dialogSum = 0
-        var putPoint = Point.of(0, 0)
-        for (point in 0 until 3) {
-            val turn = map[point][2-point]
-            when (turn) {
-                Turn.UNKNOWN -> putPoint = Point.of(row = point, column = point)
-                Turn.O -> dialogSum += 1
-                Turn.X -> dialogSum -= 1
-            }
-        }
-
-        return when (dialogSum) {
-            2 -> RandomBehavior(behavior = Behavior.WIN, putPoint)
-            -2 -> RandomBehavior(behavior = Behavior.INTERRUPT, putPoint)
-            else -> RandomBehavior(behavior = Behavior.UNKNOWN, putPoint)
-        }
-    }
-
-    private fun isColumnBehavior(column: Int, tictactocMap: TictactocMap): RandomBehavior {
-        val map = tictactocMap.getMap()
-        var columnSum = 0
-        var putPoint = Point.of(0, 0)
-        for (point in 0 until 3) {
-            val turn = map[point][column]
-            when (turn) {
-                Turn.UNKNOWN -> putPoint = Point.of(row = point, column = column)
-                Turn.O -> columnSum += 1
-                Turn.X -> columnSum -= 1
-            }
-        }
-
-        return when (columnSum) {
-            2 -> RandomBehavior(behavior = Behavior.WIN, putPoint)
-            -2 -> RandomBehavior(behavior = Behavior.INTERRUPT, putPoint)
-            else -> RandomBehavior(behavior = Behavior.UNKNOWN, putPoint)
-        }
-    }
-
-    private fun isRowBehavior(row: Int, tictactocMap: TictactocMap): RandomBehavior {
-        val map = tictactocMap.getMap()
-        var columnSum = 0
-        var putPoint = Point.of(0, 0)
-        for (point in 0 until 3) {
-            val turn = map[row][point]
-            when (turn) {
-                Turn.UNKNOWN -> putPoint = Point.of(row = row, column = point)
-                Turn.O -> columnSum += 1
-                Turn.X -> columnSum -= 1
-            }
-        }
-
-        return when (columnSum) {
-            2 -> RandomBehavior(behavior = Behavior.WIN, putPoint)
-            -2 -> RandomBehavior(behavior = Behavior.INTERRUPT, putPoint)
-            else -> RandomBehavior(behavior = Behavior.UNKNOWN, putPoint)
-        }
     }
 }
