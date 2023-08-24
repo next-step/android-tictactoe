@@ -59,11 +59,11 @@ class RandomMiddleTictactocTest {
             // given: X턴으로 시작한다.
             tictactoe.reset()
 
-            // when: X가 보드에서 TOP을 두개 선택하면
+            // when: X가 보드에서 LEFT을 두개 선택하면
             tictactoe.put(Point.CellTopLeft)
             tictactoe.put(Point.CellMiddleLeft)
 
-            // then: O는 남은 TOP을 막는다.
+            // then: O는 남은 LEFT을 막는다.
             actual = tictactoe.getMap()[2][0]
         }
         assertEquals(Turn.O, actual)
@@ -77,11 +77,11 @@ class RandomMiddleTictactocTest {
             // given: X턴으로 시작한다.
             tictactoe.reset()
 
-            // when: X가 보드에서 TOP을 두개 선택하면
+            // when: X가 보드에서 대각선을 두개 선택하면
             tictactoe.put(Point.CellTopLeft)
             tictactoe.put(Point.CellMiddle)
 
-            // then: O는 남은 TOP을 막는다.
+            // then: O는 남은 대각선을 막는다.
             actual = tictactoe.getMap()[2][2]
         }
         assertEquals(Turn.O, actual)
