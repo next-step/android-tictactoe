@@ -6,7 +6,7 @@ data class TicTacToe(
 	val board: Board = Board.EMPTY,
 ) {
 
-	fun mark(point: Point, player: Player): GameStatus {
+	fun mark(point: Point, board: Board = this.board, player: Player): GameStatus {
 		return when (val boardStatus = board.set(point, player.marker)) {
 			is SetBoardStatus.AlreadyExist -> GameStatus.InProgress(this, player)
 			is SetBoardStatus.Success -> getGameStatus(boardStatus.board, player)
@@ -19,40 +19,33 @@ data class TicTacToe(
 		}
 
 		val remainPoints = newBoard.getRemainPoints()
-		return if (remainPoints.isEmpty()) {
-			GameStatus.Draw(this.copy(board = newBoard))
-		} else {
-			when (player) {
-				is Player.Person -> {
-					when (mode) {
-						Mode.TwoPerson -> {
-							GameStatus.InProgress(
-								this.copy(board = newBoard),
-								mode.getNext(player)
-							)
-						}
+		if (remainPoints.isEmpty()) {
+			return GameStatus.Draw(this.copy(board = newBoard))
+		}
 
-						Mode.Random -> {
-							val randomPoint = remainPoints.random()
-							mark(randomPoint, newBoard, Player.RandomAi())
-						}
+		return when (player) {
+			is Player.Person -> {
+				when (mode) {
+					Mode.TwoPerson -> {
+						GameStatus.InProgress(
+							this.copy(board = newBoard),
+							mode.getNext(player)
+						)
+					}
+
+					Mode.Random -> {
+						val randomPoint = remainPoints.random()
+						mark(randomPoint, newBoard, Player.RandomAi())
 					}
 				}
-
-				is Player.RandomAi -> {
-					GameStatus.InProgress(
-						this.copy(board = newBoard),
-						mode.getNext(player)
-					)
-				}
 			}
-		}
-	}
 
-	private fun mark(point: Point, board: Board, player: Player): GameStatus {
-		return when (val boardStatus = board.set(point, player.marker)) {
-			is SetBoardStatus.AlreadyExist -> GameStatus.InProgress(this, player)
-			is SetBoardStatus.Success -> getGameStatus(boardStatus.board, player)
+			is Player.RandomAi -> {
+				GameStatus.InProgress(
+					this.copy(board = newBoard),
+					mode.getNext(player)
+				)
+			}
 		}
 	}
 

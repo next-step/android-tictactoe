@@ -21,7 +21,11 @@ class MainViewModel : ViewModel() {
 		val gameStatusSnapshot = _gameStatus.value
 		if (gameStatusSnapshot !is GameStatus.InProgress) return
 
-		val gameStatus = gameStatusSnapshot.ticTacToe.mark(Point(x, y), gameStatusSnapshot.nextPlayer)
+		val gameStatus = gameStatusSnapshot.ticTacToe.mark(
+			point = Point(x, y),
+			player = gameStatusSnapshot.nextPlayer
+		)
+
 		updateGameStatus(gameStatus)
 	}
 
