@@ -10,6 +10,7 @@ import com.nextstep.edu.tictactoe.domain.RandomMiddleTictactoc
 import com.nextstep.edu.tictactoe.domain.RandomNormalTictactoc
 import com.nextstep.edu.tictactoe.domain.DefaultTictactoe
 import com.nextstep.edu.tictactoe.domain.PlayerTictactoc
+import com.nextstep.edu.tictactoe.domain.di.RandomStrategyModule
 import com.nextstep.edu.tictactoe.domain.model.GameMode
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 
@@ -26,8 +27,8 @@ class TictactocViewModel : ViewModel() {
     fun onSetGameMode(gameMode: GameMode) {
         tictactoe = when (gameMode) {
             GameMode.TWO_PLAYER -> DefaultTictactoe(PlayerTictactoc())
-            GameMode.RANDOM -> DefaultTictactoe(RandomNormalTictactoc())
-            GameMode.RANDOM_MIDDLE -> DefaultTictactoe(RandomMiddleTictactoc())
+            GameMode.RANDOM -> DefaultTictactoe(RandomNormalTictactoc(RandomStrategyModule.provideRandomNormalTictactoc()))
+            GameMode.RANDOM_MIDDLE -> DefaultTictactoe(RandomMiddleTictactoc(RandomStrategyModule.provideRandomMiddleTictactoc()))
         }
         onRestBoard()
     }

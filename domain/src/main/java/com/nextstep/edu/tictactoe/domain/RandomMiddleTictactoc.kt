@@ -1,13 +1,12 @@
 package com.nextstep.edu.tictactoe.domain
 
-import com.nextstep.edu.tictactoe.domain.di.RandomStrategyModule
 import com.nextstep.edu.tictactoe.domain.model.Behavior
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
 import com.nextstep.edu.tictactoe.domain.model.TictactocMap
 
 class RandomMiddleTictactoc(
-    randomStrategy: RandomStrategy = RandomStrategyModule.provideRandomMiddleTictactoc()
+    randomStrategy: RandomStrategy
 ) : TictactocStrategy,
     RandomStrategy by randomStrategy {
 
