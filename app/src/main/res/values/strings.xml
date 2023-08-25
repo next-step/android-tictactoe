@@ -7,5 +7,5 @@
     <string name="tie">무승부</string>
     <string name="game_mode_two_player">2인 모드</string>
     <string name="game_mode_random_player">랜덤 모드</string>
-    <string name="game_mode_tie_player">무승부 모드</string>
+    <string name="game_mode_ramdom_middle_player">중급 모드</string>
 </resources>

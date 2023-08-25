@@ -9,11 +9,11 @@ import org.junit.Test
 
 class TictactoeTest {
 
-    lateinit var tictactoe: Tictactoe
+    lateinit var tictactoe: DefaultTictactoe
 
     @Before
     fun setUp() {
-        tictactoe = PlayerTictactoc()
+        tictactoe = DefaultTictactoe(PlayerTictactoc())
     }
 
     @Test

@@ -6,27 +6,26 @@ import androidx.lifecycle.ViewModel
 import camp.nextstep.edu.tictactoe.model.Board
 import camp.nextstep.edu.tictactoe.model.TictactocCell
 import camp.nextstep.edu.tictactoe.utils.Event
-import com.nextstep.edu.tictactoe.domain.PlayerTictactoc
-import com.nextstep.edu.tictactoe.domain.RandomTictactoc
-import com.nextstep.edu.tictactoe.domain.Tictactoe
+import com.nextstep.edu.tictactoe.domain.DefaultTictactoe
+import com.nextstep.edu.tictactoe.domain.di.RandomStrategyModule
 import com.nextstep.edu.tictactoe.domain.model.GameMode
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 
 class TictactocViewModel : ViewModel() {
 
-    private var tictactoe: Tictactoe = PlayerTictactoc()
+    private var tictactoe = DefaultTictactoe(RandomStrategyModule.providePlayerTictactoc())
 
     private val _tictactocToastMessage: MutableLiveData<Event<TictactocToastMessage>> = MutableLiveData()
     val tictactocToastMessage: LiveData<Event<TictactocToastMessage>> = _tictactocToastMessage
 
-    private val _tictactocBoard: MutableLiveData<Board> = MutableLiveData(Board.Empty())
+    private val _tictactocBoard: MutableLiveData<Board> = MutableLiveData(Board.Empty)
     val tictactocBoard: LiveData<Board> = _tictactocBoard
 
     fun onSetGameMode(gameMode: GameMode) {
         tictactoe = when (gameMode) {
-            GameMode.TWO_PLAYER -> PlayerTictactoc()
-            GameMode.RANDOM -> RandomTictactoc()
-            else -> PlayerTictactoc()
+            GameMode.TWO_PLAYER -> DefaultTictactoe(RandomStrategyModule.providePlayerTictactoc())
+            GameMode.RANDOM -> DefaultTictactoe(RandomStrategyModule.provideRandomNormalTictactoc())
+            GameMode.RANDOM_MIDDLE -> DefaultTictactoe(RandomStrategyModule.provideRandomMiddleTictactoc())
         }
         onRestBoard()
     }
@@ -67,6 +66,6 @@ class TictactocViewModel : ViewModel() {
     }
 
     private fun setBoardFromMap() {
-        _tictactocBoard.value = Board.NotEmpty(tictactoe.getMap())
+        _tictactocBoard.value = Board(tictactoe.getMap())
     }
 }

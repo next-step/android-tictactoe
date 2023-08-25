@@ -1,3 +1,17 @@
+# Step3(2023-08-18) #
+    * 틱택토(중급)
+        * [x] 메뉴에서 중급를 선택하면 중급 모드로 전환한다.
+        * [x] 앱을 시작하면 중급 모드로 시작한다.
+        * [x] AI는 승리 직전의 상태(2목)이면 남은 한 자리에 둔다.
+        * [x] AI는 상대가 승리 직전의 상태(2목)이면 남은 한 자리에 두어서 방해한다.
+        * [x] 이외의 상황에서는 랜덤으로 둔다.
+    * 1차 피드백
+        * [x] 전략에서는 돌을 놓는 put만 가지도록 수정
+        * [x] TictactocMap 에서 getGameResultFromSetMapPoint를 통해서 gameResult 호출하던 내용 수정
+        * [x] TictactocMap 에서 다음에 랜덤으로 둘 곳 판별하는 로직 가지도록 수정
+        * [x] RandomStrategy 에서 사용하는 함수들 통합 
+        * [x] 랜덤 전략 테스트 코드 추가
+
 # Step2(2023-08-14) #
     * 틱택토(랜덤)
         * [x] 메뉴에서 2인을 선택하면 2인 모드로 전환한다.
@@ -11,6 +25,11 @@
         * [x] activity_tictactoc 내부 variable -> import로 수정(잘못된 값을 참조할 수 있으므로)
         * [x] Random, Player 기능을 하는 클래스 Tictactoc 상속 이용
         * [x] tictactocBoard 이중 배열 타입으로 지정되어 있던 내용 Board 클래스로 수정
+    * 2차 피드백
+        * [x] Board 클래스로 변경 & Empty 상수화
+        * [x] GameResultManager 제거 & map으로 기능 이전
+        * [x] Tictactoc 전략 인터페이스화 & DefaultTictactoc에 주입
+        * [x] TictactocMap 초기화 부분 수정
 
 # Step1(2023-08-13) #
     * 틱택토(2인)

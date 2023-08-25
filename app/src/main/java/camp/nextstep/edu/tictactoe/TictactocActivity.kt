@@ -22,7 +22,7 @@ class TictactocActivity : AppCompatActivity() {
             lifecycleOwner = this@TictactocActivity
         }
         setContentView(binding.root)
-        viewModel.onSetGameMode(gameMode = GameMode.RANDOM)
+        viewModel.onSetGameMode(gameMode = GameMode.RANDOM_MIDDLE)
         observerToastMessage()
     }
 
@@ -57,9 +57,9 @@ class TictactocActivity : AppCompatActivity() {
                 showToastMessage(R.string.game_mode_random_player)
                 viewModel.onSetGameMode(gameMode = GameMode.RANDOM)
             }
-            R.id.menu_draw -> {
-                showToastMessage(R.string.game_mode_tie_player)
-                viewModel.onSetGameMode(gameMode = GameMode.TIE)
+            R.id.menu_random_middle -> {
+                showToastMessage(R.string.game_mode_ramdom_middle_player)
+                viewModel.onSetGameMode(gameMode = GameMode.RANDOM_MIDDLE)
             }
         }
         return true
