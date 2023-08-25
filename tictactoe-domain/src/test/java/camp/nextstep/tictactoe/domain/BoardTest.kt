@@ -36,4 +36,122 @@ class BoardTest {
 		// then
 		assertThat(actual).isEqualTo(SetBoardStatus.AlreadyExist)
 	}
+
+	@Test
+	fun `행 한줄이 X 표시로 채워졌을 때, 승자를 가져오면, 승자를 반환한다`() {
+		// given
+		/**
+		 * X X X
+		 * . . .
+		 * . . .
+		 */
+		val board = Board(
+			map = mapOf(
+				Point(0, 0) to Marker.X,
+				Point(0, 1) to Marker.X,
+				Point(0, 2) to Marker.X,
+			)
+		)
+
+		// when
+		val actual = board.getWinner()
+
+		// then
+		assertThat(actual).isEqualTo(Marker.X)
+	}
+
+	@Test
+	fun `열 한줄이 X 표시로 채워졌을 때, 승자를 가져오면, 승자를 반환한다`() {
+		// given
+		/**
+		 * X . .
+		 * X . .
+		 * X . .
+		 */
+		val board = Board(
+			map = mapOf(
+				Point(0, 0) to Marker.X,
+				Point(1, 0) to Marker.X,
+				Point(2, 0) to Marker.X,
+			)
+		)
+
+		// when
+		val actual = board.getWinner()
+
+		// then
+		assertThat(actual).isEqualTo(Marker.X)
+	}
+
+	@Test
+	fun `왼쪽에서 오른쪽으로의 대각선 한줄이 X 표시로 채워졌을 때, 승자를 가져오면, 승자를 반환한다`() {
+		// given
+		/**
+		 * X . .
+		 * . X .
+		 * . . X
+		 */
+		val board = Board(
+			map = mapOf(
+				Point(0, 0) to Marker.X,
+				Point(1, 1) to Marker.X,
+				Point(2, 2) to Marker.X,
+			)
+		)
+
+		// when
+		val actual = board.getWinner()
+
+		// then
+		assertThat(actual).isEqualTo(Marker.X)
+	}
+
+	@Test
+	fun `오른쪽에서 왼쪽으로의 대각선 한줄이 X 표시로 채워졌을 때, 승자를 가져오면, 승자를 반환한다`() {
+		// given
+		/**
+		 * . . X
+		 * . X .
+		 * X . .
+		 */
+		val board = Board(
+			map = mapOf(
+				Point(0, 2) to Marker.X,
+				Point(1, 1) to Marker.X,
+				Point(2, 0) to Marker.X,
+			)
+		)
+
+		// when
+		val actual = board.getWinner()
+
+		// then
+		assertThat(actual).isEqualTo(Marker.X)
+	}
+	@Test
+	fun `모든 줄이 X,O 표시로 채워졌을 때, 남은 좌표를 가져오면, 남은 좌표를 반환한다`() {
+		// given
+		/**
+		 * X O X
+		 * O X X
+		 * O . .
+		 */
+		val board = Board(
+			map = mapOf(
+				Point(0, 0) to Marker.X,
+				Point(0, 1) to Marker.O,
+				Point(0, 2) to Marker.X,
+				Point(1, 0) to Marker.O,
+				Point(1, 1) to Marker.X,
+				Point(1, 2) to Marker.X,
+				Point(2, 0) to Marker.O,
+			)
+		)
+
+		// when
+		val actual = board.getRemainPoints()
+
+		// then
+		assertThat(actual).isEqualTo(listOf(Point(2, 1), Point(2, 2)))
+	}
 }
