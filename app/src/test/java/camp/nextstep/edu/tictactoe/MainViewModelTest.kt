@@ -1,21 +1,14 @@
 package camp.nextstep.edu.tictactoe
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import app.cash.turbine.test
-import camp.nextstep.tictactoe.domain.Board
 import camp.nextstep.tictactoe.domain.GameStatus
 import camp.nextstep.tictactoe.domain.Marker
 import camp.nextstep.tictactoe.domain.Mode
 import camp.nextstep.tictactoe.domain.Point
-import camp.nextstep.tictactoe.domain.TicTacToe
-import camp.nextstep.tictactoe.domain.usecase.GetGameStatusUseCase
-import camp.nextstep.tictactoe.domain.usecase.GetRandomPointCandidatesUseCase
-import camp.nextstep.tictactoe.domain.usecase.MarkBoardUseCase
-import com.google.common.truth.Truth.assertThat
+import camp.nextstep.tictactoe.domain.TicTaeToHandler
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -25,146 +18,66 @@ class MainViewModelTest {
 	@get:Rule
 	val instantExecutorRule = InstantTaskExecutorRule()
 
-	private lateinit var markBoardUseCase: MarkBoardUseCase
-	private lateinit var getGetGameStatusUseCase: GetGameStatusUseCase
-	private lateinit var getRandomPointCandidatesUseCase: GetRandomPointCandidatesUseCase
+	private lateinit var ticTaeToHandler: TicTaeToHandler
 	private lateinit var mainViewModel: MainViewModel
 
 	@Before
 	fun setUp() {
-		markBoardUseCase = mockk(relaxed = true)
-		getGetGameStatusUseCase = mockk(relaxed = true)
-		getRandomPointCandidatesUseCase = mockk(relaxed = true)
-		mainViewModel = MainViewModel(markBoardUseCase, getGetGameStatusUseCase, getRandomPointCandidatesUseCase)
+		ticTaeToHandler = mockk(relaxed = true)
+		mainViewModel = MainViewModel(ticTaeToHandler)
 	}
 
 	@Test
-	fun `특정 좌표를 mark 하면, TicTacToe 를 갱신한다`() = runBlocking {
+	fun `2인모드일때, 특정 좌표를 mark 하면, 특정 좌표를 mark 한다`() {
 		// given
-		val expected = TicTacToe(board = Board(map = mapOf(Point(0, 0) to Marker.X)))
-		every { markBoardUseCase.invoke(Point(0, 0), any()) } returns expected
+		mainViewModel.updateMode(Mode.TwoPerson)
 
 		// when
 		mainViewModel.mark(0, 0)
 
-		// then
-		verify { markBoardUseCase.invoke(Point(0, 0), any()) }
-		mainViewModel.ticTaeToc.test {
-			val actual = awaitItem()
-			assertThat(actual).isEqualTo(expected)
-		}
+		// given
+		verify { ticTaeToHandler.mark(Point(0, 0), any()) }
 	}
 
 	@Test
-	fun `특정 좌표를 mark 했을 때, 승자가 나왔다면, 승자를 전달한다`() = runBlocking {
+	fun `2인모드일때, 특정 좌표를 mark 하면, 게임 상태를 가져온다`() {
 		// given
-		every { getGetGameStatusUseCase.invoke(any()) } returns GameStatus.End(Marker.X)
+		mainViewModel.updateMode(Mode.TwoPerson)
 
 		// when
 		mainViewModel.mark(0, 0)
 
-		// then
-		verify { getGetGameStatusUseCase.invoke(any()) }
-		mainViewModel.gameStatus.test {
-			val actual = awaitItem()
-			assertThat(actual).isEqualTo(GameStatus.End(Marker.X))
-		}
-	}
-
-	@Test
-	fun `특정 좌표를 mark 했을 때, 무승부면, 무승부임을 전달한다`() = runBlocking {
 		// given
-		every { getGetGameStatusUseCase.invoke(any()) } returns GameStatus.Draw
-
-		// when
-		mainViewModel.mark(0, 0)
-
-		// then
-		verify { getGetGameStatusUseCase.invoke(any()) }
-		mainViewModel.gameStatus.test {
-			val actual = awaitItem()
-			assertThat(actual).isEqualTo(GameStatus.Draw)
-		}
+		verify { ticTaeToHandler.getGameStatus(any()) }
 	}
 
 	@Test
-	fun `게임을 다시 시작하면, Board 와 Player 가 초기화된다`() = runBlocking {
-		// when
-		mainViewModel.restartGame()
-
-		// then
-		mainViewModel.ticTaeToc.test {
-			val actual = awaitItem()
-			assertThat(actual).isEqualTo(TicTacToe.INIT)
-		}
-	}
-
-	@Test
-	fun `게임을 다시 시작하면, 게임 상태가 InProgress 상태로 설정된다`() = runBlocking {
-		// when
-		mainViewModel.restartGame()
-
-		// then
-		mainViewModel.gameStatus.test {
-			val actual = awaitItem()
-			assertThat(actual).isEqualTo(GameStatus.InProgress)
-		}
-	}
-
-	@Test
-	fun `게임 모드를 변경하면, 모드가 변경되고 Board 와 Player 가 초기화된다`() = runBlocking {
+	fun `랜덤모드일때, 특정 좌표를 mark 하면, 특정 좌표를 mark 하고 랜덤 좌표를 mark 한다`() {
 		// given
-		val expected = TicTacToe(
-			mode = Mode.Random,
-			player = Mode.Random.getFirst(),
-			board = Board.EMPTY
-		)
-
-		// when
 		mainViewModel.updateMode(Mode.Random)
+		every { ticTaeToHandler.getGameStatus(any()) } returns GameStatus.InProgress
 
-		// then
-		mainViewModel.ticTaeToc.test {
-			val actual = awaitItem()
-			assertThat(actual).isEqualTo(expected)
-		}
+		// when
+		mainViewModel.mark(0, 0)
+
+		// given
+		verify { ticTaeToHandler.mark(Point(0, 0), any()) }
+		verify { ticTaeToHandler.markRandomlyIfNeed(any()) }
+		verify(exactly = 2) { ticTaeToHandler.getGameStatus(any()) }
 	}
 
 	@Test
-	fun `게임 모드를 변경하면, 게임 상태가 InProgress 상태로 설정된다`() = runBlocking {
-		// when
+	fun `랜덤모드이고, 특정 좌표를 mark 했을때, 승자가 나오면, 특정 좌표를 mark 하고 랜덤 좌표는 mark 하지 않는다`() {
+		// given
 		mainViewModel.updateMode(Mode.Random)
-
-		// then
-		mainViewModel.gameStatus.test {
-			val actual = awaitItem()
-			assertThat(actual).isEqualTo(GameStatus.InProgress)
-		}
-	}
-
-	@Test
-	fun `랜덤으로 가져온 좌표가 존재할 때, mark 하면, Board 에 mark 하고 게임 상태를 갱신한다`() {
-		// given
-		every { getRandomPointCandidatesUseCase(any())} returns listOf(Point(0, 0))
+		every { ticTaeToHandler.getGameStatus(any()) } returns GameStatus.End(Marker.X)
 
 		// when
-		mainViewModel.mark()
+		mainViewModel.mark(0, 0)
 
-		// then
-		verify { markBoardUseCase(any(), any()) }
-		verify { getGetGameStatusUseCase(any()) }
-	}
-
-	@Test
-	fun `랜덤으로 가져온 좌표가 존재하지 않을 때, mark 하면, Board 에 mark 하지 않고 게임 상태를 갱신하지 않는다`() {
 		// given
-		every { getRandomPointCandidatesUseCase(any())} returns listOf()
-
-		// when
-		mainViewModel.mark()
-
-		// then
-		verify(inverse = true) { markBoardUseCase(any(), any()) }
-		verify(inverse = true) { getGetGameStatusUseCase(any()) }
+		verify { ticTaeToHandler.mark(Point(0, 0), any()) }
+		verify(inverse = true) { ticTaeToHandler.markRandomlyIfNeed(any()) }
+		verify(exactly = 1) { ticTaeToHandler.getGameStatus(any()) }
 	}
 }
