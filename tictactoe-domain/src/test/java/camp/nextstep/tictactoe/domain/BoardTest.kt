@@ -129,7 +129,7 @@ class BoardTest {
 		assertThat(actual).isEqualTo(Marker.X)
 	}
 	@Test
-	fun `모든 줄이 X,O 표시로 채워졌을 때, 남은 좌표를 가져오면, 남은 좌표를 반환한다`() {
+	fun `남은 좌표를 가져오면, 남은 좌표를 반환한다`() {
 		// given
 		/**
 		 * X O X
