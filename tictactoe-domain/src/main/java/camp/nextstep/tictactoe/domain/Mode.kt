@@ -1,6 +1,6 @@
 package camp.nextstep.tictactoe.domain
 
-sealed class Mode(val player1: Player, val player2: Player) {
+sealed class Mode(private val player1: Player, private val player2: Player) {
 	fun getFirst(): Player {
 		return player1
 	}
@@ -13,4 +13,5 @@ sealed class Mode(val player1: Player, val player2: Player) {
 	}
 
 	object TwoPerson : Mode(Player.Person(Marker.X), Player.Person(Marker.O))
+	object Random : Mode(Player.Person(Marker.X), Player.RandomAi(Marker.O))
 }

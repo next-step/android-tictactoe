@@ -1,13 +1,14 @@
 package camp.nextstep.edu.tictactoe
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import app.cash.turbine.test
-import camp.nextstep.tictactoe.domain.Board
 import camp.nextstep.tictactoe.domain.GameStatus
 import camp.nextstep.tictactoe.domain.Marker
+import camp.nextstep.tictactoe.domain.Mode
 import camp.nextstep.tictactoe.domain.Point
-import com.google.common.truth.Truth.assertThat
-import kotlinx.coroutines.runBlocking
+import camp.nextstep.tictactoe.domain.TicTaeToHandler
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -17,95 +18,66 @@ class MainViewModelTest {
 	@get:Rule
 	val instantExecutorRule = InstantTaskExecutorRule()
 
+	private lateinit var ticTaeToHandler: TicTaeToHandler
 	private lateinit var mainViewModel: MainViewModel
 
 	@Before
 	fun setUp() {
-		mainViewModel = MainViewModel()
+		ticTaeToHandler = mockk(relaxed = true)
+		mainViewModel = MainViewModel(ticTaeToHandler)
 	}
 
 	@Test
-	fun `특정 좌표를 mark 하면, 특정 좌표가 mark 된 Board 로 갱신한다`() = runBlocking {
-		// when
-		mainViewModel.mark(0, 0)
-
-		// then
-		mainViewModel.board.test {
-			val actual = awaitItem()
-			assertThat(actual).isEqualTo(Board(map = mapOf(Point(0, 0) to Marker.X)))
-		}
-	}
-
-	@Test
-	fun `특정 좌표를 mark 했을 때, 승자가 나왔다면, 승자를 전달한다`() {
-		setBoardToEndGame()
-
-		// then
-		val actual = mainViewModel.gameStatus.getOrAwaitValue()
-		assertThat(actual).isEqualTo(GameStatus.End(Marker.X))
-	}
-
-	@Test
-	fun `특정 좌표를 mark 했을 때, 무승부면, 무승부임을 전달한다`() = runBlocking {
-		setBoardToDrawGame()
-
-		// then
-		val actual1 = mainViewModel.gameStatus.getOrAwaitValue()
-		assertThat(actual1).isEqualTo(GameStatus.Draw)
-
-	}
-
-	@Test
-	fun `게임을 다시 시작하면, 게임 상태가 InProgress 상태로 설정된다`() {
+	fun `2인모드일때, 특정 좌표를 mark 하면, 특정 좌표를 mark 한다`() {
 		// given
-		mainViewModel.mark(0, 0)
+		mainViewModel.updateMode(Mode.TwoPerson)
 
 		// when
-		mainViewModel.restartGame()
+		mainViewModel.mark(0, 0)
 
-		// then
-		val actual = mainViewModel.gameStatus.getOrAwaitValue()
-		assertThat(actual).isEqualTo(GameStatus.InProgress)
+		// given
+		verify { ticTaeToHandler.mark(Point(0, 0), any()) }
 	}
 
 	@Test
-	fun `게임을 다시 시작하면, Board 가 초기화된다`() = runBlocking {
+	fun `2인모드일때, 특정 좌표를 mark 하면, 게임 상태를 가져온다`() {
 		// given
-		mainViewModel.mark(0, 0)
+		mainViewModel.updateMode(Mode.TwoPerson)
 
 		// when
-		mainViewModel.restartGame()
+		mainViewModel.mark(0, 0)
 
-		// then
-		mainViewModel.board.test {
-			val actual = awaitItem()
-			assertThat(actual).isEqualTo(Board.EMPTY)
-		}
+		// given
+		verify { ticTaeToHandler.getGameStatus(any()) }
 	}
 
-	private fun setBoardToEndGame() {
+	@Test
+	fun `랜덤모드일때, 특정 좌표를 mark 하면, 특정 좌표를 mark 하고 랜덤 좌표를 mark 한다`() {
 		// given
-		mainViewModel.mark(0, 0)
-		mainViewModel.mark(1, 0)
-		mainViewModel.mark(0, 1)
-		mainViewModel.mark(2, 0)
+		mainViewModel.updateMode(Mode.Random)
+		every { ticTaeToHandler.getGameStatus(any()) } returns GameStatus.InProgress
 
 		// when
-		mainViewModel.mark(0, 2)
+		mainViewModel.mark(0, 0)
+
+		// given
+		verify { ticTaeToHandler.mark(Point(0, 0), any()) }
+		verify { ticTaeToHandler.markRandomlyIfNeed(any()) }
+		verify(exactly = 2) { ticTaeToHandler.getGameStatus(any()) }
 	}
 
-	private fun setBoardToDrawGame() {
+	@Test
+	fun `랜덤모드이고, 특정 좌표를 mark 했을때, 승자가 나오면, 특정 좌표를 mark 하고 랜덤 좌표는 mark 하지 않는다`() {
 		// given
-		mainViewModel.mark(0, 0)
-		mainViewModel.mark(0, 1)
-		mainViewModel.mark(0, 2)
-		mainViewModel.mark(1, 0)
-		mainViewModel.mark(1, 1)
-		mainViewModel.mark(2, 0)
-		mainViewModel.mark(1, 2)
-		mainViewModel.mark(2, 2)
+		mainViewModel.updateMode(Mode.Random)
+		every { ticTaeToHandler.getGameStatus(any()) } returns GameStatus.End(Marker.X)
 
 		// when
-		mainViewModel.mark(2, 1)
+		mainViewModel.mark(0, 0)
+
+		// given
+		verify { ticTaeToHandler.mark(Point(0, 0), any()) }
+		verify(inverse = true) { ticTaeToHandler.markRandomlyIfNeed(any()) }
+		verify(exactly = 1) { ticTaeToHandler.getGameStatus(any()) }
 	}
 }
