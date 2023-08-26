@@ -1,23 +1,25 @@
 package com.nextstep.edu.tictactoe.domain
 
+import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
 import com.nextstep.edu.tictactoe.domain.model.TictactocMap
+import com.nextstep.edu.tictactoe.domain.model.Turn
 
 class DefaultTictactoe(
-    val strategy: TictactocStrategy
+    private val strategy: TictactocStrategy
 ) {
 
     private val tictactocMap: TictactocMap = TictactocMap()
 
-    fun put(point: Point) = strategy.put(point = point, tictactocMap = tictactocMap)
+    fun put(point: Point): GameResult = strategy.put(point = point, tictactocMap = tictactocMap)
 
-    fun reset() =  tictactocMap.resetMap()
+    fun reset(): Unit = tictactocMap.resetMap()
 
-    fun changeTurn() = tictactocMap.changeTurn()
+    fun changeTurn(): Unit = tictactocMap.changeTurn()
 
-    fun getCurrentTurn() = tictactocMap.getCurrentTurn()
+    fun getCurrentTurn(): Turn = tictactocMap.getCurrentTurn()
 
-    fun getMap() = tictactocMap.getMap()
+    fun getMap(): Array<Array<Turn>> = tictactocMap.getMap()
 
     companion object {
         const val MAP_SIZE = 3
