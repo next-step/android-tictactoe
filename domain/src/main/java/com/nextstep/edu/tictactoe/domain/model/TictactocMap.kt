@@ -103,99 +103,64 @@ class TictactocMap {
     }
 
     fun getNextPutPointsFromBehavior(behavior: Behavior): List<Point> {
-        val interceptorList = ArrayList<Point>()
-        isLeftDialogBehavior().let {
-            if (it.behavior == behavior) interceptorList.add(it.point)
-        }
-        isRightDialogBehavior().let {
-            if (it.behavior == behavior) interceptorList.add(it.point)
-        }
+        val interceptors = ArrayList<Point>()
+        interceptors.addInterceptor(lines = Lines.leftDiagonal, behavior = behavior)
+        interceptors.addInterceptor(lines = Lines.rightDiagonal, behavior = behavior)
 
         for (index in 0 until 3) {
-            isRowBehavior(index).let {
-                if (it.behavior == behavior) interceptorList.add(it.point)
-            }
-            isColumnBehavior(index).let {
-                if (it.behavior == behavior) interceptorList.add(it.point)
-            }
+            interceptors.addInterceptor(lines = Lines.row(rowIndex = index), behavior = behavior)
+            interceptors.addInterceptor(lines = Lines.column(columnIndex = index), behavior = behavior)
         }
 
-        return interceptorList.toList()
+        return interceptors.toList()
     }
 
-    private fun isLeftDialogBehavior(): RandomBehavior {
-        var dialogSum = 0
+    private fun ArrayList<Point>.addInterceptor(lines: Lines, behavior: Behavior) {
+        isRandomNextBehavior(lines).let {
+            if (it.behavior == behavior) this.add(it.point)
+        }
+    }
+
+    private fun isRandomNextBehavior(lines: Lines): RandomBehavior {
+        var lineSum = 0
         var putPoint = Point.of(0, 0)
-        for (point in 0 until 3) {
-            val turn = map[point][point]
-            when (turn) {
-                Turn.UNKNOWN -> putPoint = Point.of(row = point, column = point)
-                Turn.O -> dialogSum += 1
-                Turn.X -> dialogSum -= 1
+        for (index in 0 until 3) {
+            getMapTurnFromLines(lines = lines, index = index).let { turn ->
+                when (turn) {
+                    Turn.UNKNOWN -> putPoint = getPointFromLines(lines = lines, index = index)
+                    Turn.O -> lineSum += 1
+                    Turn.X -> lineSum -= 1
+                }
             }
         }
 
-        return when (dialogSum) {
+        val randomBehavior = when (lineSum) {
             2 -> RandomBehavior(behavior = Behavior.WIN, putPoint)
             -2 -> RandomBehavior(behavior = Behavior.INTERRUPT, putPoint)
             else -> RandomBehavior(behavior = Behavior.UNKNOWN, putPoint)
         }
+
+        return randomBehavior
     }
 
-    private fun isRightDialogBehavior(): RandomBehavior {
-        var dialogSum = 0
-        var putPoint = Point.of(0, 0)
-        for (point in 0 until 3) {
-            val turn = map[point][2-point]
-            when (turn) {
-                Turn.UNKNOWN -> putPoint = Point.of(row = point, column = point)
-                Turn.O -> dialogSum += 1
-                Turn.X -> dialogSum -= 1
-            }
+    private fun getMapTurnFromLines(lines: Lines, index: Int): Turn {
+        val turn = when (lines) {
+            is Lines.row -> map[lines.rowIndex][index]
+            is Lines.column -> map[index][lines.columnIndex]
+            is Lines.leftDiagonal -> map[index][index]
+            is Lines.rightDiagonal -> map[index][2-index]
         }
 
-        return when (dialogSum) {
-            2 -> RandomBehavior(behavior = Behavior.WIN, putPoint)
-            -2 -> RandomBehavior(behavior = Behavior.INTERRUPT, putPoint)
-            else -> RandomBehavior(behavior = Behavior.UNKNOWN, putPoint)
-        }
+        return turn
     }
 
-    private fun isColumnBehavior(column: Int): RandomBehavior {
-        var columnSum = 0
-        var putPoint = Point.of(0, 0)
-        for (point in 0 until 3) {
-            val turn = map[point][column]
-            when (turn) {
-                Turn.UNKNOWN -> putPoint = Point.of(row = point, column = column)
-                Turn.O -> columnSum += 1
-                Turn.X -> columnSum -= 1
-            }
+    private fun getPointFromLines(lines: Lines, index: Int): Point {
+        val point = when(lines) {
+            is Lines.row -> Point.of(row = lines.rowIndex, column = index)
+            is Lines.column -> Point.of(row = index, column = lines.columnIndex)
+            is Lines.rightDiagonal, Lines.leftDiagonal -> Point.of(row = index, column = index)
         }
 
-        return when (columnSum) {
-            2 -> RandomBehavior(behavior = Behavior.WIN, putPoint)
-            -2 -> RandomBehavior(behavior = Behavior.INTERRUPT, putPoint)
-            else -> RandomBehavior(behavior = Behavior.UNKNOWN, putPoint)
-        }
-    }
-
-    private fun isRowBehavior(row: Int): RandomBehavior {
-        var columnSum = 0
-        var putPoint = Point.of(0, 0)
-        for (point in 0 until 3) {
-            val turn = map[row][point]
-            when (turn) {
-                Turn.UNKNOWN -> putPoint = Point.of(row = row, column = point)
-                Turn.O -> columnSum += 1
-                Turn.X -> columnSum -= 1
-            }
-        }
-
-        return when (columnSum) {
-            2 -> RandomBehavior(behavior = Behavior.WIN, putPoint)
-            -2 -> RandomBehavior(behavior = Behavior.INTERRUPT, putPoint)
-            else -> RandomBehavior(behavior = Behavior.UNKNOWN, putPoint)
-        }
+        return point
     }
 }
