@@ -42,47 +42,64 @@ class TictactocMap {
     fun getGameResultFromSetMapPoint(
         point: Point,
     ): GameResult {
+        setMapCurrentTurn(point = point)
+
+        val (rowSum, columnSum) = getRowColumnSum(point = point)
+        val (leftDiagonalSum, rightDiagonalSum) = getDiagonalSum()
+
+        return getGameResult(rowSum = rowSum, columnSum = columnSum, leftDiagonalSum = leftDiagonalSum, rightDiagonalSum = rightDiagonalSum)
+    }
+
+    private fun setMapCurrentTurn(point: Point) {
         map[point.row][point.column] = currentTurn
+    }
 
-        val row = point.row
-        val column = point.column
-
+    private fun getRowColumnSum(point: Point): Pair<Int, Int> {
         var rowSum = 0
         var columnSum = 0
 
-        for (point in 0 until MAP_SIZE) {
-            rowSum += if (map[row][point] == currentTurn) 1 else 0
-            columnSum += if (map[point][column] == currentTurn) 1 else 0
+        for (index in 0 until MAP_SIZE) {
+            rowSum += if (map[point.row][index] == currentTurn) 1 else 0
+            columnSum += if (map[index][point.column] == currentTurn) 1 else 0
         }
+        return Pair(rowSum, columnSum)
+    }
 
+    private fun getDiagonalSum(): Pair<Int, Int> {
         var leftDiagonalSum = 0
         var rightDiagonalSum = 0
 
-        for (point in 0 until MAP_SIZE) {
-            leftDiagonalSum += if (map[point][point] == currentTurn) 1 else 0
-            rightDiagonalSum += if (map[point][MAP_SIZE - point - 1] == currentTurn) 1 else 0
+        for (index in 0 until MAP_SIZE) {
+            leftDiagonalSum += if (map[index][index] == currentTurn) 1 else 0
+            rightDiagonalSum += if (map[index][MAP_SIZE - index - 1] == currentTurn) 1 else 0
         }
 
-        val existWinner = listOf(rowSum, columnSum, leftDiagonalSum, rightDiagonalSum).contains(MAP_SIZE)
+        return Pair(leftDiagonalSum, rightDiagonalSum)
+    }
 
+    private fun getEmptyBlockCount(): Int {
         var emptyBlock = 0
         for (i in 0 until 3) {
             emptyBlock += map[i].filter { it == Turn.UNKNOWN }.size
         }
+        return emptyBlock
+    }
+
+    private fun getGameResult(
+        rowSum: Int,
+        columnSum: Int,
+        leftDiagonalSum: Int,
+        rightDiagonalSum: Int
+    ): GameResult {
+        val existWinner = listOf(rowSum, columnSum, leftDiagonalSum, rightDiagonalSum).contains(MAP_SIZE)
+        val emptyBlock = getEmptyBlockCount()
 
         isFinish = (existWinner || (emptyBlock == 0))
 
-        val result =
-            if (existWinner && currentTurn == Turn.X) {
-                GameResult.X_WIN
-            } else if (existWinner && currentTurn == Turn.O) {
-                GameResult.O_WIN
-            } else if (!existWinner && emptyBlock == 0) {
-                GameResult.TIE
-            } else {
-                GameResult.UNKNOWN
-            }
-        return result
+        return if (existWinner && currentTurn == Turn.X) GameResult.X_WIN
+        else if (existWinner && currentTurn == Turn.O) GameResult.O_WIN
+        else if (!existWinner && emptyBlock == 0) GameResult.TIE
+        else GameResult.UNKNOWN
     }
 
     fun getNextPutPointsFromBehavior(behavior: Behavior): List<Point> {
