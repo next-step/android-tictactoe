@@ -9,3 +9,10 @@ class RandomStrategy: Strategy {
 		return ticTacToe.board.getRemainPoints().random()
 	}
 }
+
+class IntermediateStrategy: Strategy {
+	override fun getRandomPoint(ticTacToe: TicTacToe): Point {
+		TODO("Not yet implemented")
+	}
+
+}
