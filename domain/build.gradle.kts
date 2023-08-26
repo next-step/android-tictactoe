@@ -17,4 +17,7 @@ dependencies {
 
     // Mockk
     testImplementation("io.mockk:mockk:${Version.mockk}")
+
+    // hilt
+    implementation("javax.inject:javax.inject:${Version.inject}")
 }

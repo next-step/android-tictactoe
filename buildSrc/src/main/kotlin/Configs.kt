@@ -18,4 +18,7 @@ object Version {
     // Library
     const val fragmentKtx = "1.5.5"
 
+    // Hilt
+    const val inject = "1"
+
 }
