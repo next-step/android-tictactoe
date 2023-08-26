@@ -4,5 +4,5 @@ interface TicTaeToHandler {
 
 	fun mark(point: Point, ticTacToe: TicTacToe): TicTacToe
 	fun getGameStatus(board: Board): GameStatus
-	fun markRandomlyIfNeed(ticTacToe: TicTacToe): TicTacToe
+	fun markRandomlyIfNeed(ticTacToe: TicTacToe, onUpdateByAi: (TicTacToe) -> Unit)
 }
