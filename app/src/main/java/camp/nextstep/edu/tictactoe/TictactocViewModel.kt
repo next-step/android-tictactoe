@@ -6,14 +6,13 @@ import androidx.lifecycle.ViewModel
 import camp.nextstep.edu.tictactoe.model.Board
 import camp.nextstep.edu.tictactoe.model.TictactocCell
 import camp.nextstep.edu.tictactoe.utils.Event
-import com.nextstep.edu.tictactoe.domain.DefaultTictactoe
-import com.nextstep.edu.tictactoe.domain.di.RandomStrategyModule
+import com.nextstep.edu.tictactoe.domain.di.TictactocModule
 import com.nextstep.edu.tictactoe.domain.model.GameMode
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 
 class TictactocViewModel : ViewModel() {
 
-    private var tictactoe = DefaultTictactoe(RandomStrategyModule.providePlayerTictactoc())
+    private var tictactoe = TictactocModule.providePlayerTictactoc()
 
     private val _tictactocToastMessage: MutableLiveData<Event<TictactocToastMessage>> = MutableLiveData()
     val tictactocToastMessage: LiveData<Event<TictactocToastMessage>> = _tictactocToastMessage
@@ -23,9 +22,9 @@ class TictactocViewModel : ViewModel() {
 
     fun onSetGameMode(gameMode: GameMode) {
         tictactoe = when (gameMode) {
-            GameMode.TWO_PLAYER -> DefaultTictactoe(RandomStrategyModule.providePlayerTictactoc())
-            GameMode.RANDOM -> DefaultTictactoe(RandomStrategyModule.provideRandomNormalTictactoc())
-            GameMode.RANDOM_MIDDLE -> DefaultTictactoe(RandomStrategyModule.provideRandomMiddleTictactoc())
+            GameMode.TWO_PLAYER -> TictactocModule.providePlayerTictactoc()
+            GameMode.RANDOM -> TictactocModule.provideRandomNormalTictactoc()
+            GameMode.RANDOM_MIDDLE -> TictactocModule.provideRandomMiddleTictactoc()
         }
         onRestBoard()
     }

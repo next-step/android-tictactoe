@@ -2,44 +2,47 @@ package com.nextstep.edu.tictactoe.domain.model
 
 import com.nextstep.edu.tictactoe.domain.DefaultTictactoe.Companion.MAP_SIZE
 
-class TictactocMap {
+internal class TictactoeMapImpl : TictactoeMap {
 
     private var map: Array<Array<Turn>> = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
 
     private var isFinish: Boolean = false
     private var currentTurn: Turn = Turn.X
 
-    fun resetMap() {
+    override fun resetMap() {
         map = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
         isFinish = false
         currentTurn = Turn.X
     }
 
-    fun changeTurn() {
+    override fun changeTurn() {
         currentTurn = if (currentTurn == Turn.X) Turn.O else Turn.X
     }
 
-    fun getMapRowColumn(row: Int, column: Int): Turn {
-        return map[row][column]
+    override fun getMapRowColumn(row: Int, column: Int): Turn = map[row][column]
+
+    override fun getMap(): Array<Array<Turn>> = map
+
+    override fun validData(point: Point): Boolean = !(map[point.row][point.column] != Turn.UNKNOWN || isFinish)
+
+    override fun getIsFinish(): Boolean = isFinish
+
+    override fun getCurrentTurn(): Turn = currentTurn
+
+    override fun getNextPutPointsFromBehavior(behavior: Behavior): List<Point> {
+        val interceptors = ArrayList<Point>()
+        interceptors.addInterceptor(lines = Lines.leftDiagonal, behavior = behavior)
+        interceptors.addInterceptor(lines = Lines.rightDiagonal, behavior = behavior)
+
+        for (index in 0 until 3) {
+            interceptors.addInterceptor(lines = Lines.row(rowIndex = index), behavior = behavior)
+            interceptors.addInterceptor(lines = Lines.column(columnIndex = index), behavior = behavior)
+        }
+
+        return interceptors.toList()
     }
 
-    fun getMap(): Array<Array<Turn>> {
-        return map
-    }
-
-    fun validData(point: Point): Boolean {
-        return !(map[point.row][point.column] != Turn.UNKNOWN || isFinish)
-    }
-
-    fun getIsFinish(): Boolean {
-        return isFinish
-    }
-
-    fun getCurrentTurn(): Turn {
-        return currentTurn
-    }
-
-    fun getGameResultFromSetMapPoint(
+    override fun getGameResultFromSetMapPoint(
         point: Point,
     ): GameResult {
         setMapCurrentTurn(point = point)
@@ -100,19 +103,6 @@ class TictactocMap {
         else if (existWinner && currentTurn == Turn.O) GameResult.O_WIN
         else if (!existWinner && emptyBlock == 0) GameResult.TIE
         else GameResult.UNKNOWN
-    }
-
-    fun getNextPutPointsFromBehavior(behavior: Behavior): List<Point> {
-        val interceptors = ArrayList<Point>()
-        interceptors.addInterceptor(lines = Lines.leftDiagonal, behavior = behavior)
-        interceptors.addInterceptor(lines = Lines.rightDiagonal, behavior = behavior)
-
-        for (index in 0 until 3) {
-            interceptors.addInterceptor(lines = Lines.row(rowIndex = index), behavior = behavior)
-            interceptors.addInterceptor(lines = Lines.column(columnIndex = index), behavior = behavior)
-        }
-
-        return interceptors.toList()
     }
 
     private fun ArrayList<Point>.addInterceptor(lines: Lines, behavior: Behavior) {

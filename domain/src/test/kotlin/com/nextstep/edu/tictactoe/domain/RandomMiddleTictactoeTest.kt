@@ -1,19 +1,19 @@
 package com.nextstep.edu.tictactoe.domain
 
-import com.nextstep.edu.tictactoe.domain.di.RandomStrategyModule
+import com.nextstep.edu.tictactoe.domain.di.TictactocModule
 import com.nextstep.edu.tictactoe.domain.model.Point
 import com.nextstep.edu.tictactoe.domain.model.Turn
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
-class RandomMiddleTictactocTest {
+class RandomMiddleTictactoeTest {
 
     lateinit var tictactoe: DefaultTictactoe
 
     @Before
     fun setUp() {
-        tictactoe = DefaultTictactoe(RandomStrategyModule.provideRandomMiddleTictactoc())
+        tictactoe = TictactocModule.provideRandomMiddleTictactoc()
     }
 
     @Test

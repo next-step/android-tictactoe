@@ -1,37 +1,38 @@
 package com.nextstep.edu.tictactoe.domain
 
+import com.nextstep.edu.tictactoe.domain.DefaultTictactoe.Companion.MAP_SIZE
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
-import com.nextstep.edu.tictactoe.domain.model.TictactocMap
+import com.nextstep.edu.tictactoe.domain.model.TictactoeMap
 
 interface RandomStrategy {
-    fun randomPut(point: Point, tictactocMap: TictactocMap): GameResult
-    fun isValidData(point: Point, tictactocMap: TictactocMap): Boolean
-    fun getGameResult(point: Point, tictactocMap: TictactocMap): GameResult
+    fun randomPut(point: Point, tictactoeMap: TictactoeMap): GameResult
+    fun isValidData(point: Point, tictactoeMap: TictactoeMap): Boolean
+    fun getGameResult(point: Point, tictactoeMap: TictactoeMap): GameResult
 }
 
-class DefaultRandomStrategy: RandomStrategy {
+internal class DefaultRandomStrategy: RandomStrategy {
 
-    override fun randomPut(point: Point, tictactocMap: TictactocMap): GameResult {
-        tictactocMap.changeTurn()
-        val range = (0 until DefaultTictactoe.MAP_SIZE)
+    override fun randomPut(point: Point, tictactoeMap: TictactoeMap): GameResult {
+        tictactoeMap.changeTurn()
+        val range = (0 until MAP_SIZE)
 
         var randomPoint = point
-        while (!isValidData(point = randomPoint, tictactocMap = tictactocMap)) {
+        while (!isValidData(point = randomPoint, tictactoeMap = tictactoeMap)) {
             val row = range.random()
             val column = range.random()
             randomPoint = Point.of(row = row, column = column)
         }
 
-        return getGameResult(point = randomPoint, tictactocMap = tictactocMap)
+        return getGameResult(point = randomPoint, tictactoeMap = tictactoeMap)
     }
 
-    override fun isValidData(point: Point, tictactocMap: TictactocMap): Boolean {
-        return tictactocMap.validData(point = point)
+    override fun isValidData(point: Point, tictactoeMap: TictactoeMap): Boolean {
+        return tictactoeMap.validData(point = point)
     }
 
-    override fun getGameResult(point: Point, tictactocMap: TictactocMap): GameResult {
-        return tictactocMap.getGameResultFromSetMapPoint(point = point)
+    override fun getGameResult(point: Point, tictactoeMap: TictactoeMap): GameResult {
+        return tictactoeMap.getGameResultFromSetMapPoint(point = point)
     }
 
 }

@@ -1,5 +1,6 @@
 package com.nextstep.edu.tictactoe.domain
 
+import com.nextstep.edu.tictactoe.domain.di.TictactocModule
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
 import com.nextstep.edu.tictactoe.domain.model.Turn
@@ -13,7 +14,7 @@ class TictactoeTest {
 
     @Before
     fun setUp() {
-        tictactoe = DefaultTictactoe(PlayerTictactoc())
+        tictactoe = TictactocModule.providePlayerTictactoc()
     }
 
     @Test
