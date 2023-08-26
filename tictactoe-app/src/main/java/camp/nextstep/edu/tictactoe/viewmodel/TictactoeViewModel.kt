@@ -7,44 +7,32 @@ import camp.nextstep.edu.tictactoe.SingleLiveEvent
 import camp.nextstep.edu.tictactoe.domain.CellPosition
 import camp.nextstep.edu.tictactoe.domain.GameResult
 import camp.nextstep.edu.tictactoe.domain.TictactoeGame
+import camp.nextstep.edu.tictactoe.domain.TictactoeMap
 
 class TictactoeViewModel(private val tictactoeGame: TictactoeGame) : ViewModel() {
 
-    private val _tictactoeMap = MutableLiveData<HashMap<CellPosition, Boolean>>()
-    val tictactoeMap: LiveData<HashMap<CellPosition, Boolean>> = _tictactoeMap
+    private val _tictactoeMap = MutableLiveData<TictactoeMap>()
+    val tictactoeMap: LiveData<TictactoeMap> = _tictactoeMap
 
-    var isXturn = true
-
-    private val _uiState = SingleLiveEvent<UiMessage>()
-    val uiState: LiveData<UiMessage> = _uiState
+    private val _uiState = SingleLiveEvent<GameResult<Int>>()
+    val uiState: LiveData<GameResult<Int>> = _uiState
 
     init {
-        _tictactoeMap.value = HashMap()
+        _tictactoeMap.value = tictactoeGame.tictactoeMap
     }
 
     fun clickCell(cellPosition: CellPosition) {
         runCatching {
-            when (tictactoeGame.setPosition(isXturn, cellPosition).result) {
-                GameResult.GAME_DRAW -> _uiState.value = UiMessage("무승부")
-                GameResult.GAME_X_WIN -> _uiState.value = UiMessage("X 승리")
-                GameResult.GAME_O_WIN -> _uiState.value = UiMessage("O 승리")
-            }
-            val data = _tictactoeMap.value
-            if (data != null) {
-                data[cellPosition] = isXturn
-                _tictactoeMap.value = data!!
-            }
-            isXturn = !isXturn
+            val result = tictactoeGame.setPosition(cellPosition)
+            _uiState.value = result
+            _tictactoeMap.value = tictactoeGame.tictactoeMap
         }.getOrElse {
-            _uiState.value = UiMessage("선택한 곳에 동일하게 선택할 수 없습니다")
+            _uiState.value = GameResult.Fail(it.message)
         }
     }
 
     fun gameReset() {
-        isXturn = true
-        _tictactoeMap.value = HashMap()
         tictactoeGame.gameReset()
+        _tictactoeMap.value = tictactoeGame.tictactoeMap
     }
 }
-
-data class UiMessage(val message: String = "")

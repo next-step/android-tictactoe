@@ -4,26 +4,24 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import camp.nextstep.edu.tictactoe.R
 import camp.nextstep.edu.tictactoe.domain.CellPosition
+import camp.nextstep.edu.tictactoe.domain.Owner
+import camp.nextstep.edu.tictactoe.domain.TictactoeMap
 
 object BindingtAdapter {
 
-    @BindingAdapter(value = ["position", "data"], requireAll = false)
+    @BindingAdapter(value = ["position", "data"], requireAll = true)
     @JvmStatic
-    fun setImage(
+    fun setMark(
         imageView: ImageView,
         position: CellPosition,
-        map: HashMap<CellPosition, Boolean>?
+        tictactoeMap: TictactoeMap
     ) {
-        if (map == null) return
-        val data = map[position]
-        if (data != null) {
-            if (data) {
-                imageView.setImageResource(R.drawable.ic_x_black)
-            } else {
-                imageView.setImageResource(R.drawable.ic_o_black)
-            }
-        } else {
-            imageView.setImageResource(0)
+        if (tictactoeMap == null) return
+        val data = tictactoeMap.positions[position] ?: return
+        when (data) {
+            Owner.X -> imageView.setImageResource(R.drawable.ic_x_black)
+            Owner.O -> imageView.setImageResource(R.drawable.ic_o_black)
+            Owner.NONE -> imageView.setImageResource(0)
         }
     }
 }

@@ -2,8 +2,10 @@ package camp.nextstep.edu.tictactoe.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import camp.nextstep.edu.tictactoe.domain.CellPosition
+import camp.nextstep.edu.tictactoe.domain.GameResult
 import camp.nextstep.edu.tictactoe.domain.TictactoeGame
 import com.google.common.truth.Truth.assertThat
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -12,29 +14,26 @@ class TictactoeViewModelTest {
     val rule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: TictactoeViewModel
+    private lateinit var tictactoeGame: TictactoeGame
 
-    @Test
-    fun `X부터 입력한다`() {
-        val tictactoeGame = TictactoeGame()
+    @Before
+    fun setUp() {
+        tictactoeGame = TictactoeGame()
         viewModel = TictactoeViewModel(tictactoeGame)
-        assertThat(viewModel.isXturn).isEqualTo(true)
     }
 
     @Test
-    fun `X입력 후 O가 입력한다`() {
-        val tictactoeGame = TictactoeGame()
-        viewModel = TictactoeViewModel(tictactoeGame)
+    fun `한 곳 입력 후 상태를 체크해본다`() {
         viewModel.clickCell(CellPosition.TOP_LEFT)
-        assertThat(viewModel.isXturn).isEqualTo(false)
+        val actual = viewModel.uiState.value
+        assertThat(actual).isInstanceOf(GameResult.GameStatus::class.java)
     }
 
     @Test
-    fun `다시 시작을 하면 게임이 리셋된다`() {
-        val tictactoeGame = TictactoeGame()
-        viewModel = TictactoeViewModel(tictactoeGame)
+    fun `한 곳 입력 후 선택한 곳을 또 선택한 상태를 체크해본다`() {
         viewModel.clickCell(CellPosition.TOP_LEFT)
-        viewModel.gameReset()
-        assertThat(viewModel.tictactoeMap.value?.isEmpty()).isEqualTo(true)
-        assertThat(viewModel.isXturn).isEqualTo(true)
+        viewModel.clickCell(CellPosition.TOP_LEFT)
+        val actual = viewModel.uiState.value
+        assertThat(actual).isInstanceOf(GameResult.Fail::class.java)
     }
 }

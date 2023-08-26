@@ -1,7 +1,8 @@
 package camp.nextstep.edu.tictactoe.domain
 
-@JvmInline
-value class GameResult(val result: Int) {
+sealed class GameResult<out T : Any> {
+    data class GameStatus<out T : Any>(val result: Int) : GameResult<T>()
+    data class Fail(val message: String?) : GameResult<Nothing>()
 
     companion object {
         const val GAME_ING = 0
