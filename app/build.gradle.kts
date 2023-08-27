@@ -17,7 +17,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "camp.nextstep.edu.tictactoe.CustomTestRunner"
     }
 
     buildTypes {
@@ -86,4 +86,7 @@ dependencies {
     // Hilt
     implementation("com.google.dagger:hilt-android:${Version.hilt}")
     kapt("com.google.dagger:hilt-compiler:${Version.hilt}")
+    testImplementation("com.google.dagger:hilt-android-testing:${Version.hilt}")
+    kaptTest("com.google.dagger:hilt-android-compiler:${Version.hilt}")
+
 }
