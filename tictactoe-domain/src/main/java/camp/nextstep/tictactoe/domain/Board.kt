@@ -5,10 +5,38 @@ sealed interface SetBoardStatus {
 	data class Success(val board: Board) : SetBoardStatus
 }
 
+data class Result(
+	val xCount: Int,
+	val oCount: Int,
+	val remainPointsInLine: List<Point>,
+)
+
 data class Board(
 	private val size: Int = DEFAULT_SIZE,
 	private val map: Map<Point, Marker> = mapOf(),
 ) {
+	private fun getLines(): List<Line> {
+		val rowLines = mutableListOf<Line>()
+		val colLines = mutableListOf<Line>()
+		val ltrDiagonalPoints = mutableListOf<Point>()
+		val rtlDiagonalPoints = mutableListOf<Point>()
+
+		for (i in 0 until size) {
+			val rowPoints = mutableListOf<Point>()
+			val colPoints = mutableListOf<Point>()
+			for (j in 0 until size) {
+				rowPoints.add(Point(i, j))
+				colPoints.add(Point(j, i))
+			}
+			rowLines.add(Line(rowPoints))
+			colLines.add(Line(colPoints))
+			ltrDiagonalPoints.add(Point(i, i))
+			rtlDiagonalPoints.add(Point(i, size - 1 - i))
+		}
+
+		return rowLines + colLines + Line(ltrDiagonalPoints) + Line(rtlDiagonalPoints)
+	}
+
 	operator fun get(x: Int, y: Int): Marker? {
 		return map[Point(x, y)]
 	}
@@ -22,36 +50,35 @@ data class Board(
 	}
 
 	fun getWinner(): Marker? {
-		// 행
-		for (row in 0 until size) {
-			getWinner { point -> point.x == row }?.let { return it }
+		val lines = getLines()
+
+		lines.forEach { line ->
+			val result = getResult(line)
+
+			if (result.xCount == size) {
+				return Marker.X
+			} else if (result.oCount == size) {
+				return Marker.O
+			}
 		}
-
-		// 열
-		for (col in 0 until size) {
-			getWinner { point -> point.y == col }?.let { return it }
-		}
-
-		// 왼쪽 -> 오른쪽 대각선
-		getWinner { point -> point.x == point.y }?.let { return it }
-
-		// 오른쪽 -> 왼쪽 대각선
-		getWinner { point -> point.x + point.y == size - 1 }?.let { return it }
 
 		return null
 	}
 
-	private fun getWinner(condition: (Point) -> Boolean): Marker? {
-		return when {
-			hasWinner { (point, marker) -> condition(point) && marker == Marker.X } -> Marker.X
-			hasWinner { (point, marker) -> condition(point) && marker == Marker.O } -> Marker.O
-			else -> null
-		}
-	}
+	private fun getResult(line: Line): Result {
+		var xCount = 0
+		var oCount = 0
+		val remainPointsInLine = mutableListOf<Point>()
 
-	private fun hasWinner(predicate: (Map.Entry<Point, Marker>) -> Boolean): Boolean {
-		val count = map.filter(predicate).size
-		return count == size
+		line.points.forEach { point ->
+			when (map[point]) {
+				Marker.X -> xCount++
+				Marker.O -> oCount++
+				null -> remainPointsInLine.add(point)
+			}
+		}
+
+		return Result(xCount, oCount, remainPointsInLine)
 	}
 
 	fun getRemainPoints(): List<Point> {
@@ -75,6 +102,30 @@ data class Board(
 
 	private fun getOccupiedPoints(): List<Point> {
 		return map.map { it.key }.toList()
+	}
+
+	fun getOneRemainPoints(marker: Marker): List<Point> {
+		val lines = getLines()
+		var oneRemainPoints = listOf<Point>()
+
+		lines.forEach { line ->
+			val result = getResult(line)
+			when (marker) {
+				Marker.X -> {
+					if (result.xCount == size - 1 && result.oCount == 0) {
+						oneRemainPoints = oneRemainPoints.plus(result.remainPointsInLine)
+					}
+				}
+
+				Marker.O -> {
+					if (result.oCount == size - 1 && result.xCount == 0) {
+						oneRemainPoints = oneRemainPoints.plus(result.remainPointsInLine)
+					}
+				}
+			}
+		}
+
+		return oneRemainPoints
 	}
 
 	companion object {
