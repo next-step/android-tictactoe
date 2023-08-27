@@ -13,5 +13,6 @@ sealed class Mode(private val player1: Player, private val player2: Player) {
 	}
 
 	object TwoPerson : Mode(Player.Person(Marker.X), Player.Person(Marker.O))
-	object Random : Mode(Player.Person(Marker.X), Player.RandomAi(Marker.O))
+	object Random : Mode(Player.Person(Marker.X), Player.RandomAi(Marker.O, RandomStrategy()))
+	object Intermediate: Mode(Player.Person(Marker.X), Player.RandomAi(Marker.O, IntermediateStrategy()))
 }

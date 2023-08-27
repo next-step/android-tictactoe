@@ -8,7 +8,7 @@ data class TicTacToe(
 	val nextPlayer = mode.getNext(player)
 
 	companion object {
-		val INIT = TicTacToe(mode = Mode.Random)
+		val INIT = TicTacToe(mode = Mode.Intermediate)
 
 		fun create(mode: Mode) = TicTacToe(mode = mode)
 	}

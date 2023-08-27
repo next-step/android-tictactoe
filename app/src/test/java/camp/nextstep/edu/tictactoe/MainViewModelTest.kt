@@ -62,8 +62,8 @@ class MainViewModelTest {
 
 		// given
 		verify { ticTaeToHandler.mark(Point(0, 0), any()) }
-		verify { ticTaeToHandler.markRandomlyIfNeed(any()) }
-		verify(exactly = 2) { ticTaeToHandler.getGameStatus(any()) }
+		verify { ticTaeToHandler.getGameStatus(any()) }
+		verify { ticTaeToHandler.markRandomlyIfNeed(any(), any()) }
 	}
 
 	@Test
@@ -77,7 +77,7 @@ class MainViewModelTest {
 
 		// given
 		verify { ticTaeToHandler.mark(Point(0, 0), any()) }
-		verify(inverse = true) { ticTaeToHandler.markRandomlyIfNeed(any()) }
+		verify(inverse = true) { ticTaeToHandler.markRandomlyIfNeed(any(), any()) }
 		verify(exactly = 1) { ticTaeToHandler.getGameStatus(any()) }
 	}
 }

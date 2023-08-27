@@ -128,6 +128,7 @@ class BoardTest {
 		// then
 		assertThat(actual).isEqualTo(Marker.X)
 	}
+
 	@Test
 	fun `남은 좌표를 가져오면, 남은 좌표를 반환한다`() {
 		// given
@@ -153,5 +154,32 @@ class BoardTest {
 
 		// then
 		assertThat(actual).isEqualTo(listOf(Point(2, 1), Point(2, 2)))
+	}
+
+	@Test
+	fun `한 줄을 채우기 위한 마지막 남은 좌표를 가져오면, 마지막 남은 좌표를 반환한다`() {
+		// given
+		/**
+		 * X O X
+		 * O X X
+		 * O . .
+		 */
+		val board = Board(
+			map = mapOf(
+				Point(0, 0) to Marker.X,
+				Point(0, 1) to Marker.O,
+				Point(0, 2) to Marker.X,
+				Point(1, 0) to Marker.O,
+				Point(1, 1) to Marker.X,
+				Point(1, 2) to Marker.X,
+				Point(2, 0) to Marker.O,
+			)
+		)
+
+		// when
+		val actual = board.getOneRemainPoints(Marker.X)
+
+		// then
+		assertThat(actual).isEqualTo(listOf(Point(2, 2), Point(2, 2)))
 	}
 }

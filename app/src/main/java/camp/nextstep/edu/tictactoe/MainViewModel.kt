@@ -1,11 +1,13 @@
 package camp.nextstep.edu.tictactoe
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import camp.nextstep.tictactoe.domain.GameStatus
 import camp.nextstep.tictactoe.domain.Mode
 import camp.nextstep.tictactoe.domain.Point
 import camp.nextstep.tictactoe.domain.TicTacToe
 import camp.nextstep.tictactoe.domain.TicTaeToHandler
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -38,11 +40,13 @@ class MainViewModel(
 	private fun markRandomlyIfNeed() {
 		val ticTacToeSnapshot = _ticTacToe.value
 
-		val newTicTacToe = ticTaeToHandler.markRandomlyIfNeed(ticTacToeSnapshot)
-		updateTicTaeToe(newTicTacToe)
+		ticTaeToHandler.markRandomlyIfNeed(ticTacToeSnapshot) { newTicTacToe ->
+			// delay
+			updateTicTaeToe(newTicTacToe)
 
-		val newGameStatus = ticTaeToHandler.getGameStatus(newTicTacToe.board)
-		updateGameStatus(newGameStatus)
+			val newGameStatus = ticTaeToHandler.getGameStatus(newTicTacToe.board)
+			updateGameStatus(newGameStatus)
+		}
 	}
 
 	private fun updateTicTaeToe(newTicTacToe: TicTacToe) {

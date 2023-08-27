@@ -118,10 +118,10 @@ class DefaultTicTaeToHandlerTest {
 		)
 
 		// when
-		val actual = defaultTicTaeToHandler.markRandomlyIfNeed(ticTacToe)
-
-		// then
-		assertThat(actual).isNotEqualTo(ticTacToe)
+		defaultTicTaeToHandler.markRandomlyIfNeed(ticTacToe) { actual ->
+			// then
+			assertThat(actual).isNotEqualTo(ticTacToe)
+		}
 	}
 
 	@Test
@@ -134,9 +134,9 @@ class DefaultTicTaeToHandlerTest {
 		)
 
 		// when
-		val actual = defaultTicTaeToHandler.markRandomlyIfNeed(ticTacToe)
-
-		// then
-		assertThat(actual).isEqualTo(ticTacToe)
+		defaultTicTaeToHandler.markRandomlyIfNeed(ticTacToe) { actual ->
+			// then
+			assertThat(actual).isEqualTo(ticTacToe)
+		}
 	}
 }
