@@ -1,6 +1,6 @@
 package com.nextstep.edu.tictactoe.domain
 
-import com.nextstep.edu.tictactoe.domain.di.TictactocModule
+import com.nextstep.edu.tictactoe.domain.mode.PlayerTictactoeImpl
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
 import com.nextstep.edu.tictactoe.domain.model.TictactoeMapImpl
@@ -16,7 +16,7 @@ class TictactoeTest {
     @Before
     fun setUp() {
         val tictactoeMap = TictactoeMapImpl()
-        tictactoe = TictactoeImpl(TictactocModule.providePlayerTictactoc(tictactoeMap), tictactoeMap)
+        tictactoe = TictactoeImpl(PlayerTictactoeImpl(tictactoeMap), tictactoeMap)
     }
 
     @Test

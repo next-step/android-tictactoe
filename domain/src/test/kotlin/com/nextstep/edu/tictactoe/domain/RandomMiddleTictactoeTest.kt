@@ -1,10 +1,10 @@
 package com.nextstep.edu.tictactoe.domain
 
-import com.nextstep.edu.tictactoe.domain.di.TictactocModule
+import com.nextstep.edu.tictactoe.domain.mode.RandomMiddleTictactoeImpl
 import com.nextstep.edu.tictactoe.domain.model.Point
 import com.nextstep.edu.tictactoe.domain.model.TictactoeMapImpl
 import com.nextstep.edu.tictactoe.domain.model.Turn
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
@@ -15,7 +15,7 @@ class RandomMiddleTictactoeTest {
     @Before
     fun setUp() {
         val tictactoeMap = TictactoeMapImpl()
-        tictactoe = TictactoeImpl(TictactocModule.provideRandomMiddleTictactoc(tictactoeMap), tictactoeMap)
+        tictactoe = TictactoeImpl(RandomMiddleTictactoeImpl(randomStrategy = DefaultRandomStrategy(), tictactoeMap), tictactoeMap)
     }
 
     @Test

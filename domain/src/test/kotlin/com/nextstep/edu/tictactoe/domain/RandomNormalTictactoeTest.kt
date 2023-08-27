@@ -1,10 +1,10 @@
 package com.nextstep.edu.tictactoe.domain
 
-import com.nextstep.edu.tictactoe.domain.di.TictactocModule
+import com.nextstep.edu.tictactoe.domain.mode.RandomNormalTictactoeImpl
 import com.nextstep.edu.tictactoe.domain.model.Point
 import com.nextstep.edu.tictactoe.domain.model.TictactoeMapImpl
 import com.nextstep.edu.tictactoe.domain.model.Turn
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
@@ -15,7 +15,7 @@ class RandomNormalTictactoeTest {
     @Before
     fun setUp() {
         val tictactoeMap = TictactoeMapImpl()
-        tictactoe = TictactoeImpl(TictactocModule.provideRandomNormalTictactoc(tictactoeMap), tictactoeMap)
+        tictactoe = TictactoeImpl(RandomNormalTictactoeImpl(randomStrategy = DefaultRandomStrategy(), tictactoeMap), tictactoeMap)
     }
 
     @Test
