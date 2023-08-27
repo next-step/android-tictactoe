@@ -3,6 +3,7 @@ package com.nextstep.edu.tictactoe.domain
 import com.nextstep.edu.tictactoe.domain.di.TictactocModule
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
+import com.nextstep.edu.tictactoe.domain.model.TictactoeMapImpl
 import com.nextstep.edu.tictactoe.domain.model.Turn
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -14,7 +15,8 @@ class TictactoeTest {
 
     @Before
     fun setUp() {
-        tictactoe = TictactocModule.providePlayerTictactoc()
+        val tictactoeMap = TictactoeMapImpl()
+        tictactoe = TictactoeImpl(TictactocModule.providePlayerTictactoc(tictactoeMap), tictactoeMap)
     }
 
     @Test

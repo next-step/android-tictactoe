@@ -6,19 +6,18 @@ import androidx.lifecycle.ViewModel
 import camp.nextstep.edu.tictactoe.model.Board
 import camp.nextstep.edu.tictactoe.model.TictactocCell
 import camp.nextstep.edu.tictactoe.utils.Event
-import com.nextstep.edu.tictactoe.domain.di.TictactocModule
 import com.nextstep.edu.tictactoe.domain.model.GameMode
 import com.nextstep.edu.tictactoe.domain.model.GameResult
-import com.nextstep.edu.tictactoe.domain.model.TictactoeMap
+import com.nextstep.edu.tictactoe.domain.usecase.GetTictactoeModeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class TictactocViewModel @Inject constructor(
-    private val tictactoeMap: TictactoeMap
+    private val getTictactoeModeUseCase: GetTictactoeModeUseCase
 ) : ViewModel() {
 
-    private var tictactoe = TictactocModule.providePlayerTictactoc(tictactoeMap)
+    private var tictactoe = getTictactoeModeUseCase(gameMode = GameMode.RANDOM_MIDDLE)
 
     private val _tictactocToastMessage: MutableLiveData<Event<TictactocToastMessage>> = MutableLiveData()
     val tictactocToastMessage: LiveData<Event<TictactocToastMessage>> = _tictactocToastMessage
@@ -28,9 +27,9 @@ class TictactocViewModel @Inject constructor(
 
     fun onSetGameMode(gameMode: GameMode) {
         tictactoe = when (gameMode) {
-            GameMode.TWO_PLAYER -> TictactocModule.providePlayerTictactoc(tictactoeMap)
-            GameMode.RANDOM -> TictactocModule.provideRandomNormalTictactoc(tictactoeMap)
-            GameMode.RANDOM_MIDDLE -> TictactocModule.provideRandomMiddleTictactoc(tictactoeMap)
+            GameMode.TWO_PLAYER -> getTictactoeModeUseCase(gameMode = GameMode.TWO_PLAYER)
+            GameMode.RANDOM -> getTictactoeModeUseCase(gameMode = GameMode.RANDOM, )
+            GameMode.RANDOM_MIDDLE -> getTictactoeModeUseCase(gameMode = GameMode.RANDOM_MIDDLE)
         }
         onRestBoard()
     }
