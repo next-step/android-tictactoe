@@ -42,6 +42,8 @@ android {
 }
 
 dependencies {
+    implementation(project("::tictectoe-domain"))
+
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${Version.kotlin}")
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")

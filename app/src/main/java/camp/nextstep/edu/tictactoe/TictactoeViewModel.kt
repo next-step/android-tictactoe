@@ -3,6 +3,7 @@ package camp.nextstep.edu.tictactoe
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.tictectoe_domain.TictectoeRule
 
 class TictactoeViewModel: ViewModel() {
 
@@ -43,19 +44,7 @@ class TictactoeViewModel: ViewModel() {
     }
 
     private fun isWin() {
-        if(checkClickPositionList[1] == checkClickPositionList[2] && checkClickPositionList[2] == checkClickPositionList[3] ||
-            checkClickPositionList[4] == checkClickPositionList[5] && checkClickPositionList[5] == checkClickPositionList[6] ||
-            checkClickPositionList[7] == checkClickPositionList[8] && checkClickPositionList[8] == checkClickPositionList[9]) {
-            // 가로 승리 조건
-            Log.d(TAG, "isWin: ${turn % 2 +1}플레이어 승리")
-        } else if(checkClickPositionList[1] == checkClickPositionList[4] && checkClickPositionList[4] == checkClickPositionList[7] ||
-            checkClickPositionList[2] == checkClickPositionList[5] && checkClickPositionList[5] == checkClickPositionList[8] ||
-            checkClickPositionList[3] == checkClickPositionList[6] && checkClickPositionList[6] == checkClickPositionList[7]) {
-            // 세로 승리 조건
-            Log.d(TAG, "isWin: ${turn % 2 +1}플레이어 승리")
-        } else if(checkClickPositionList[1] == checkClickPositionList[5] && checkClickPositionList[5] == checkClickPositionList[9] ||
-            checkClickPositionList[3] == checkClickPositionList[5] && checkClickPositionList[5] == checkClickPositionList[7]) {
-            // 대각선 승리 조건
+        if(TictectoeRule().isWin(checkClickPositionList)) {
             Log.d(TAG, "isWin: ${turn % 2 +1}플레이어 승리")
         }
     }
