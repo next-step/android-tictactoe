@@ -8,42 +8,31 @@ import com.nextstep.edu.tictactoe.domain.mode.RandomMiddleTictactoe
 import com.nextstep.edu.tictactoe.domain.mode.RandomMiddleTictactoeImpl
 import com.nextstep.edu.tictactoe.domain.mode.RandomNormalTictactoe
 import com.nextstep.edu.tictactoe.domain.mode.RandomNormalTictactoeImpl
-import com.nextstep.edu.tictactoe.domain.model.TictactoeMap
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object TictactocModule {
+abstract class TictactocModule {
 
-    private fun provideDefaultRandomStrategy(): RandomStrategy = DefaultRandomStrategy()
-
-    @Provides
+    @Binds
     @Singleton
-    fun providePlayerTictactoc(
-        tictactoeMap: TictactoeMap
-    ): PlayerTictactoe = PlayerTictactoeImpl(tictactoeMap = tictactoeMap)
+    internal abstract fun providePlayerTictactoc(
+        playerTictactoeImpl: PlayerTictactoeImpl
+    ): PlayerTictactoe
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideRandomNormalTictactoc(
-        tictactoeMap: TictactoeMap
-    ): RandomNormalTictactoe =
-        RandomNormalTictactoeImpl(
-            randomStrategy = provideDefaultRandomStrategy(),
-            tictactoeMap = tictactoeMap
-        )
+    internal abstract fun provideRandomNormalTictactoc(
+        randomNormalTictactoeImpl: RandomNormalTictactoeImpl
+    ): RandomNormalTictactoe
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideRandomMiddleTictactoc(
-        tictactoeMap: TictactoeMap
-    ): RandomMiddleTictactoe =
-        RandomMiddleTictactoeImpl(
-            randomStrategy = provideDefaultRandomStrategy(),
-            tictactoeMap = tictactoeMap
-        )
+    internal abstract fun provideRandomMiddleTictactoc(
+        randomMiddleTictactoeImpl: RandomMiddleTictactoeImpl
+    ): RandomMiddleTictactoe
 }

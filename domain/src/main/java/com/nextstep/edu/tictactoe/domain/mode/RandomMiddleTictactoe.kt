@@ -6,11 +6,13 @@ import com.nextstep.edu.tictactoe.domain.model.Behavior
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
 import com.nextstep.edu.tictactoe.domain.model.TictactoeMap
+import javax.inject.Inject
+import javax.inject.Singleton
 
 interface RandomMiddleTictactoe: TictactocStrategy {}
 
 
-internal class RandomMiddleTictactoeImpl(
+internal class RandomMiddleTictactoeImpl @Inject constructor(
     randomStrategy: RandomStrategy,
     val tictactoeMap: TictactoeMap
 ) : RandomMiddleTictactoe,

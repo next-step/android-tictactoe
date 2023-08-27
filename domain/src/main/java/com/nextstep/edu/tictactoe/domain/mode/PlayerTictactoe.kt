@@ -4,11 +4,13 @@ import com.nextstep.edu.tictactoe.domain.TictactocStrategy
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
 import com.nextstep.edu.tictactoe.domain.model.TictactoeMap
+import javax.inject.Inject
+import javax.inject.Singleton
 
 interface PlayerTictactoe : TictactocStrategy {}
 
 
-internal class PlayerTictactoeImpl constructor(
+internal class PlayerTictactoeImpl @Inject constructor(
     val tictactoeMap: TictactoeMap
 ) : PlayerTictactoe {
 
