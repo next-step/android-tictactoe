@@ -10,11 +10,12 @@ interface RandomNormalTictactoe: TictactocStrategy {}
 
 
 internal class RandomNormalTictactoeImpl(
-    randomStrategy: RandomStrategy
+    randomStrategy: RandomStrategy,
+    val tictactoeMap: TictactoeMap
 ) : RandomNormalTictactoe,
     RandomStrategy by randomStrategy {
 
-    override fun put(point: Point, tictactoeMap: TictactoeMap): GameResult {
+    override fun put(point: Point): GameResult {
         if (!isValidData(point = point, tictactoeMap = tictactoeMap)) {
             return if (tictactoeMap.getIsFinish()) GameResult.FINISH_GAME else GameResult.INVALID_POSITION
         }

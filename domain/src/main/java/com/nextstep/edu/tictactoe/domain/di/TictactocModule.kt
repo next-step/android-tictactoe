@@ -9,6 +9,7 @@ import com.nextstep.edu.tictactoe.domain.mode.RandomMiddleTictactoe
 import com.nextstep.edu.tictactoe.domain.mode.RandomMiddleTictactoeImpl
 import com.nextstep.edu.tictactoe.domain.mode.RandomNormalTictactoe
 import com.nextstep.edu.tictactoe.domain.mode.RandomNormalTictactoeImpl
+import com.nextstep.edu.tictactoe.domain.model.TictactoeMap
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,22 +21,37 @@ object TictactocModule {
 
     private fun provideDefaultRandomStrategy(): RandomStrategy = DefaultRandomStrategy()
 
-    private fun provideRandomNormalTictactocImpl(): RandomNormalTictactoe =
-        RandomNormalTictactoeImpl(provideDefaultRandomStrategy())
-
-    private fun provideRandomMiddleTictactocImpl(): RandomMiddleTictactoe =
-        RandomMiddleTictactoeImpl(provideDefaultRandomStrategy())
+    @Provides
+    fun providePlayerTictactoc(
+        tictactoeMap: TictactoeMap
+    ): Tictactoe = TictactoeImpl(
+        strategy = PlayerTictactoeImpl(tictactoeMap),
+        tictactoeMap = tictactoeMap
+    )
 
     @Provides
-    fun providePlayerTictactoc(): Tictactoe = TictactoeImpl(PlayerTictactoeImpl())
+    fun provideRandomNormalTictactoc(
+        tictactoeMap: TictactoeMap
+    ): Tictactoe =
+        TictactoeImpl(
+            strategy = RandomNormalTictactoeImpl(
+                randomStrategy = provideDefaultRandomStrategy(),
+                tictactoeMap = tictactoeMap
+            ),
+            tictactoeMap = tictactoeMap
+        )
 
     @Provides
-    fun provideRandomNormalTictactoc(): Tictactoe =
-        TictactoeImpl(provideRandomNormalTictactocImpl())
-
-    @Provides
-    fun provideRandomMiddleTictactoc(): Tictactoe =
-        TictactoeImpl(provideRandomMiddleTictactocImpl())
+    fun provideRandomMiddleTictactoc(
+        tictactoeMap: TictactoeMap
+    ): Tictactoe =
+        TictactoeImpl(
+            strategy = RandomMiddleTictactoeImpl(
+                randomStrategy = provideDefaultRandomStrategy(),
+                tictactoeMap = tictactoeMap
+            ),
+            tictactoeMap = tictactoeMap
+        )
 
 
 }

@@ -8,9 +8,11 @@ import com.nextstep.edu.tictactoe.domain.model.TictactoeMap
 interface PlayerTictactoe : TictactocStrategy {}
 
 
-internal class PlayerTictactoeImpl : PlayerTictactoe {
+internal class PlayerTictactoeImpl constructor(
+    val tictactoeMap: TictactoeMap
+) : PlayerTictactoe {
 
-    override fun put(point: Point, tictactoeMap: TictactoeMap): GameResult {
+    override fun put(point: Point): GameResult {
         val isValidData = tictactoeMap.validData(point = point)
         if (!isValidData) {
             return if (tictactoeMap.getIsFinish()) GameResult.FINISH_GAME else GameResult.INVALID_POSITION

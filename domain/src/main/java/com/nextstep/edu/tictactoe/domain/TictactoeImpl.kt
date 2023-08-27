@@ -1,18 +1,16 @@
 package com.nextstep.edu.tictactoe.domain
 
-import com.nextstep.edu.tictactoe.domain.di.TictactocMapModule
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
 import com.nextstep.edu.tictactoe.domain.model.TictactoeMap
 import com.nextstep.edu.tictactoe.domain.model.Turn
 
 internal class TictactoeImpl(
-    private val strategy: TictactocStrategy
+    private val strategy: TictactocStrategy,
+    private val tictactoeMap: TictactoeMap
 ): Tictactoe {
 
-    private val tictactoeMap: TictactoeMap = TictactocMapModule.provideTictactocMap()
-
-    override fun put(point: Point): GameResult = strategy.put(point = point, tictactoeMap = tictactoeMap)
+    override fun put(point: Point): GameResult = strategy.put(point = point)
 
     override fun reset(): Unit = tictactoeMap.resetMap()
 
