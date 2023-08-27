@@ -4,6 +4,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -81,4 +82,8 @@ dependencies {
     // Mockk
     testImplementation("io.mockk:mockk:${Version.mockk}")
     androidTestImplementation("io.mockk:mockk-android:${Version.mockk}")
+
+    // Hilt
+    implementation("com.google.dagger:hilt-android:${Version.hilt}")
+    kapt("com.google.dagger:hilt-compiler:${Version.hilt}")
 }
