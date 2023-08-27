@@ -4,7 +4,7 @@ import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
 import com.nextstep.edu.tictactoe.domain.model.Turn
 
-interface DefaultTictactoe {
+interface Tictactoe {
 
     fun put(point: Point): GameResult
 

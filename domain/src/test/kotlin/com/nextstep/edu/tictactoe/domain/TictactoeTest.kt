@@ -10,7 +10,7 @@ import org.junit.Test
 
 class TictactoeTest {
 
-    lateinit var tictactoe: DefaultTictactoe
+    lateinit var tictactoe: Tictactoe
 
     @Before
     fun setUp() {

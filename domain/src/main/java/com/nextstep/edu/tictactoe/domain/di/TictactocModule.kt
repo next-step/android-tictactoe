@@ -1,8 +1,8 @@
 package com.nextstep.edu.tictactoe.domain.di
 
 import com.nextstep.edu.tictactoe.domain.DefaultRandomStrategy
-import com.nextstep.edu.tictactoe.domain.DefaultTictactoe
-import com.nextstep.edu.tictactoe.domain.DefaultTictactoeImpl
+import com.nextstep.edu.tictactoe.domain.Tictactoe
+import com.nextstep.edu.tictactoe.domain.TictactoeImpl
 import com.nextstep.edu.tictactoe.domain.RandomStrategy
 import com.nextstep.edu.tictactoe.domain.mode.PlayerTictactoeImpl
 import com.nextstep.edu.tictactoe.domain.mode.RandomMiddleTictactoe
@@ -27,15 +27,15 @@ object TictactocModule {
         RandomMiddleTictactoeImpl(provideDefaultRandomStrategy())
 
     @Provides
-    fun providePlayerTictactoc(): DefaultTictactoe = DefaultTictactoeImpl(PlayerTictactoeImpl())
+    fun providePlayerTictactoc(): Tictactoe = TictactoeImpl(PlayerTictactoeImpl())
 
     @Provides
-    fun provideRandomNormalTictactoc(): DefaultTictactoe =
-        DefaultTictactoeImpl(provideRandomNormalTictactocImpl())
+    fun provideRandomNormalTictactoc(): Tictactoe =
+        TictactoeImpl(provideRandomNormalTictactocImpl())
 
     @Provides
-    fun provideRandomMiddleTictactoc(): DefaultTictactoe =
-        DefaultTictactoeImpl(provideRandomMiddleTictactocImpl())
+    fun provideRandomMiddleTictactoc(): Tictactoe =
+        TictactoeImpl(provideRandomMiddleTictactocImpl())
 
 
 }

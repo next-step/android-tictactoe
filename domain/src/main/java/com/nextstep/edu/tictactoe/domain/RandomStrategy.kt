@@ -1,6 +1,6 @@
 package com.nextstep.edu.tictactoe.domain
 
-import com.nextstep.edu.tictactoe.domain.DefaultTictactoe.Companion.MAP_SIZE
+import com.nextstep.edu.tictactoe.domain.Tictactoe.Companion.MAP_SIZE
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
 import com.nextstep.edu.tictactoe.domain.model.TictactoeMap
