@@ -2,17 +2,19 @@ package com.nextstep.edu.tictactoe.domain.di
 
 import com.nextstep.edu.tictactoe.domain.model.TictactoeMap
 import com.nextstep.edu.tictactoe.domain.model.TictactoeMapImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object TictactocMapModule {
+abstract class TictactocMapModule {
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideTictactocMap(): TictactoeMap = TictactoeMapImpl()
+    internal abstract fun provideTictactocMap(
+        tictactoeMapImpl: TictactoeMapImpl
+    ): TictactoeMap
 }

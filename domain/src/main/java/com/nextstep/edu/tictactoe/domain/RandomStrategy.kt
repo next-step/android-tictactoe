@@ -4,6 +4,7 @@ import com.nextstep.edu.tictactoe.domain.Tictactoe.Companion.MAP_SIZE
 import com.nextstep.edu.tictactoe.domain.model.GameResult
 import com.nextstep.edu.tictactoe.domain.model.Point
 import com.nextstep.edu.tictactoe.domain.model.TictactoeMap
+import javax.inject.Inject
 
 interface RandomStrategy {
     fun randomPut(point: Point, tictactoeMap: TictactoeMap): GameResult
@@ -11,7 +12,7 @@ interface RandomStrategy {
     fun getGameResult(point: Point, tictactoeMap: TictactoeMap): GameResult
 }
 
-internal class DefaultRandomStrategy: RandomStrategy {
+internal class DefaultRandomStrategy @Inject constructor(): RandomStrategy {
 
     override fun randomPut(point: Point, tictactoeMap: TictactoeMap): GameResult {
         tictactoeMap.changeTurn()

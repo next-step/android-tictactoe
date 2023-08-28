@@ -1,8 +1,9 @@
 package com.nextstep.edu.tictactoe.domain.model
 
 import com.nextstep.edu.tictactoe.domain.Tictactoe.Companion.MAP_SIZE
+import javax.inject.Inject
 
-internal class TictactoeMapImpl : TictactoeMap {
+internal class TictactoeMapImpl @Inject constructor() : TictactoeMap {
 
     private var map: Array<Array<Turn>> = Array(MAP_SIZE) { Array(MAP_SIZE) { Turn.UNKNOWN } }
 

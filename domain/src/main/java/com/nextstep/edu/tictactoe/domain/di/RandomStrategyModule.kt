@@ -2,18 +2,20 @@ package com.nextstep.edu.tictactoe.domain.di
 
 import com.nextstep.edu.tictactoe.domain.DefaultRandomStrategy
 import com.nextstep.edu.tictactoe.domain.RandomStrategy
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 
 @Module
 @InstallIn(SingletonComponent::class)
-class RandomStrategyModule {
+abstract class RandomStrategyModule {
 
-    @Provides
-    fun providesRandomStrategyDelegate(): RandomStrategy {
-        return DefaultRandomStrategy()
-    }
+    @Binds
+    @Singleton
+    internal abstract fun providesRandomStrategyDelegate(
+        defaultRandomStrategy: DefaultRandomStrategy
+    ): RandomStrategy
 }
