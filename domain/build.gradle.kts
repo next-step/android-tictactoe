@@ -1,6 +1,7 @@
 plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
+    id("kotlin-kapt")
 }
 
 java {
@@ -17,4 +18,8 @@ dependencies {
 
     // Mockk
     testImplementation("io.mockk:mockk:${Version.mockk}")
+
+    // hilt
+    implementation("com.google.dagger:hilt-core:${Version.hilt}")
+    kapt("com.google.dagger:hilt-compiler:${Version.hilt}")
 }

@@ -1,19 +1,21 @@
 package com.nextstep.edu.tictactoe.domain
 
-import com.nextstep.edu.tictactoe.domain.di.RandomStrategyModule
+import com.nextstep.edu.tictactoe.domain.mode.RandomNormalTictactoeImpl
 import com.nextstep.edu.tictactoe.domain.model.Point
+import com.nextstep.edu.tictactoe.domain.model.TictactoeMapImpl
 import com.nextstep.edu.tictactoe.domain.model.Turn
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class RandomNormalTictactocTest {
+class RandomNormalTictactoeTest {
 
-    lateinit var tictactoe: DefaultTictactoe
+    lateinit var tictactoe: Tictactoe
 
     @Before
     fun setUp() {
-        tictactoe = DefaultTictactoe(RandomStrategyModule.provideRandomNormalTictactoc())
+        val tictactoeMap = TictactoeMapImpl()
+        tictactoe = TictactoeImpl(RandomNormalTictactoeImpl(randomStrategy = DefaultRandomStrategy(), tictactoeMap), tictactoeMap)
     }
 
     @Test

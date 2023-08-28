@@ -8,3 +8,10 @@ data class RandomBehavior(
 enum class Behavior {
     INTERRUPT, WIN, UNKNOWN
 }
+
+sealed class Lines {
+    object leftDiagonal: Lines()
+    object rightDiagonal: Lines()
+    class row(val rowIndex: Int): Lines()
+    class column(val columnIndex: Int): Lines()
+}

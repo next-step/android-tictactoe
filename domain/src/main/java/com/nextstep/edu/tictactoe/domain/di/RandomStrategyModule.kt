@@ -1,20 +1,21 @@
 package com.nextstep.edu.tictactoe.domain.di
 
 import com.nextstep.edu.tictactoe.domain.DefaultRandomStrategy
-import com.nextstep.edu.tictactoe.domain.PlayerTictactoc
-import com.nextstep.edu.tictactoe.domain.RandomMiddleTictactoc
-import com.nextstep.edu.tictactoe.domain.RandomNormalTictactoc
 import com.nextstep.edu.tictactoe.domain.RandomStrategy
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-object RandomStrategyModule {
 
-    fun providePlayerTictactoc(): PlayerTictactoc = PlayerTictactoc()
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class RandomStrategyModule {
 
-    fun provideRandomMiddleTictactoc(): RandomMiddleTictactoc {
-        return RandomMiddleTictactoc(DefaultRandomStrategy())
-    }
-
-    fun provideRandomNormalTictactoc(): RandomNormalTictactoc {
-        return RandomNormalTictactoc(DefaultRandomStrategy())
-    }
+    @Binds
+    @Singleton
+    internal abstract fun providesRandomStrategyDelegate(
+        defaultRandomStrategy: DefaultRandomStrategy
+    ): RandomStrategy
 }

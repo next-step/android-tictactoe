@@ -9,7 +9,9 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import camp.nextstep.edu.tictactoe.databinding.ActivityTictactocBinding
 import com.nextstep.edu.tictactoe.domain.model.GameMode
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TictactocActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityTictactocBinding

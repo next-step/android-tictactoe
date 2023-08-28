@@ -1,3 +1,15 @@
+# Step4(2023-08-26) # 
+    * 틱택토(Hilt 마이그레이션)
+        * [x] 이전 단계의 기능 요구사항을 모두 만족해야 한다.
+        * [x] Hilt를 통해 의존성을 주입한다.
+        * [x] domain 모듈에서 외부로 노출될 필요가 없는 구현체들은 internal로 선언되어야 한다.
+    * 1차 피드백
+        * [x] Default & Impl 네이밍 겹치던 내용 수정
+        * [x] app 모듈에서 hilt 사용
+        * [x] put 메서드에서 tictactoeMap 파라미터로 받던 내용 수정
+        * [x] ViewModel 에서 UseCase의 게임 모드에 따라서 틱택토 모드 변경
+        * [x] TictactoeModule @Provides -> @Binds 수정
+
 # Step3(2023-08-18) #
     * 틱택토(중급)
         * [x] 메뉴에서 중급를 선택하면 중급 모드로 전환한다.
@@ -11,6 +23,10 @@
         * [x] TictactocMap 에서 다음에 랜덤으로 둘 곳 판별하는 로직 가지도록 수정
         * [x] RandomStrategy 에서 사용하는 함수들 통합 
         * [x] 랜덤 전략 테스트 코드 추가
+    * 2차 피드백
+        * [x] DefaultTictactoe 메서드 반환 타입 명시
+        * [x] getGameResultFromSetMapPoint() 함수 역활 분리
+        * [x] 대각선, 행, 열 다음 둘 곳 찾는 함수 통합
 
 # Step2(2023-08-14) #
     * 틱택토(랜덤)
