@@ -2,19 +2,18 @@ package camp.nextstep.edu.tictactoe.domain
 
 class TictactoeGame {
     var tictactoeMap = TictactoeMap()
+        private set
     var isXTurn: Boolean = true
+        private set
 
-    fun setPosition(position: CellPosition): GameResult<Int> {
+    fun setPosition(position: CellPosition): TictactoeStatus {
         tictactoeMap.set(position, isXTurn)
         isXTurn = !isXTurn
         return checkGameResult()
     }
 
-    private fun checkGameResult(): GameResult<Int> {
-        if (tictactoeMap.isAllOccupied()) {
-            return GameResult.GameStatus(GameResult.GAME_DRAW)
-        }
-        return tictactoeMap.checkWin()
+    private fun checkGameResult(): TictactoeStatus {
+        return WinnerChecker.check(tictactoeMap)
     }
 
     fun gameReset() {

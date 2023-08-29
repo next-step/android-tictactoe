@@ -34,9 +34,9 @@ class TictactoeGameTest {
         game.setPosition(CellPosition.MIDDLE)
 
         // when X 연속된 3줄 완성
-        val actual = getResult(game.setPosition(CellPosition.TOP_RIGHT))
+        val actual = game.setPosition(CellPosition.TOP_RIGHT)
         // then X가 승리
-        assertThat(actual).isEqualTo(GameResult.GAME_X_WIN)
+        assertThat(actual).isEqualTo(TictactoeStatus.XWin)
     }
 
     @Test
@@ -49,10 +49,10 @@ class TictactoeGameTest {
         game.setPosition(CellPosition.BOTTOM_RIGHT)
 
         // when O 연속된 3줄 완성
-        val actual = getResult(game.setPosition(CellPosition.MIDDLE_RIGHT))
+        val actual = game.setPosition(CellPosition.MIDDLE_RIGHT)
 
         // then O가 승리
-        assertThat(actual).isEqualTo(GameResult.GAME_O_WIN)
+        assertThat(actual).isEqualTo(TictactoeStatus.OWin)
     }
 
     @Test
@@ -61,10 +61,10 @@ class TictactoeGameTest {
         game.setPosition(CellPosition.TOP_LEFT)
 
         // when 아직 게임중이라면
-        val actual = getResult(game.setPosition(CellPosition.TOP))
+        val actual = game.setPosition(CellPosition.TOP)
 
         // then 게임 진행중 상태가 나옴
-        assertThat(actual).isEqualTo(GameResult.GAME_ING)
+        assertThat(actual).isEqualTo(TictactoeStatus.Progress)
     }
 
     @Test
@@ -79,10 +79,10 @@ class TictactoeGameTest {
         game.setPosition(CellPosition.MIDDLE_RIGHT)
         game.setPosition(CellPosition.BOTTOM_RIGHT)
         // when 모든 칸이 다 들어간 상태에서 우승자가 나오지 않았다면
-        val actual = getResult(game.setPosition(CellPosition.BOTTOM))
+        val actual = game.setPosition(CellPosition.BOTTOM)
 
         // then 게임은 무승부
-        assertThat(actual).isEqualTo(GameResult.GAME_DRAW)
+        assertThat(actual).isEqualTo(TictactoeStatus.Draw)
     }
 
     @Test
@@ -100,18 +100,11 @@ class TictactoeGameTest {
     fun `다시 시작을 하면 게임이 리셋된다`() {
         game.setPosition(CellPosition.TOP_LEFT)
         game.gameReset()
+        game.tictactoeMap.positions
         val actual = game.tictactoeMap.positions.any {
             it.value != Owner.NONE
         }
         assertThat(actual).isEqualTo(false)
         assertThat(game.isXTurn).isEqualTo(true)
-    }
-
-    private fun getResult(result: GameResult<Int>): Any {
-        val actual = when (result) {
-            is GameResult.GameStatus -> result.result
-            else -> {}
-        }
-        return actual
     }
 }

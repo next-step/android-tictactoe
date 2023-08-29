@@ -7,7 +7,8 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
-import camp.nextstep.edu.tictactoe.domain.GameResult
+import camp.nextstep.edu.tictactoe.domain.TictactoeStatus
+import camp.nextstep.edu.tictactoe.viewmodel.GameResult
 import camp.nextstep.edu.tictactoe.viewmodel.TictactoeViewModel
 import camp.nextstep.edu.tictactoe.viewmodel.ViewModelFactory
 
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.uiState.observe(this) {
             val message = when (it) {
-                is GameResult.GameStatus -> getMessage(it.result)
+                is GameResult.Status -> getMessage(it.status)
                 is GameResult.Fail -> it.message
             }
             if (message.isNullOrEmpty()) {
@@ -35,11 +36,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getMessage(status: Int): String {
+    private fun getMessage(status: TictactoeStatus): String {
         return when (status) {
-            GameResult.GAME_DRAW -> "무승부"
-            GameResult.GAME_O_WIN -> "O 승리"
-            GameResult.GAME_X_WIN -> "X 승리"
+            TictactoeStatus.Draw -> "무승부"
+            TictactoeStatus.OWin -> "O 승리"
+            TictactoeStatus.XWin -> "X 승리"
             else -> ""
         }
     }
