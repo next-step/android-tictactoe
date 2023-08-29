@@ -55,11 +55,11 @@ class WinnerCheckerTest {
         val tictactoeMap = TictactoeMap()
         tictactoeMap.set(CellPosition.TOP_LEFT, true)
         tictactoeMap.set(CellPosition.TOP, false)
-        tictactoeMap.set(CellPosition.TOP_RIGHT, false)
+        tictactoeMap.set(CellPosition.TOP_RIGHT, true)
         tictactoeMap.set(CellPosition.MIDDLE_LEFT, true)
         tictactoeMap.set(CellPosition.MIDDLE, false)
         tictactoeMap.set(CellPosition.MIDDLE_RIGHT, true)
-        tictactoeMap.set(CellPosition.BOTTOM_LEFT, true)
+        tictactoeMap.set(CellPosition.BOTTOM_LEFT, false)
         tictactoeMap.set(CellPosition.BOTTOM, true)
         tictactoeMap.set(CellPosition.BOTTOM_RIGHT, false)
 

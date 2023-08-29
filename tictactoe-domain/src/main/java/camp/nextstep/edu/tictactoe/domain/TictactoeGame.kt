@@ -9,11 +9,7 @@ class TictactoeGame {
     fun setPosition(position: CellPosition): TictactoeStatus {
         tictactoeMap.set(position, isXTurn)
         isXTurn = !isXTurn
-        return checkGameResult()
-    }
-
-    private fun checkGameResult(): TictactoeStatus {
-        return WinnerChecker.check(tictactoeMap)
+        return WinnerChecker.check(tictactoeMap.positions)
     }
 
     fun gameReset() {

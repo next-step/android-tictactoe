@@ -2,7 +2,6 @@ package camp.nextstep.edu.tictactoe.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import camp.nextstep.edu.tictactoe.domain.CellPosition
-import camp.nextstep.edu.tictactoe.domain.GameResult
 import camp.nextstep.edu.tictactoe.domain.TictactoeGame
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
@@ -26,7 +25,7 @@ class TictactoeViewModelTest {
     fun `한 곳 입력 후 상태를 체크해본다`() {
         viewModel.clickCell(CellPosition.TOP_LEFT)
         val actual = viewModel.uiState.value
-        assertThat(actual).isInstanceOf(GameResult.GameStatus::class.java)
+        assertThat(actual).isInstanceOf(GameResult.Status::class.java)
     }
 
     @Test
