@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="camp.nextstep.edu.tictactoe.domain.CellPosition" />
+        <variable
+            name="model"
+            type="camp.nextstep.edu.tictactoe.viewmodel.TictactoeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        tools:context=".MainActivity">
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/flow"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:constraint_referenced_ids="cell_top_left,cell_top,cell_top_right,cell_middle_left,cell_middle,cell_middle_right,cell_bottom_left,cell_bottom,cell_bottom_right"
+            app:flow_maxElementsWrap="3"
+            app:flow_wrapMode="aligned"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- region Cell -->
+        <ImageView
+            android:id="@+id/cell_top_left"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{() -> model.clickCell(CellPosition.TOP_LEFT)}"
+            owner="@{model.tictactoeMap.positions[CellPosition.TOP_LEFT]}"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_x_black" />
+
+        <ImageView
+            android:id="@+id/cell_top"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{() -> model.clickCell(CellPosition.TOP)}"
+            owner="@{model.tictactoeMap.positions[CellPosition.TOP]}"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_o_black" />
+
+        <ImageView
+            android:id="@+id/cell_top_right"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{() -> model.clickCell(CellPosition.TOP_RIGHT)}"
+            owner="@{model.tictactoeMap.positions[CellPosition.TOP_RIGHT]}"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_x_black" />
+
+        <ImageView
+            android:id="@+id/cell_middle_left"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{() -> model.clickCell(CellPosition.MIDDLE_LEFT)}"
+            owner="@{model.tictactoeMap.positions[CellPosition.MIDDLE_LEFT]}"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_o_black" />
+
+        <ImageView
+            android:id="@+id/cell_middle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{() -> model.clickCell(CellPosition.MIDDLE)}"
+            owner="@{model.tictactoeMap.positions[CellPosition.MIDDLE]}"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_x_black" />
+
+        <ImageView
+            android:id="@+id/cell_middle_right"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{() -> model.clickCell(CellPosition.MIDDLE_RIGHT)}"
+            owner="@{model.tictactoeMap.positions[CellPosition.MIDDLE_RIGHT]}"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_o_black" />
+
+        <ImageView
+            android:id="@+id/cell_bottom_left"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{() -> model.clickCell(CellPosition.BOTTOM_LEFT)}"
+            owner="@{model.tictactoeMap.positions[CellPosition.BOTTOM_LEFT]}"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_x_black" />
+
+        <ImageView
+            android:id="@+id/cell_bottom"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{() -> model.clickCell(CellPosition.BOTTOM)}"
+            owner="@{model.tictactoeMap.positions[CellPosition.BOTTOM]}"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_o_black" />
+
+        <ImageView
+            android:id="@+id/cell_bottom_right"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{() -> model.clickCell(CellPosition.BOTTOM_RIGHT)}"
+            owner="@{model.tictactoeMap.positions[CellPosition.BOTTOM_RIGHT]}"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_x_black" />
+        <!-- endregion -->
+
+        <!-- region Divider -->
+        <View
+            android:id="@+id/divider_horizontal_1"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#ddd"
+            app:layout_constraintEnd_toEndOf="@id/flow"
+            app:layout_constraintStart_toStartOf="@id/flow"
+            app:layout_constraintTop_toTopOf="@id/flow" />
+
+        <View
+            android:id="@+id/divider_horizontal_2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#ddd"
+            app:layout_constraintBottom_toTopOf="@id/divider_horizontal_3"
+            app:layout_constraintEnd_toEndOf="@id/flow"
+            app:layout_constraintStart_toStartOf="@id/flow"
+            app:layout_constraintTop_toTopOf="@id/flow" />
+
+        <View
+            android:id="@+id/divider_horizontal_3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#ddd"
+            app:layout_constraintBottom_toBottomOf="@id/flow"
+            app:layout_constraintEnd_toEndOf="@id/flow"
+            app:layout_constraintStart_toStartOf="@id/flow"
+            app:layout_constraintTop_toBottomOf="@id/divider_horizontal_2" />
+
+        <View
+            android:id="@+id/divider_horizontal_4"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#ddd"
+            app:layout_constraintBottom_toBottomOf="@id/flow"
+            app:layout_constraintEnd_toEndOf="@id/flow"
+            app:layout_constraintStart_toStartOf="@id/flow" />
+
+        <View
+            android:id="@+id/divider_vertical_1"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="#ddd"
+            app:layout_constraintBottom_toBottomOf="@id/flow"
+            app:layout_constraintStart_toStartOf="@id/flow"
+            app:layout_constraintTop_toTopOf="@id/flow" />
+
+        <View
+            android:id="@+id/divider_vertical_2"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="#ddd"
+            app:layout_constraintBottom_toBottomOf="@id/flow"
+            app:layout_constraintEnd_toStartOf="@id/divider_vertical_3"
+            app:layout_constraintStart_toStartOf="@id/flow"
+            app:layout_constraintTop_toTopOf="@id/flow" />
+
+        <View
+            android:id="@+id/divider_vertical_3"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="#ddd"
+            app:layout_constraintBottom_toBottomOf="@id/flow"
+            app:layout_constraintEnd_toEndOf="@id/flow"
+            app:layout_constraintStart_toEndOf="@id/divider_vertical_2"
+            app:layout_constraintTop_toTopOf="@id/flow" />
+
+        <View
+            android:id="@+id/divider_vertical_4"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="#ddd"
+            app:layout_constraintBottom_toBottomOf="@id/flow"
+            app:layout_constraintEnd_toEndOf="@id/flow"
+            app:layout_constraintTop_toTopOf="@id/flow" />
+        <!-- endregion: Divider -->
+
+        <Button
+            android:id="@+id/button_restart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="다시 시작하기"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/flow"
+            android:onClick="@{() -> model.gameReset()}"
+            tools:ignore="HardcodedText" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
