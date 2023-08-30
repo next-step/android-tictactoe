@@ -8,13 +8,14 @@ class WinnerCheckerTest {
     @Test
     fun `X가 연속 3개일 경우 X 승리 체크`() {
         // given
-        val tictactoeMap = TictactoeMap()
-        tictactoeMap.set(CellPosition.TOP_LEFT, true)
-        tictactoeMap.set(CellPosition.TOP, true)
-        tictactoeMap.set(CellPosition.TOP_RIGHT, true)
+        val positions = mapOf(
+            CellPosition.TOP_LEFT to Owner.X,
+            CellPosition.TOP to Owner.X,
+            CellPosition.TOP_RIGHT to Owner.X
 
+        )
         // when
-        val actual = WinnerChecker.check(tictactoeMap.positions)
+        val actual = WinnerChecker.check(positions)
 
         // then
         assertThat(actual).isEqualTo(TictactoeStatus.XWin)
@@ -23,13 +24,13 @@ class WinnerCheckerTest {
     @Test
     fun `O가 연속 3개일 경우 O 승리 체크`() {
         // given
-        val tictactoeMap = TictactoeMap()
-        tictactoeMap.set(CellPosition.TOP_LEFT, false)
-        tictactoeMap.set(CellPosition.TOP, false)
-        tictactoeMap.set(CellPosition.TOP_RIGHT, false)
+        val positions = mapOf(
+            CellPosition.TOP_LEFT to Owner.O,
+            CellPosition.TOP to Owner.O,
+            CellPosition.TOP_RIGHT to Owner.O
 
-        // when
-        val actual = WinnerChecker.check(tictactoeMap.positions)
+        )
+        val actual = WinnerChecker.check(positions)
 
         // then
         assertThat(actual).isEqualTo(TictactoeStatus.OWin)
@@ -38,12 +39,12 @@ class WinnerCheckerTest {
     @Test
     fun `게임이 종료되지 않은 경우 게임 진행 중`() {
         // given
-        val tictactoeMap = TictactoeMap()
-        tictactoeMap.set(CellPosition.TOP_LEFT, false)
-        tictactoeMap.set(CellPosition.TOP, false)
-
+        val positions = mapOf(
+            CellPosition.TOP_LEFT to Owner.X,
+            CellPosition.TOP to Owner.O
+        )
         // when
-        val actual = WinnerChecker.check(tictactoeMap.positions)
+        val actual = WinnerChecker.check(positions)
 
         // then
         assertThat(actual).isEqualTo(TictactoeStatus.Progress)
@@ -52,19 +53,19 @@ class WinnerCheckerTest {
     @Test
     fun `칸을 다 채우고 승자가 없는 경우 무승부`() {
         // given
-        val tictactoeMap = TictactoeMap()
-        tictactoeMap.set(CellPosition.TOP_LEFT, true)
-        tictactoeMap.set(CellPosition.TOP, false)
-        tictactoeMap.set(CellPosition.TOP_RIGHT, true)
-        tictactoeMap.set(CellPosition.MIDDLE_LEFT, true)
-        tictactoeMap.set(CellPosition.MIDDLE, false)
-        tictactoeMap.set(CellPosition.MIDDLE_RIGHT, true)
-        tictactoeMap.set(CellPosition.BOTTOM_LEFT, false)
-        tictactoeMap.set(CellPosition.BOTTOM, true)
-        tictactoeMap.set(CellPosition.BOTTOM_RIGHT, false)
-
+        val positions = mapOf(
+            CellPosition.TOP_LEFT to Owner.X,
+            CellPosition.TOP to Owner.O,
+            CellPosition.TOP_RIGHT to Owner.X,
+            CellPosition.MIDDLE_LEFT to Owner.X,
+            CellPosition.MIDDLE to Owner.O,
+            CellPosition.MIDDLE_RIGHT to Owner.X,
+            CellPosition.BOTTOM_LEFT to Owner.O,
+            CellPosition.BOTTOM to Owner.X,
+            CellPosition.BOTTOM_RIGHT to Owner.O
+        )
         // when
-        val actual = WinnerChecker.check(tictactoeMap.positions)
+        val actual = WinnerChecker.check(positions)
 
         // then
         assertThat(actual).isEqualTo(TictactoeStatus.Draw)

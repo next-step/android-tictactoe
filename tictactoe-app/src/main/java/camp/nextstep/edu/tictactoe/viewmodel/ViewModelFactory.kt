@@ -2,7 +2,6 @@ package camp.nextstep.edu.tictactoe.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import camp.nextstep.edu.tictactoe.domain.TictactoeGame
 
 class ViewModelFactory() : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
@@ -14,6 +13,6 @@ class ViewModelFactory() : ViewModelProvider.Factory {
     }
 
     private fun createMainViewModel(): TictactoeViewModel {
-        return TictactoeViewModel(TictactoeGame())
+        return TictactoeViewModel()
     }
 }

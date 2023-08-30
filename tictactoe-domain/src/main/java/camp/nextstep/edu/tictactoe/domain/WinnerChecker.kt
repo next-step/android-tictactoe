@@ -12,6 +12,8 @@ import camp.nextstep.edu.tictactoe.domain.CellPosition.TOP_RIGHT
 
 object WinnerChecker {
 
+    private const val CELL_POSITIONS = 9
+
     private val WIN_SET = listOf(
         listOf(TOP_LEFT, TOP, TOP_RIGHT),
         listOf(MIDDLE_LEFT, MIDDLE, MIDDLE_RIGHT),
@@ -36,7 +38,7 @@ object WinnerChecker {
         val isEmpty = positions.none {
             it.value == Owner.NONE
         }
-        if (isEmpty) {
+        if (positions.size == CELL_POSITIONS && isEmpty) {
             return TictactoeStatus.Draw
         }
 
