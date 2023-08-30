@@ -12,7 +12,7 @@ import camp.nextstep.edu.tictactoe.domain.strategy.RandomStrategy
 import camp.nextstep.edu.tictactoe.mode.Mode
 
 class TictactoeViewModel : ViewModel() {
-    private var tictactoeGame: TictactoeGame = TictactoeGame()
+    private var tictactoeGame: TictactoeGame = TictactoeGame(RandomStrategy())
 
     private val _tictactoeMap = MutableLiveData(tictactoeGame.tictactoeMap)
     val tictactoeMap: LiveData<TictactoeMap> = _tictactoeMap
