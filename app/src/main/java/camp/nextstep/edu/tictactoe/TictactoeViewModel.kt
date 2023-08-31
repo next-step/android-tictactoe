@@ -2,13 +2,13 @@ package camp.nextstep.edu.tictactoe
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.tictectoe_domain.Game
 import com.example.tictectoe_domain.Player
-import com.example.tictectoe_domain.TictectoeBoard
 import com.example.tictectoe_domain.PlayerSelectedInfo
-import com.example.tictectoe_domain.TictectoeRule
 
-class TictactoeViewModel( private val gameBoard: TictectoeBoard,
-                          private val gameRule: TictectoeRule) : ViewModel() {
+class TictactoeViewModel(
+   private val game: Game
+) : ViewModel() {
 
     private val _clickBoard = SingleLiveEvent<PlayerSelectedInfo>()
     val clickBoard: LiveData<PlayerSelectedInfo>
@@ -23,26 +23,20 @@ class TictactoeViewModel( private val gameBoard: TictectoeBoard,
         get() = _toastEvent
 
     fun clickBoard(position: Int) {
-        if (canClick(position)) {
-            _clickBoard.value = PlayerSelectedInfo(position, gameBoard.getPlayer())
-            gameBoard.selectBoard(position)
-            gameBoard.changePlayer()
+        if (game.canSelect(position)) {
+            _clickBoard.value = PlayerSelectedInfo(position, game.getPlayer())
+            game.selectBoard(position)
             checkGameWin()
         }
     }
 
     fun clickRestart() {
-        gameBoard.initBoard()
+        game.startGame()
         _clickRestart.value = Unit
     }
 
-    private fun canClick(position: Int): Boolean {
-        return gameBoard.canClick(position)
-    }
-
     private fun checkGameWin() {
-        val board = gameBoard.getBoard()
-        when (gameRule.getWinningPlayer(board)) {
+        when (game.checkGameWin()) {
             Player.PLAYER1 -> {
                 _toastEvent.value = R.string.msg_player1_win
             }
@@ -50,14 +44,10 @@ class TictactoeViewModel( private val gameBoard: TictectoeBoard,
                 _toastEvent.value = R.string.msg_player2_win
             }
             Player.NONE -> {
-                checkDraw()
+                if (game.checkGameDraw()) {
+                    _toastEvent.value = R.string.msg_draw
+                }
             }
-        }
-    }
-
-    private fun checkDraw() {
-        if(gameRule.isDraw(gameBoard.getBoard())) {
-            _toastEvent.value = R.string.msg_draw
         }
     }
 }

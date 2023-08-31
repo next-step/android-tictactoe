@@ -17,7 +17,7 @@ class TictectoeBoard {
         board[position] = player
     }
 
-    fun canClick(position: Int) = board[position] == Player.NONE
+    fun canSelect(position: Int) = board[position] == Player.NONE
 
     fun getBoard() = board
     fun getPlayer() = player

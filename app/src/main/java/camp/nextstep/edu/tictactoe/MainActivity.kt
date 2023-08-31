@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
+import com.example.tictectoe_domain.Game
 import com.example.tictectoe_domain.TictectoeBoard
 import com.example.tictectoe_domain.Player
 import com.example.tictectoe_domain.TictectoeRule
@@ -16,7 +17,7 @@ import com.example.tictectoe_domain.TictectoeRule
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-    private val viewModel: TictactoeViewModel by viewModels{ TictactoeViewModelFactory(TictectoeBoard(), TictectoeRule()) }
+    private val viewModel: TictactoeViewModel by viewModels{ TictactoeViewModelFactory(Game(TictectoeBoard(), TictectoeRule())) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

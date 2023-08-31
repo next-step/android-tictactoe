@@ -134,7 +134,7 @@ class TictectoeRuleTest {
     }
 
     @Test
-    fun `보드의 빈 공간이 1개인 상태라면 무승부이다`() {
+    fun `0번 인덱스를 제외하고 빈 공간이 0개라면 무승부이다`() {
         // given : 승리 조건을 만족하지 않고 빈 공간이 1개인 보드를 만든다.
         val board = mutableListOf(Player.NONE,
             Player.PLAYER2, Player.PLAYER1, Player.PLAYER1,
