@@ -7,7 +7,6 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.lang.IllegalStateException
 
 class TictactoeViewModelTest {
     @get:Rule
@@ -31,7 +30,7 @@ class TictactoeViewModelTest {
             // then
             assertThat(actual).isEqualTo(TictactoeStatus.Progress)
         } else {
-            throw IllegalStateException()
+            assertThat(result).isInstanceOf(GameResultUiState.Fail::class.java)
         }
     }
 

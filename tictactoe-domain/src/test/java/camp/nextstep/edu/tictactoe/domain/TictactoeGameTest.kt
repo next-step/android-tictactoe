@@ -1,5 +1,7 @@
 package camp.nextstep.edu.tictactoe.domain
 
+import camp.nextstep.edu.tictactoe.domain.strategy.RandomStrategy
+import camp.nextstep.edu.tictactoe.domain.strategy.TwoPlayersStrategy
 import com.google.common.truth.Truth.assertThat
 import org.junit.Assert.assertThrows
 import org.junit.Before
@@ -107,5 +109,29 @@ class TictactoeGameTest {
         }
         assertThat(actual).isEqualTo(false)
         assertThat(game.isXTurn).isEqualTo(true)
+    }
+
+    @Test
+    fun `2인 모드에서 게임을 계속하는 경우 진행상태가 null이 온다`() {
+        // given
+        game = TictactoeGame(TwoPlayersStrategy())
+
+        // when
+        val actual = game.continueGame()
+
+        // then
+        assertThat(actual).isEqualTo(null)
+    }
+
+    @Test
+    fun `Random모드에서 게임을 계속하는 경우 진행상태가 진행중으로 온다`() {
+        // given
+        game = TictactoeGame(RandomStrategy())
+
+        // when
+        val actual = game.continueGame()
+
+        // then
+        assertThat(actual).isEqualTo(TictactoeStatus.Progress)
     }
 }

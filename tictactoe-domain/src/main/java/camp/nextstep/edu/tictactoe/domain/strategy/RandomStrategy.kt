@@ -5,7 +5,7 @@ import camp.nextstep.edu.tictactoe.domain.Owner
 import camp.nextstep.edu.tictactoe.domain.TictactoeMap
 
 class RandomStrategy : TictactoeStrategy {
-    fun getPosition(tictactoeMap: TictactoeMap): CellPosition {
+    override fun getPosition(tictactoeMap: TictactoeMap): CellPosition {
         val emptyPositions = tictactoeMap.positions.filter { (_, owner) ->
             owner == Owner.NONE
         }

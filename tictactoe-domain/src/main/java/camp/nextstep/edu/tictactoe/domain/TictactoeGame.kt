@@ -1,11 +1,10 @@
 package camp.nextstep.edu.tictactoe.domain
 
-import camp.nextstep.edu.tictactoe.domain.strategy.DefaultStrategy
-import camp.nextstep.edu.tictactoe.domain.strategy.RandomStrategy
 import camp.nextstep.edu.tictactoe.domain.strategy.TictactoeStrategy
+import camp.nextstep.edu.tictactoe.domain.strategy.TwoPlayersStrategy
 
 class TictactoeGame(
-    private val tictactoeStrategy: TictactoeStrategy = DefaultStrategy()
+    private val tictactoeStrategy: TictactoeStrategy = TwoPlayersStrategy()
 ) {
     var tictactoeMap = TictactoeMap()
         private set
@@ -27,14 +26,8 @@ class TictactoeGame(
         isXTurn = true
     }
 
-    fun markByStrategy(): TictactoeStatus? {
-        if (isXTurn) return null
-        return when (tictactoeStrategy) {
-            is RandomStrategy -> {
-                mark(tictactoeStrategy.getPosition(tictactoeMap))
-            }
-
-            else -> null
-        }
+    fun continueGame(): TictactoeStatus? {
+        val position = tictactoeStrategy.getPosition(tictactoeMap) ?: return null
+        return mark(position)
     }
 }

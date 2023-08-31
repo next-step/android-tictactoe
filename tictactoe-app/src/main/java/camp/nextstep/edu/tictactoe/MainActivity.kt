@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             }
             TictactoeStatus.Progress -> {
                 Handler(Looper.getMainLooper()).postDelayed({
-                    viewModel.doStrategy()
+                    viewModel.continueGame()
                 }, 1000L)
             }
         }

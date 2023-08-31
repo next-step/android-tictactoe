@@ -37,8 +37,8 @@ class TictactoeViewModel : ViewModel() {
         updateTictactoeMap()
     }
 
-    fun doStrategy() {
-        val result = tictactoeGame.markByStrategy()
+    fun continueGame() {
+        val result = tictactoeGame.continueGame()
         if (result != null) {
             updateUiStatus(result)
         }
