@@ -1,17 +1,17 @@
 package camp.nextstep.tictactoe.domain
 
 interface Strategy {
-	fun getRandomPoint(ticTacToe: TicTacToe): Point
+	fun getPoint(ticTacToe: TicTacToe): Point
 }
 
 class RandomStrategy : Strategy {
-	override fun getRandomPoint(ticTacToe: TicTacToe): Point {
+	override fun getPoint(ticTacToe: TicTacToe): Point {
 		return ticTacToe.board.getRemainPoints().random()
 	}
 }
 
 class IntermediateStrategy : Strategy {
-	override fun getRandomPoint(ticTacToe: TicTacToe): Point {
+	override fun getPoint(ticTacToe: TicTacToe): Point {
 		val oOneRemainPoints = ticTacToe.board.getOneRemainPoints(Marker.O)
 
 		return if (oOneRemainPoints.isEmpty()) {
