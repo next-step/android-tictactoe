@@ -24,7 +24,7 @@ class DefaultTicTaeToHandler : TicTaeToHandler {
 
 	override fun markRandomlyIfNeed(ticTacToe: TicTacToe, onUpdateByAi: (TicTacToe) -> Unit) {
 		return if (ticTacToe.player is Player.RandomAi) {
-			val randomPoint = ticTacToe.player.strategy.getRandomPoint(ticTacToe)
+			val randomPoint = ticTacToe.player.strategy.getPoint(ticTacToe)
 			onUpdateByAi(mark(randomPoint, ticTacToe))
 		} else {
 			onUpdateByAi(ticTacToe)

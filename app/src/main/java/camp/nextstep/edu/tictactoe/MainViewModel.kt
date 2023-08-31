@@ -1,19 +1,20 @@
 package camp.nextstep.edu.tictactoe
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import camp.nextstep.tictactoe.domain.GameStatus
 import camp.nextstep.tictactoe.domain.Mode
 import camp.nextstep.tictactoe.domain.Point
 import camp.nextstep.tictactoe.domain.TicTacToe
 import camp.nextstep.tictactoe.domain.TicTaeToHandler
-import kotlinx.coroutines.delay
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
-class MainViewModel(
+@HiltViewModel
+class MainViewModel @Inject constructor(
 	private val ticTaeToHandler: TicTaeToHandler,
 ) : ViewModel() {
 

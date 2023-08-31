@@ -15,28 +15,6 @@ data class Board(
 	private val size: Int = DEFAULT_SIZE,
 	private val map: Map<Point, Marker> = mapOf(),
 ) {
-	private fun getLines(): List<Line> {
-		val rowLines = mutableListOf<Line>()
-		val colLines = mutableListOf<Line>()
-		val ltrDiagonalPoints = mutableListOf<Point>()
-		val rtlDiagonalPoints = mutableListOf<Point>()
-
-		for (i in 0 until size) {
-			val rowPoints = mutableListOf<Point>()
-			val colPoints = mutableListOf<Point>()
-			for (j in 0 until size) {
-				rowPoints.add(Point(i, j))
-				colPoints.add(Point(j, i))
-			}
-			rowLines.add(Line(rowPoints))
-			colLines.add(Line(colPoints))
-			ltrDiagonalPoints.add(Point(i, i))
-			rtlDiagonalPoints.add(Point(i, size - 1 - i))
-		}
-
-		return rowLines + colLines + Line(ltrDiagonalPoints) + Line(rtlDiagonalPoints)
-	}
-
 	operator fun get(x: Int, y: Int): Marker? {
 		return map[Point(x, y)]
 	}
@@ -132,5 +110,27 @@ data class Board(
 		const val DEFAULT_SIZE = 3
 
 		val EMPTY = Board()
+
+		private fun getLines(size: Int = DEFAULT_SIZE): List<Line> {
+			val rowLines = mutableListOf<Line>()
+			val colLines = mutableListOf<Line>()
+			val ltrDiagonalPoints = mutableListOf<Point>()
+			val rtlDiagonalPoints = mutableListOf<Point>()
+
+			repeat(size) { i ->
+				val rowPoints = mutableListOf<Point>()
+				val colPoints = mutableListOf<Point>()
+				repeat(size) { j ->
+					rowPoints.add(Point(i, j))
+					colPoints.add(Point(j, i))
+				}
+				rowLines.add(Line(rowPoints))
+				colLines.add(Line(colPoints))
+				ltrDiagonalPoints.add(Point(i, i))
+				rtlDiagonalPoints.add(Point(i, DEFAULT_SIZE - 1 - i))
+			}
+
+			return rowLines + colLines + Line(ltrDiagonalPoints) + Line(rtlDiagonalPoints)
+		}
 	}
 }
