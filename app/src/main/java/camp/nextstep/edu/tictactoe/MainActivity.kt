@@ -12,13 +12,13 @@ import androidx.lifecycle.repeatOnLifecycle
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
 import camp.nextstep.tictactoe.domain.GameStatus
 import camp.nextstep.tictactoe.domain.Mode
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 	private lateinit var binding: ActivityMainBinding
-	private val mainViewModel: MainViewModel by viewModels {
-		ViewModelFactory()
-	}
+	private val mainViewModel: MainViewModel by viewModels()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
