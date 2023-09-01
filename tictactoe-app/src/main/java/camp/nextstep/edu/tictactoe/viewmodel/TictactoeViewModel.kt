@@ -24,6 +24,9 @@ class TictactoeViewModel : ViewModel() {
         runCatching {
             val result = tictactoeGame.mark(cellPosition)
             updateUiStatus(result)
+            if (result == TictactoeStatus.Progress) {
+                continueGame()
+            }
         }.getOrElse {
             _uiState.value = GameResultUiState.Fail(it.message ?: "")
         }
@@ -31,14 +34,14 @@ class TictactoeViewModel : ViewModel() {
 
     fun changeMode(mode: Mode) {
         tictactoeGame = when (mode) {
-            Mode.DEFAULT -> TictactoeGame()
+            Mode.TWO_PLAYERS -> TictactoeGame()
             Mode.RANDOM -> TictactoeGame(RandomStrategy())
         }
         updateTictactoeMap()
     }
 
-    fun continueGame() {
-        val result = tictactoeGame.continueGame()
+    private fun continueGame() {
+        val result = tictactoeGame.markByStrategy()
         if (result != null) {
             updateUiStatus(result)
         }

@@ -1,6 +1,6 @@
 package camp.nextstep.edu.tictactoe.mode
 
 enum class Mode {
-    DEFAULT,
+    TWO_PLAYERS,
     RANDOM
 }

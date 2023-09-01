@@ -26,8 +26,8 @@ class TictactoeGame(
         isXTurn = true
     }
 
-    fun continueGame(): TictactoeStatus? {
-        val position = tictactoeStrategy.getPosition(tictactoeMap) ?: return null
+    fun markByStrategy(): TictactoeStatus? {
+        val position = tictactoeStrategy.getNextTurnPosition(tictactoeMap) ?: return null
         return mark(position)
     }
 }

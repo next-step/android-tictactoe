@@ -1,7 +1,9 @@
 package camp.nextstep.edu.tictactoe.domain
 
+import camp.nextstep.edu.tictactoe.domain.strategy.FakeStrategy
 import camp.nextstep.edu.tictactoe.domain.strategy.RandomStrategy
 import camp.nextstep.edu.tictactoe.domain.strategy.TwoPlayersStrategy
+import com.google.common.collect.Range
 import com.google.common.truth.Truth.assertThat
 import org.junit.Assert.assertThrows
 import org.junit.Before
@@ -117,7 +119,7 @@ class TictactoeGameTest {
         game = TictactoeGame(TwoPlayersStrategy())
 
         // when
-        val actual = game.continueGame()
+        val actual = game.markByStrategy()
 
         // then
         assertThat(actual).isEqualTo(null)
@@ -129,9 +131,19 @@ class TictactoeGameTest {
         game = TictactoeGame(RandomStrategy())
 
         // when
-        val actual = game.continueGame()
+        val actual = game.markByStrategy()
 
         // then
         assertThat(actual).isEqualTo(TictactoeStatus.Progress)
+    }
+
+    @Test
+    fun `Random모드에서 위치는 무작위로 나와야 한다`() {
+        // given
+        game = TictactoeGame(FakeStrategy())
+
+        val actual = FakeStrategy().getNextTurnPosition(game.tictactoeMap)
+
+        assertThat(actual).isIn(Range.closed(CellPosition.TOP_LEFT, CellPosition.BOTTOM_RIGHT))
     }
 }

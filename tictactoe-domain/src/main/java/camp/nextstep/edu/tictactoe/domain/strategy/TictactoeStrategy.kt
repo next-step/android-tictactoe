@@ -5,5 +5,5 @@ import camp.nextstep.edu.tictactoe.domain.TictactoeMap
 
 interface TictactoeStrategy {
 
-    fun getPosition(tictactoeMap: TictactoeMap): CellPosition?
+    fun getNextTurnPosition(tictactoeMap: TictactoeMap): CellPosition?
 }

@@ -1,8 +1,6 @@
 package camp.nextstep.edu.tictactoe
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -40,11 +38,7 @@ class MainActivity : AppCompatActivity() {
             TictactoeStatus.Draw, TictactoeStatus.XWin, TictactoeStatus.OWin -> {
                 Toast.makeText(this, getMessage(status), Toast.LENGTH_SHORT).show()
             }
-            TictactoeStatus.Progress -> {
-                Handler(Looper.getMainLooper()).postDelayed({
-                    viewModel.continueGame()
-                }, 1000L)
-            }
+            else -> {}
         }
     }
 
@@ -65,7 +59,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_two -> {
-                viewModel.changeMode(Mode.DEFAULT)
+                viewModel.changeMode(Mode.TWO_PLAYERS)
                 Toast.makeText(this, "2인 모드로 전환", Toast.LENGTH_SHORT).show()
             }
             R.id.menu_random -> {
