@@ -2,7 +2,9 @@ package camp.nextstep.edu.tictactoe.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import camp.nextstep.edu.tictactoe.domain.CellPosition
-import camp.nextstep.edu.tictactoe.domain.TictactoeGame
+import camp.nextstep.edu.tictactoe.domain.Owner
+import camp.nextstep.edu.tictactoe.domain.TictactoeStatus
+import camp.nextstep.edu.tictactoe.mode.Mode
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Rule
@@ -13,26 +15,54 @@ class TictactoeViewModelTest {
     val rule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: TictactoeViewModel
-    private lateinit var tictactoeGame: TictactoeGame
 
     @Before
     fun setUp() {
-        tictactoeGame = TictactoeGame()
-        viewModel = TictactoeViewModel(tictactoeGame)
+        viewModel = TictactoeViewModel()
     }
 
     @Test
-    fun `한 곳 입력 후 상태를 체크해본다`() {
+    fun `한 곳 입력 후 상태 체크해보면 진행중으로 나온다`() {
+        // given
         viewModel.clickCell(CellPosition.TOP_LEFT)
-        val actual = viewModel.uiState.value
-        assertThat(actual).isInstanceOf(GameResult.Status::class.java)
+        val result = viewModel.uiState.value
+        // when
+        if (result is GameResultUiState.Status) {
+            val actual = result.status
+            // then
+            assertThat(actual).isEqualTo(TictactoeStatus.Progress)
+        } else {
+            assertThat(result).isInstanceOf(GameResultUiState.Fail::class.java)
+        }
     }
 
     @Test
     fun `한 곳 입력 후 선택한 곳을 또 선택한 상태를 체크해본다`() {
+        // when
         viewModel.clickCell(CellPosition.TOP_LEFT)
         viewModel.clickCell(CellPosition.TOP_LEFT)
         val actual = viewModel.uiState.value
-        assertThat(actual).isInstanceOf(GameResult.Fail::class.java)
+        assertThat(actual).isInstanceOf(GameResultUiState.Fail::class.java)
+    }
+
+    @Test
+    fun `다시 시작하기를 누르면 게임이 초기화 된다`() {
+        // when
+        viewModel.gameReset()
+        // then
+        val actual = viewModel.tictactoeMap.value?.positions
+        assertThat(actual?.values).doesNotContain(Owner.X)
+        assertThat(actual?.values).doesNotContain(Owner.O)
+    }
+
+    @Test
+    fun `게임 모드 변경을 하는 경우 게임이 초기화 된다`() {
+        // when
+        viewModel.changeMode(Mode.TWO_PLAYERS)
+
+        // then
+        val actual = viewModel.tictactoeMap.value?.positions
+        assertThat(actual?.values).doesNotContain(Owner.X)
+        assertThat(actual?.values).doesNotContain(Owner.O)
     }
 }

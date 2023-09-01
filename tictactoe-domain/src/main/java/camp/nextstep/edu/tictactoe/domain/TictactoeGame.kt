@@ -1,19 +1,33 @@
 package camp.nextstep.edu.tictactoe.domain
 
-class TictactoeGame {
+import camp.nextstep.edu.tictactoe.domain.strategy.TictactoeStrategy
+import camp.nextstep.edu.tictactoe.domain.strategy.TwoPlayersStrategy
+
+class TictactoeGame(
+    private val tictactoeStrategy: TictactoeStrategy = TwoPlayersStrategy()
+) {
     var tictactoeMap = TictactoeMap()
         private set
     var isXTurn: Boolean = true
         private set
 
-    fun setPosition(position: CellPosition): TictactoeStatus {
+    fun mark(position: CellPosition): TictactoeStatus {
         tictactoeMap.set(position, isXTurn)
-        isXTurn = !isXTurn
+        changeTurn()
         return WinnerChecker.check(tictactoeMap.positions)
+    }
+
+    private fun changeTurn() {
+        isXTurn = !isXTurn
     }
 
     fun gameReset() {
         tictactoeMap = TictactoeMap()
         isXTurn = true
+    }
+
+    fun markByStrategy(): TictactoeStatus? {
+        val position = tictactoeStrategy.getNextTurnPosition(tictactoeMap) ?: return null
+        return mark(position)
     }
 }

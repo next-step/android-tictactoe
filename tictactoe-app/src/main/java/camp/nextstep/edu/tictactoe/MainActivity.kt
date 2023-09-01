@@ -8,7 +8,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
 import camp.nextstep.edu.tictactoe.domain.TictactoeStatus
-import camp.nextstep.edu.tictactoe.viewmodel.GameResult
+import camp.nextstep.edu.tictactoe.mode.Mode
+import camp.nextstep.edu.tictactoe.viewmodel.GameResultUiState
 import camp.nextstep.edu.tictactoe.viewmodel.TictactoeViewModel
 import camp.nextstep.edu.tictactoe.viewmodel.ViewModelFactory
 
@@ -25,14 +26,19 @@ class MainActivity : AppCompatActivity() {
         binding.model = viewModel
 
         viewModel.uiState.observe(this) {
-            val message = when (it) {
-                is GameResult.Status -> getMessage(it.status)
-                is GameResult.Fail -> it.message
+            when (it) {
+                is GameResultUiState.Status -> processStatus(it.status)
+                is GameResultUiState.Fail -> Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
             }
-            if (message.isNullOrEmpty()) {
-                return@observe
+        }
+    }
+
+    private fun processStatus(status: TictactoeStatus) {
+        when (status) {
+            TictactoeStatus.Draw, TictactoeStatus.XWin, TictactoeStatus.OWin -> {
+                Toast.makeText(this, getMessage(status), Toast.LENGTH_SHORT).show()
             }
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            else -> {}
         }
     }
 
@@ -52,10 +58,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_two ->
-                Toast.makeText(this, "TODO: 2인 모드로 전환", Toast.LENGTH_SHORT).show()
-            R.id.menu_random ->
-                Toast.makeText(this, "TODO: 랜덤 모드로 전환", Toast.LENGTH_SHORT).show()
+            R.id.menu_two -> {
+                viewModel.changeMode(Mode.TWO_PLAYERS)
+                Toast.makeText(this, "2인 모드로 전환", Toast.LENGTH_SHORT).show()
+            }
+            R.id.menu_random -> {
+                viewModel.changeMode(Mode.RANDOM)
+                Toast.makeText(this, "랜덤 모드로 전환", Toast.LENGTH_SHORT).show()
+            }
             R.id.menu_draw ->
                 Toast.makeText(this, "TODO: 무승부 모드로 전환", Toast.LENGTH_SHORT).show()
         }
