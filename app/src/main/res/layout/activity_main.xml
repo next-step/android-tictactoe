@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="camp.nextstep.edu.tictactoe.domain.Position" />
+
+        <variable
+            name="viewModel"
+            type="camp.nextstep.edu.tictactoe.TictactoeViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        tools:context=".MainActivity">
+        tools:context=".TictactoeActivity">
 
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/flow"
@@ -28,7 +38,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> viewModel.onClickMark(Position.TOP_LEFT)}"
+            app:position="@{Position.TOP_LEFT}"
+            app:uiState="@{viewModel.uiState}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
 
@@ -37,7 +49,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> viewModel.onClickMark(Position.TOP_CENTER)}"
+            app:position="@{Position.TOP_CENTER}"
+            app:uiState="@{viewModel.uiState}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black" />
 
@@ -46,7 +60,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> viewModel.onClickMark(Position.TOP_RIGHT)}"
+            app:position="@{Position.TOP_RIGHT}"
+            app:uiState="@{viewModel.uiState}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
 
@@ -55,7 +71,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> viewModel.onClickMark(Position.CENTER_LEFT)}"
+            app:position="@{Position.CENTER_LEFT}"
+            app:uiState="@{viewModel.uiState}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black" />
 
@@ -64,7 +82,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> viewModel.onClickMark(Position.CENTER_CENTER)}"
+            app:position="@{Position.CENTER_CENTER}"
+            app:uiState="@{viewModel.uiState}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
 
@@ -73,7 +93,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> viewModel.onClickMark(Position.CENTER_RIGHT)}"
+            app:position="@{Position.CENTER_RIGHT}"
+            app:uiState="@{viewModel.uiState}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black" />
 
@@ -82,7 +104,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> viewModel.onClickMark(Position.BOTTOM_LEFT)}"
+            app:position="@{Position.BOTTOM_LEFT}"
+            app:uiState="@{viewModel.uiState}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
 
@@ -91,7 +115,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> viewModel.onClickMark(Position.BOTTOM_CENTER)}"
+            app:position="@{Position.BOTTOM_CENTER}"
+            app:uiState="@{viewModel.uiState}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black" />
 
@@ -100,7 +126,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> `TODO`}"
+            android:onClick="@{() -> viewModel.onClickMark(Position.BOTTOM_RIGHT)}"
+            app:position="@{Position.BOTTOM_RIGHT}"
+            app:uiState="@{viewModel.uiState}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
         <!-- endregion -->
@@ -187,6 +215,7 @@
             android:id="@+id/button_restart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.onClickRestart()}"
             android:text="다시 시작하기"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/flow"
