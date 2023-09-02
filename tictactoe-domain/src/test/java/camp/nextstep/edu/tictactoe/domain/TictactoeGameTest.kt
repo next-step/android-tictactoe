@@ -1,9 +1,7 @@
 package camp.nextstep.edu.tictactoe.domain
 
 import camp.nextstep.edu.tictactoe.domain.strategy.FakeStrategy
-import camp.nextstep.edu.tictactoe.domain.strategy.RandomStrategy
-import camp.nextstep.edu.tictactoe.domain.strategy.TwoPlayersStrategy
-import com.google.common.collect.Range
+import camp.nextstep.edu.tictactoe.domain.strategy.Mode
 import com.google.common.truth.Truth.assertThat
 import org.junit.Assert.assertThrows
 import org.junit.Before
@@ -30,8 +28,10 @@ class TictactoeGameTest {
     }
 
     @Test
-    fun `X 3줄이 완성 되면, X의 승리로 게임이 종료`() {
+    fun `2인 플레이모드 설정 상태에서 X 3줄이 완성 되면, X의 승리로 게임이 종료`() {
         // given
+        game.setMode(Mode.TWO_PLAYERS)
+
         game.mark(CellPosition.TOP_LEFT)
         game.mark(CellPosition.MIDDLE_LEFT)
         game.mark(CellPosition.TOP)
@@ -44,8 +44,10 @@ class TictactoeGameTest {
     }
 
     @Test
-    fun `O 3줄이 완성 되면, O의 승리로 게임이 종료`() {
+    fun `2인플레이모드 상태에서 O 3줄이 완성 되면, O의 승리로 게임이 종료`() {
         // given
+        game.setMode(Mode.TWO_PLAYERS)
+
         game.mark(CellPosition.TOP_LEFT)
         game.mark(CellPosition.MIDDLE_LEFT)
         game.mark(CellPosition.TOP)
@@ -74,6 +76,8 @@ class TictactoeGameTest {
     @Test
     fun `모든 칸이 완성되어도 게임이 끝나지 않으면 무승부`() {
         // given
+        game.setMode(Mode.TWO_PLAYERS)
+
         game.mark(CellPosition.TOP_LEFT)
         game.mark(CellPosition.TOP)
         game.mark(CellPosition.TOP_RIGHT)
@@ -92,12 +96,19 @@ class TictactoeGameTest {
 
     @Test
     fun `X부터 입력한다`() {
+        // then
         assertThat(game.isXTurn).isEqualTo(true)
     }
 
     @Test
-    fun `X입력 후 O가 입력한다`() {
+    fun `2인 플레이어 모드에서 X 입력 후 O가 입력한다`() {
+        // given
+        game.setMode(Mode.TWO_PLAYERS)
+
+        // when
         game.mark(CellPosition.TOP_LEFT)
+
+        // then
         assertThat(game.isXTurn).isEqualTo(false)
     }
 
@@ -114,9 +125,9 @@ class TictactoeGameTest {
     }
 
     @Test
-    fun `2인 모드에서 게임을 계속하는 경우 진행상태가 null이 온다`() {
+    fun `2인모드에서 게임 모드에 따른 후 진행을 할 경우 null값이 온다`() {
         // given
-        game = TictactoeGame(TwoPlayersStrategy())
+        game.setMode(Mode.TWO_PLAYERS)
 
         // when
         val actual = game.markByStrategy()
@@ -128,7 +139,7 @@ class TictactoeGameTest {
     @Test
     fun `Random모드에서 게임을 계속하는 경우 진행상태가 진행중으로 온다`() {
         // given
-        game = TictactoeGame(RandomStrategy())
+        game.setMode(Mode.RANDOM)
 
         // when
         val actual = game.markByStrategy()
@@ -140,10 +151,12 @@ class TictactoeGameTest {
     @Test
     fun `Random모드에서 위치는 무작위로 나와야 한다`() {
         // given
-        game = TictactoeGame(FakeStrategy())
-
-        val actual = FakeStrategy().getNextTurnPosition(game.tictactoeMap)
-
-        assertThat(actual).isIn(Range.closed(CellPosition.TOP_LEFT, CellPosition.BOTTOM_RIGHT))
+        val positions = mapOf(CellPosition.TOP_LEFT to Owner.X, CellPosition.TOP to Owner.NONE)
+        val fakeStrategy = FakeStrategy(positions)
+        game = TictactoeGame(fakeStrategy)
+        val position = fakeStrategy.getNextTurnPosition(game.tictactoeMap)
+        assertThat(position).isEqualTo(CellPosition.TOP)
+        val actual = game.markByStrategy()
+        assertThat(actual).isEqualTo(TictactoeStatus.Progress)
     }
 }

@@ -14,6 +14,8 @@ object WinnerChecker {
 
     private const val CELL_POSITIONS = 9
 
+    private const val ONE_ITEM = 1
+
     private val WIN_SET = listOf(
         listOf(TOP_LEFT, TOP, TOP_RIGHT),
         listOf(MIDDLE_LEFT, MIDDLE, MIDDLE_RIGHT),
@@ -43,6 +45,22 @@ object WinnerChecker {
         }
 
         return TictactoeStatus.Progress
+    }
+
+    fun getPlayerWinPosition(positions: Map<CellPosition, Owner>, owner: Owner): CellPosition? {
+        val markedPositions = getMarkedPositions(owner, positions)
+        WIN_SET.forEach { winPositionSet ->
+            val unMarkedPositions = winPositionSet.filter {
+                it !in markedPositions
+            }
+            if (unMarkedPositions.size == ONE_ITEM) {
+                val unMarkedPosition = unMarkedPositions.first()
+                if (positions[unMarkedPosition] != Owner.NONE) {
+                    return unMarkedPosition
+                }
+            }
+        }
+        return null
     }
 
     private fun getMarkedPositions(turn: Owner, positions: Map<CellPosition, Owner>) =

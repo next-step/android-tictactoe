@@ -8,7 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
 import camp.nextstep.edu.tictactoe.domain.TictactoeStatus
-import camp.nextstep.edu.tictactoe.mode.Mode
+import camp.nextstep.edu.tictactoe.domain.strategy.Mode
 import camp.nextstep.edu.tictactoe.viewmodel.GameResultUiState
 import camp.nextstep.edu.tictactoe.viewmodel.TictactoeViewModel
 import camp.nextstep.edu.tictactoe.viewmodel.ViewModelFactory
@@ -66,8 +66,10 @@ class MainActivity : AppCompatActivity() {
                 viewModel.changeMode(Mode.RANDOM)
                 Toast.makeText(this, "랜덤 모드로 전환", Toast.LENGTH_SHORT).show()
             }
-            R.id.menu_draw ->
-                Toast.makeText(this, "TODO: 무승부 모드로 전환", Toast.LENGTH_SHORT).show()
+            R.id.menu_draw -> {
+                viewModel.changeMode(Mode.INTERMEDIATE)
+                Toast.makeText(this, "중급 모드로 전환", Toast.LENGTH_SHORT).show()
+            }
         }
         return true
     }

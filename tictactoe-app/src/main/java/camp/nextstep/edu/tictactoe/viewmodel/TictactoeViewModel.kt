@@ -8,11 +8,11 @@ import camp.nextstep.edu.tictactoe.domain.CellPosition
 import camp.nextstep.edu.tictactoe.domain.TictactoeGame
 import camp.nextstep.edu.tictactoe.domain.TictactoeMap
 import camp.nextstep.edu.tictactoe.domain.TictactoeStatus
-import camp.nextstep.edu.tictactoe.domain.strategy.RandomStrategy
-import camp.nextstep.edu.tictactoe.mode.Mode
+import camp.nextstep.edu.tictactoe.domain.strategy.Mode
 
-class TictactoeViewModel : ViewModel() {
-    private var tictactoeGame: TictactoeGame = TictactoeGame(RandomStrategy())
+class TictactoeViewModel(
+    private val tictactoeGame: TictactoeGame = TictactoeGame()
+) : ViewModel() {
 
     private val _tictactoeMap = MutableLiveData(tictactoeGame.tictactoeMap)
     val tictactoeMap: LiveData<TictactoeMap> = _tictactoeMap
@@ -33,10 +33,7 @@ class TictactoeViewModel : ViewModel() {
     }
 
     fun changeMode(mode: Mode) {
-        tictactoeGame = when (mode) {
-            Mode.TWO_PLAYERS -> TictactoeGame()
-            Mode.RANDOM -> TictactoeGame(RandomStrategy())
-        }
+        tictactoeGame.setMode(mode)
         updateTictactoeMap()
     }
 
