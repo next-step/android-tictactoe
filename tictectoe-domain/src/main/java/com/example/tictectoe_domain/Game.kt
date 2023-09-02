@@ -12,13 +12,14 @@ class Game(
         get() = _gameStatus
 
     // 게임 모드
-    private var gameMode = GameMode.RANDOM
-
+    private var _gameMode = GameMode.RANDOM
+    val gameMode: GameMode
+        get() = _gameMode
     fun changeTwoPlayerMode() {
-        gameMode = GameMode.TWO_PLAYER
+        _gameMode = GameMode.TWO_PLAYER
     }
     fun changeRandomMode() {
-        gameMode = GameMode.RANDOM
+        _gameMode = GameMode.RANDOM
     }
     fun getBoard() = board.tictectoeBoard
 
@@ -32,7 +33,7 @@ class Game(
         changeTurn()
         checkWinAndDraw()
 
-        if(gameMode == GameMode.TWO_PLAYER) return
+        if(_gameMode == GameMode.TWO_PLAYER) return
 
         if(_gameStatus == GameStatus.TURN_PLAYER2) {
             autoSelectBoard()

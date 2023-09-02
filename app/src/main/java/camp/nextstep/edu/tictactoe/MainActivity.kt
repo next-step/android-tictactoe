@@ -14,7 +14,7 @@ import com.example.tictectoe_domain.GameStatus
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-    private val viewModel: TictactoeViewModel by viewModels{ TictactoeViewModelFactory(Game()) }
+    private val viewModel: TictactoeViewModel by viewModels { TictactoeViewModelFactory(Game()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,16 +40,19 @@ class MainActivity : AppCompatActivity() {
             val msgId = when (gameStatus) {
                 GameStatus.PLAYER1_WIN -> {
                     R.string.msg_player1_win
-
                 }
+
                 GameStatus.PLAYER2_WIN -> {
                     R.string.msg_player2_win
-
                 }
+
                 GameStatus.DRAW_GAME -> {
                     R.string.msg_draw
                 }
-                else -> {return@observe}
+
+                else -> {
+                    return@observe
+                }
             }
             Toast.makeText(this, msgId, Toast.LENGTH_SHORT).show()
         }
@@ -66,10 +69,12 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "2인 모드로 전환", Toast.LENGTH_SHORT).show()
                 viewModel.startTwoPlayerMode()
             }
+
             R.id.menu_random -> {
                 Toast.makeText(this, "랜덤 모드로 전환", Toast.LENGTH_SHORT).show()
                 viewModel.startRandomMode()
             }
+
             R.id.menu_draw -> {
                 Toast.makeText(this, "무승부 모드로 전환", Toast.LENGTH_SHORT).show()
             }

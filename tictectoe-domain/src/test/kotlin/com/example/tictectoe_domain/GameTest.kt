@@ -30,9 +30,9 @@ class GameTest {
     }
 
     @Test
-    fun `두번째 순서에 보드를 선택하면 해당 위치에 Player2이 차지한다`() {
-        // given :
-
+    fun `2인 모드에서 두번째 순서에 보드를 선택하면 해당 위치에 Player2이 차지한다`() {
+        // given :게임 모드를 2인 모드로 변경한다.
+        game.changeTwoPlayerMode()
 
         // when : 보드에서 각각 다른 위치를 선택한다.
         game.selectBoard(1)
@@ -56,5 +56,60 @@ class GameTest {
 
         // then : 보드의 해당 부분이 player1이 그대로 입니다.
         assertThat(board.tictectoeBoard[1]).isEqualTo(Cell.PLAYER1)
+    }
+
+    @Test
+    fun `초기 모드는 랜덤 모드로 선택 되어 있다`() {
+        // then :
+        assertThat(game.gameMode).isEqualTo(GameMode.RANDOM)
+    }
+
+    @Test
+    fun `랜덤 모드에서 사용자가 1번 셀을 선택하면 자동으로 1번을 제외한 셀이 선택된다`() {
+        // given :
+        assertThat(game.gameMode).isEqualTo(GameMode.RANDOM)
+
+        // when : 사용자가 1번 셀을 선택한다.
+        game.selectBoard(1)
+        val position = game.getBoard().indexOf(Cell.PLAYER2)
+
+        // then : 자동으로 1번 셀을 제외한 셀이 선택 된다.
+        assertThat(position).isNotEqualTo(1)
+    }
+
+    @Test
+    fun `재시작 버튼 클릭 시 보드가 초기화 된다`() {
+        // given : 1번 셀을 선택해둔다. 랜덤하게 하나의 셀이 추가로 선택된다.
+        game.selectBoard(1)
+
+        // when : 재시작 로직을 실행한다.
+        game.gameReset()
+
+        // then : 보드에 Cell.NONE이 10개가 된다. == 초기화가 된다.
+        assertThat(game.getBoard().count{it == Cell.NONE}).isEqualTo(10)
+    }
+
+    @Test
+    fun `재시작을 하더라도 모드는 변경되지 않는다`() {
+        // given : 초기 게임모드는 랜덤이다.
+        assertThat(game.gameMode).isEqualTo(GameMode.RANDOM)
+
+        // when : 재시작 로직을 실행한다.
+        game.gameReset()
+
+        // then : 게임모드는 여전히 랜덤이다.
+        assertThat(game.gameMode).isEqualTo(GameMode.RANDOM)
+    }
+
+    @Test
+    fun `게임모드를 랜덤 모드에서 2인 모드로 변경할 수 있다`() {
+        // given : 초기 게임모드는 랜덤이다.
+        assertThat(game.gameMode).isEqualTo(GameMode.RANDOM)
+
+        // when : 게임 모드를 2인 모드로 변경한다.
+        game.changeTwoPlayerMode()
+
+        // then :
+        assertThat(game.gameMode).isEqualTo(GameMode.TWO_PLAYER)
     }
 }
