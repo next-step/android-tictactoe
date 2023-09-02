@@ -29,7 +29,7 @@ class TictactoeViewModel : ViewModel() {
     private val manager = TicTacToeManager(Mode.DOUBLE)
 
     fun onClickMark(position: Position) {
-        tictactoe.mark(position, tictactoe.currentTurn())
+        tictactoe.mark(position)
             .onSuccess {
                 checkGameStatus(tictactoe.board)
             }
@@ -39,7 +39,7 @@ class TictactoeViewModel : ViewModel() {
     }
 
     private fun checkGameStatus(board: Board) {
-        when (manager.getGameStatus(board)) {
+        when (manager.checkGameStatus(board)) {
             GameStatus.InProgress -> {
                 _uiState.value = UiState.Inprogress(board, tictactoe.currentTurn())
             }

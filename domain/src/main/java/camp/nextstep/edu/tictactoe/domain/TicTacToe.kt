@@ -12,8 +12,8 @@ class TicTacToe(
     var board: Board = Board.EMPTY
         private set
 
-    fun mark(position: Position, turn: Turn) = runCatching {
-        board = when (turn) {
+    fun mark(position: Position) = runCatching {
+        board = when (currentTurn) {
             Turn.X -> {
                 board.set(position, Cell.X(position))
             }

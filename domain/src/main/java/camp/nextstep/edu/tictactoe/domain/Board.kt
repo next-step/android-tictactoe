@@ -1,6 +1,6 @@
 package camp.nextstep.edu.tictactoe.domain
 
-data class Board private constructor(
+data class Board(
     private val board: Map<Position, Cell>
 ) {
 
