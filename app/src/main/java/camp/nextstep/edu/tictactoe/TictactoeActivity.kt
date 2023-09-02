@@ -4,16 +4,36 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
 
 class TictactoeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private val viewModel: TictactoeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        initBinding()
+        initObserver()
+    }
+
+    private fun initBinding() {
         binding = ActivityMainBinding.inflate(layoutInflater)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
         setContentView(binding.root)
+    }
+
+    private fun initObserver() {
+        viewModel.uiEffect.observe(this) { uiEffect ->
+            when(uiEffect) {
+                is UiEffect.ShowToast -> {
+                    Toast.makeText(this, uiEffect.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
