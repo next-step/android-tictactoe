@@ -1,6 +1,5 @@
 package com.example.tictectoe_domain
 
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -27,7 +26,7 @@ class GameTest {
         game.selectBoard(1)
 
         // then : 보드의 해당 부분이 player1로 바뀝니다.
-        assertThat(board.getBoard()[1]).isEqualTo(Player.PLAYER1)
+        assertThat(board.tictectoeBoard[1]).isEqualTo(Cell.PLAYER1)
     }
 
     @Test
@@ -40,7 +39,7 @@ class GameTest {
         game.selectBoard(2)
 
         // then : 보드의 해당 부분이 player2로 바뀝니다.
-        assertThat(board.getBoard()[2]).isEqualTo(Player.PLAYER2)
+        assertThat(board.tictectoeBoard[2]).isEqualTo(Cell.PLAYER2)
     }
 
     @Test
@@ -56,6 +55,6 @@ class GameTest {
 
 
         // then : 보드의 해당 부분이 player1이 그대로 입니다.
-        assertThat(board.getBoard()[1]).isEqualTo(Player.PLAYER1)
+        assertThat(board.tictectoeBoard[1]).isEqualTo(Cell.PLAYER1)
     }
 }
