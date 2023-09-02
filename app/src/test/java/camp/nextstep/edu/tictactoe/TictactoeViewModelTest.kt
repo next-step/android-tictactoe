@@ -29,12 +29,13 @@ class TictactoeViewModelTest {
         viewModel.clickBoard(1)
 
         // then : 보드의 해당 위치에 플레이어가 등록된다.
-        assertThat(viewModel.board).isEqualTo(Cell.PLAYER1)
+        assertThat(viewModel.board.value!![1]).isEqualTo(Cell.PLAYER1)
     }
 
     @Test
-    fun `보드를 두번째 클릭하면 해당 위치의 Board에 두번째 플레이어가 등록됩니다`() {
+    fun `2인 게임 모드에서 보드를 두번째 클릭하면 해당 위치의 Board에 두번째 플레이어가 등록됩니다`() {
         // given :
+        viewModel.startTwoPlayerMode()
 
         // when : 보드를 두곳 클릭한다.
         viewModel.clickBoard(1)
