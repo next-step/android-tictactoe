@@ -3,6 +3,28 @@ package camp.nextstep.edu.tictactoe.domain
 data class Board private constructor(
     private val board: Map<Position, Cell>
 ) {
+
+    val boardSize
+        get() = board.count { (_, cell) ->
+            (cell as? Cell.Empty) == null
+        }
+
+    operator fun get(position: Position): Cell {
+        return board[position] ?: throw IllegalArgumentException("해당 위치에는 아무것도 없습니다.")
+    }
+
+    fun set(position: Position, cell: Cell): Board {
+        return if (board[position] is Cell.Empty) {
+            this.copy(board = board + mapOf(position to cell))
+        } else {
+            throw IllegalArgumentException("이미 마크된 곳입니다.")
+        }
+    }
+
+    fun filter(predicate: (Map.Entry<Position, Cell>) -> Boolean): Map<Position, Cell> {
+        return board.filter(predicate)
+    }
+
     companion object {
         val EMPTY = Board(
             setOf(
@@ -17,5 +39,9 @@ data class Board private constructor(
                 Cell.Empty(Position.BOTTOM_RIGHT)
             ).associateBy { it.position }
         )
+
+        fun of(vararg cells: Cell): Board {
+            return Board(cells.associateBy { it.position })
+        }
     }
 }
