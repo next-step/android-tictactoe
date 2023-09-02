@@ -1,16 +1,15 @@
 package camp.nextstep.edu.tictactoe
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
 import com.example.tictectoe_domain.Game
-import com.example.tictectoe_domain.Cell
+import com.example.tictectoe_domain.GameMode
+import com.example.tictectoe_domain.GameStatus
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -36,6 +35,24 @@ class MainActivity : AppCompatActivity() {
         viewModel.toastEvent.observe(this) {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         }
+
+        viewModel.gameStatus.observe(this) { gameStatus ->
+            val msgId = when (gameStatus) {
+                GameStatus.PLAYER1_WIN -> {
+                    R.string.msg_player1_win
+
+                }
+                GameStatus.PLAYER2_WIN -> {
+                    R.string.msg_player2_win
+
+                }
+                GameStatus.DRAW_GAME -> {
+                    R.string.msg_draw
+                }
+                else -> {return@observe}
+            }
+            Toast.makeText(this, msgId, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -45,18 +62,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_two -> Toast.makeText(this, "TODO: 2인 모드로 전환", Toast.LENGTH_SHORT).show()
-            R.id.menu_random -> Toast.makeText(this, "TODO: 랜덤 모드로 전환", Toast.LENGTH_SHORT).show()
-            R.id.menu_draw -> Toast.makeText(this, "TODO: 무승부 모드로 전환", Toast.LENGTH_SHORT).show()
+            R.id.menu_two -> {
+                Toast.makeText(this, "2인 모드로 전환", Toast.LENGTH_SHORT).show()
+                viewModel.startTwoPlayerMode()
+            }
+            R.id.menu_random -> {
+                Toast.makeText(this, "랜덤 모드로 전환", Toast.LENGTH_SHORT).show()
+                viewModel.startRandomMode()
+            }
+            R.id.menu_draw -> {
+                Toast.makeText(this, "무승부 모드로 전환", Toast.LENGTH_SHORT).show()
+            }
         }
         return true
-    }
-
-    private fun getXOImgResource(player: Cell): Drawable {
-        return when (player) {
-            Cell.PLAYER1 ->  ContextCompat.getDrawable(this, R.drawable.ic_x_black)!!
-            Cell.PLAYER2 ->  ContextCompat.getDrawable(this, R.drawable.ic_o_black)!!
-            else ->  ContextCompat.getDrawable(this, R.drawable.ic_o_black)!!
-        }
     }
 }

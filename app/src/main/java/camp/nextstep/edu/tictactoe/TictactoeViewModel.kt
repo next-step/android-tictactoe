@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.example.tictectoe_domain.Game
 import com.example.tictectoe_domain.Cell
 import com.example.tictectoe_domain.GameStatus
-import com.example.tictectoe_domain.PlayerSelectedInfo
 
 class TictactoeViewModel(
    private var game: Game
@@ -15,6 +14,10 @@ class TictactoeViewModel(
     private val _board = MutableLiveData(game.getBoard())
     val board: LiveData<List<Cell>>
         get() = _board
+
+    private var _gameStatus = MutableLiveData(game.gameStatus)
+    val gameStatus: LiveData<GameStatus>
+        get() = _gameStatus
 
     private val _clickRestart = SingleLiveEvent<Unit>()
     val clickRestart: LiveData<Unit>
@@ -36,25 +39,23 @@ class TictactoeViewModel(
         }
 
         game.selectBoard(position)
-        checkGameWin()
 
         _board.value = game.getBoard()
+        _gameStatus.value = game.gameStatus
     }
 
     fun clickRestart() {
-        game = Game()
+        game.gameReset()
         _board.value = game.getBoard()
     }
 
-    private fun checkGameWin() {
-        if(game.gameStatus == GameStatus.PLAYER1_WIN) {
-            _toastEvent.value = R.string.msg_player1_win
+    fun startTwoPlayerMode() {
+        clickRestart()
+        game.changeTwoPlayerMode()
+    }
 
-        } else if(game.gameStatus == GameStatus.PLAYER2_WIN) {
-            _toastEvent.value = R.string.msg_player2_win
-
-        } else if(game.gameStatus == GameStatus.DRAW_GAME) {
-            _toastEvent.value = R.string.msg_draw
-        }
+    fun startRandomMode() {
+        clickRestart()
+        game.changeRandomMode()
     }
 }

@@ -18,5 +18,11 @@ class TictectoeBoard {
         }
     }
 
+    fun boardClear() {
+        for(i in 0 until _tictectoeBoard.size) {
+            _tictectoeBoard[i] = Cell.NONE
+        }
+    }
+
     fun canSelect(position: Int) = _tictectoeBoard[position] == Cell.NONE
 }
