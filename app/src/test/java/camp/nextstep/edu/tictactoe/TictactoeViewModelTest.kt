@@ -29,7 +29,9 @@ class TictactoeViewModelTest {
         viewModel.clickBoard(1)
 
         // then : 보드의 해당 위치에 플레이어가 등록된다.
-        assertThat(viewModel.board.value!![1]).isEqualTo(Cell.PLAYER1)
+        viewModel.board.value?.let { board ->
+            assertThat(board[1]).isEqualTo(Cell.PLAYER1)}
+
     }
 
     @Test
@@ -42,6 +44,8 @@ class TictactoeViewModelTest {
         viewModel.clickBoard(2)
 
         // then : 보드의 2번 셀에 PLAYER2가 등록된다.
-        assertThat(viewModel.board.value!![2]).isEqualTo(Cell.PLAYER2)
+        viewModel.board.value?.let { board ->
+            assertThat(board[2]).isEqualTo(Cell.PLAYER2)}
+
     }
 }

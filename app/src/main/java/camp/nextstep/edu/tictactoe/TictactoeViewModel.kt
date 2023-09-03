@@ -8,7 +8,7 @@ import com.example.tictectoe_domain.Cell
 import com.example.tictectoe_domain.GameStatus
 
 class TictactoeViewModel(
-   private var game: Game
+   private val game: Game
 ) : ViewModel() {
 
     private val _board = MutableLiveData(game.getBoard())

@@ -1,15 +1,19 @@
 package com.example.tictectoe_domain
 
-import java.util.Random
+import kotlin.random.Random
 
 class Game(
-    private var board: TictectoeBoard = TictectoeBoard(),
+    private val board: TictectoeBoard = TictectoeBoard(),
     private val rule: TictectoeRule = TictectoeRule()
 ) {
     // 게임 상태
-    private var _gameStatus = GameStatus.TURN_PLAYER1
+    private var _gameStatus = GameStatus.PLAYING
     val gameStatus: GameStatus
         get() = _gameStatus
+
+    private var _playerTurn = PlayerTurn.TURN_PLAYER1
+    val playerTurn: PlayerTurn
+        get() = _playerTurn
 
     // 게임 모드
     private var _gameMode = GameMode.RANDOM
@@ -24,42 +28,46 @@ class Game(
     fun getBoard() = board.tictectoeBoard
 
     fun gameReset() {
-        board = TictectoeBoard()
-        _gameStatus = GameStatus.TURN_PLAYER1
+        board.boardClear()
+        _gameStatus = GameStatus.PLAYING
+        _playerTurn = PlayerTurn.TURN_PLAYER1
     }
 
-    fun selectBoard(position: Int) {
-        board.selectBoard(position, gameStatus)
+    fun selectBoard(position: Int, nextPosition: Int? = null) {
+        board.selectBoard(position, playerTurn)
         changeTurn()
         checkWinAndDraw()
 
         if(_gameMode == GameMode.TWO_PLAYER) return
 
-        if(_gameStatus == GameStatus.TURN_PLAYER2) {
-            autoSelectBoard()
+        if(_playerTurn == PlayerTurn.TURN_PLAYER2
+            && _gameStatus == GameStatus.PLAYING) {
+            autoSelectBoard(nextPosition)
         }
     }
 
-    fun isPlay() = when(_gameStatus) {
-        GameStatus.TURN_PLAYER1, GameStatus.TURN_PLAYER2 -> true
-        else -> false
-    }
+    fun isPlay() = gameStatus == GameStatus.PLAYING
 
-    private fun autoSelectBoard() {
-        // 빈칸을 찾는다.
-        val playerNoneIndexList = mutableListOf<Int>()
-        // 빈칸 리스트에 추가
-        for((index, player) in board.tictectoeBoard.withIndex()) {
-            if(player == Cell.NONE) {
-                playerNoneIndexList.add(index)
+    private fun autoSelectBoard(nextPosition: Int?) {
+        val position: Int
+        if(nextPosition == null) {
+            // 빈칸을 찾는다.
+            val playerNoneIndexList = mutableListOf<Int>()
+            // 빈칸 리스트에 추가
+            for((index, player) in board.tictectoeBoard.withIndex()) {
+                if(player == Cell.NONE) {
+                    playerNoneIndexList.add(index)
+                }
             }
+            // 빈칸 중 0은 제외 한다.
+            playerNoneIndexList.removeAt(0)
+            // 랜덤으로 선택
+            val selectIndex = Random(System.nanoTime()).nextInt(playerNoneIndexList.size)
+            position = playerNoneIndexList[selectIndex]
+        } else {
+            position = nextPosition
         }
-        // 빈칸 중 0은 제외 한다.
-        playerNoneIndexList.removeAt(0)
-        // 랜덤으로 선택
-        val selectIndex = Random().nextInt(playerNoneIndexList.size)
-
-        selectBoard(playerNoneIndexList[selectIndex])
+        selectBoard(position)
     }
 
     fun canSelect(position: Int): Boolean {
@@ -68,10 +76,10 @@ class Game(
 
     // 플레이어 턴 변경
     private fun changeTurn() {
-        _gameStatus = if(_gameStatus == GameStatus.TURN_PLAYER1) {
-            GameStatus.TURN_PLAYER2
+        _playerTurn = if(_playerTurn == PlayerTurn.TURN_PLAYER1) {
+            PlayerTurn.TURN_PLAYER2
         } else {
-            GameStatus.TURN_PLAYER1
+            PlayerTurn.TURN_PLAYER1
         }
     }
 

@@ -21,7 +21,6 @@ class GameTest {
     fun `첫 순서에 보드를 선택하면 해당 위치에 Player1이 차지한다`() {
         // given :
 
-
         // when : 보드의 한 위치를 선택한다.
         game.selectBoard(1)
 
@@ -46,13 +45,11 @@ class GameTest {
     fun `선택됐던 보드를 선택하면 변화가 없다`() {
         // given :
 
-
         // when : 보드의 왼쪽 위에를 선택한다.
         game.selectBoard(1)
         if(game.canSelect(1)) {
             game.selectBoard(1)
         }
-
 
         // then : 보드의 해당 부분이 player1이 그대로 입니다.
         assertThat(board.tictectoeBoard[1]).isEqualTo(Cell.PLAYER1)
@@ -65,16 +62,15 @@ class GameTest {
     }
 
     @Test
-    fun `랜덤 모드에서 사용자가 1번 셀을 선택하면 자동으로 1번을 제외한 셀이 선택된다`() {
+    fun `랜덤 모드에서 사용자가 1번 셀을 선택하면 다음은 자동으로 2번을 선택한다`() {
         // given :
         assertThat(game.gameMode).isEqualTo(GameMode.RANDOM)
 
         // when : 사용자가 1번 셀을 선택한다.
-        game.selectBoard(1)
-        val position = game.getBoard().indexOf(Cell.PLAYER2)
+        game.selectBoard(1, 2)
 
-        // then : 자동으로 1번 셀을 제외한 셀이 선택 된다.
-        assertThat(position).isNotEqualTo(1)
+        // then : 자동으로 2번 셀을 셀이 선택한다.
+        assertThat(game.getBoard()[2]).isEqualTo(Cell.PLAYER2)
     }
 
     @Test
@@ -109,7 +105,7 @@ class GameTest {
         // when : 게임 모드를 2인 모드로 변경한다.
         game.changeTwoPlayerMode()
 
-        // then :
+        // then : 2인 모드로 게임 모드가 변경된다.
         assertThat(game.gameMode).isEqualTo(GameMode.TWO_PLAYER)
     }
 }
