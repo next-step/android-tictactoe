@@ -26,7 +26,7 @@ class TictactoeViewModel : ViewModel() {
     val uiEffect: LiveData<UiEffect> = _uiEffect
 
     private val tictactoe = TicTacToe()
-    private val manager = TicTacToeManager(Mode.DOUBLE)
+    private val manager = TicTacToeManager(Mode.PLAYER)
 
     fun onClickMark(position: Position) {
         tictactoe.mark(position)

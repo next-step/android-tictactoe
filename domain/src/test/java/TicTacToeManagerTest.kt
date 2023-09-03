@@ -20,7 +20,7 @@ class TicTacToeManagerTest {
 
     @Before
     fun setUp() {
-        ticTacToeManager = TicTacToeManager(Mode.DOUBLE)
+        ticTacToeManager = TicTacToeManager(Mode.PLAYER)
     }
 
     @Test
