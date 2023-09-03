@@ -3,16 +3,19 @@
  *
  */
 
-package camp.nextstep.edu.tictactoe.domain
+package camp.nextstep.edu.tictactoe.domain.tictactoe
 
+import camp.nextstep.edu.tictactoe.domain.Board
+import camp.nextstep.edu.tictactoe.domain.Cell
+import camp.nextstep.edu.tictactoe.domain.Position
+import camp.nextstep.edu.tictactoe.domain.Turn
 
-class TicTacToe(
+internal class DefaultTicTacToe(
     private var currentTurn: Turn = Turn.X,
-) {
-    var board: Board = Board.EMPTY
-        private set
+) : TicTacToe {
 
-    fun mark(position: Position) = runCatching {
+    private var board: Board = Board.EMPTY
+    override fun mark(position: Position): Result<Unit> = runCatching {
         board = when (currentTurn) {
             Turn.X -> {
                 board.set(position, Cell.X(position))
@@ -24,15 +27,19 @@ class TicTacToe(
         }
     }.onSuccess { changeTurn() }
 
+    override fun getBoard(): Board {
+        return board
+    }
+
     private fun changeTurn() {
         currentTurn = Turn.change(currentTurn)
     }
 
-    fun currentTurn(): Turn {
+    override fun currentTurn(): Turn {
         return currentTurn
     }
 
-    fun restart() {
+    override fun restart() {
         board = Board.EMPTY
         currentTurn = Turn.X
     }

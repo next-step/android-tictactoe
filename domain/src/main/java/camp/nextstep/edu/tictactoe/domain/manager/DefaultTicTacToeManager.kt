@@ -3,15 +3,23 @@
  *
  */
 
-package camp.nextstep.edu.tictactoe.domain
+package camp.nextstep.edu.tictactoe.domain.manager
 
-class TicTacToeManager(
+import camp.nextstep.edu.tictactoe.domain.BOARD_SIZE
+import camp.nextstep.edu.tictactoe.domain.Board
+import camp.nextstep.edu.tictactoe.domain.Cell
+import camp.nextstep.edu.tictactoe.domain.GameStatus
+import camp.nextstep.edu.tictactoe.domain.Mode
+import camp.nextstep.edu.tictactoe.domain.Position
+import camp.nextstep.edu.tictactoe.domain.Turn
+
+internal class DefaultTicTacToeManager(
     initMode: Mode
-) {
+): TicTacToeManager {
 
     private var mode: Mode = initMode
 
-    fun checkGameStatus(board: Board): GameStatus {
+    override fun checkGameStatus(board: Board): GameStatus {
         checkWinner(board)?.let {
             return when (it) {
                 Turn.X -> GameStatus.WinX
@@ -71,7 +79,7 @@ class TicTacToeManager(
         return board.filter(predicate).count() == BOARD_SIZE
     }
 
-    private fun isDraw(board: Board): Boolean {
+    override fun isDraw(board: Board): Boolean {
         return board.boardSize == BOARD_SIZE * BOARD_SIZE
     }
 }

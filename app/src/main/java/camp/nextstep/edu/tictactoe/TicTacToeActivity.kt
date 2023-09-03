@@ -8,9 +8,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
 
-class TictactoeActivity : AppCompatActivity() {
+class TicTacToeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: TictactoeViewModel by viewModels()
+    private val viewModel: TicTacToeViewModel by viewModels {
+        TicTacToeViewModelFactory(
+            (application as TicTacToeApplication).ticTacToeManager,
+            (application as TicTacToeApplication).ticTacToe
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -10,14 +10,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import camp.nextstep.edu.tictactoe.domain.Board
 import camp.nextstep.edu.tictactoe.domain.GameStatus
-import camp.nextstep.edu.tictactoe.domain.Mode
 import camp.nextstep.edu.tictactoe.domain.Position
-import camp.nextstep.edu.tictactoe.domain.TicTacToe
-import camp.nextstep.edu.tictactoe.domain.TicTacToeManager
 import camp.nextstep.edu.tictactoe.domain.Turn
+import camp.nextstep.edu.tictactoe.domain.manager.TicTacToeManager
+import camp.nextstep.edu.tictactoe.domain.tictactoe.TicTacToe
 
 
-class TictactoeViewModel : ViewModel() {
+class TicTacToeViewModel(
+    private val manager: TicTacToeManager,
+    private val ticTacToe: TicTacToe
+) : ViewModel() {
 
     private val _uiState = MutableLiveData(UiState(GameStatus.InProgress, Board.EMPTY, Turn.X))
     val uiState: LiveData<UiState> = _uiState
@@ -25,13 +27,10 @@ class TictactoeViewModel : ViewModel() {
     private val _uiEffect = SingleLiveEvent<UiEffect>()
     val uiEffect: LiveData<UiEffect> = _uiEffect
 
-    private val tictactoe = TicTacToe()
-    private val manager = TicTacToeManager(Mode.PLAYER)
-
     fun onClickMark(position: Position) {
-        tictactoe.mark(position)
+        ticTacToe.mark(position)
             .onSuccess {
-                checkGameStatus(tictactoe.board)
+                checkGameStatus(ticTacToe.getBoard())
             }
             .onFailure {
                 _uiEffect.value = UiEffect.ShowToast(it.message ?: "알 수 없는 오류가 발생했습니다.")
@@ -41,11 +40,11 @@ class TictactoeViewModel : ViewModel() {
     private fun checkGameStatus(board: Board) {
         when (manager.checkGameStatus(board)) {
             GameStatus.InProgress -> {
-                _uiState.value = UiState(GameStatus.InProgress, board, tictactoe.currentTurn())
+                _uiState.value = UiState(GameStatus.InProgress, board, ticTacToe.currentTurn())
             }
 
             GameStatus.Draw -> {
-                _uiState.value = UiState(GameStatus.Draw, board, tictactoe.currentTurn())
+                _uiState.value = UiState(GameStatus.Draw, board, ticTacToe.currentTurn())
                 _uiEffect.value = UiEffect.ShowToast("무승부로 종료되었습니다.")
             }
 
@@ -62,8 +61,8 @@ class TictactoeViewModel : ViewModel() {
     }
 
     fun onClickRestart() {
-        tictactoe.restart()
-        _uiState.value = UiState(GameStatus.InProgress, tictactoe.board, tictactoe.currentTurn())
+        ticTacToe.restart()
+        _uiState.value = UiState(GameStatus.InProgress, ticTacToe.getBoard(), ticTacToe.currentTurn())
         _uiEffect.value = UiEffect.ShowToast("게임을 다시 시작합니다.")
     }
 
