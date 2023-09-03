@@ -70,4 +70,22 @@ class WinnerCheckerTest {
         // then
         assertThat(actual).isEqualTo(TictactoeStatus.Draw)
     }
+
+    @Test
+    fun `주어진 위치 값에서 대상이 다음에 놓을 수 있는 곳이 있다면 해당 포지션을 가져온다`() {
+        // given
+        val positions = mapOf(
+            CellPosition.TOP_LEFT to Owner.X,
+            CellPosition.MIDDLE_LEFT to Owner.X,
+            CellPosition.TOP_RIGHT to Owner.X,
+            CellPosition.BOTTOM_LEFT to Owner.O,
+            CellPosition.MIDDLE to Owner.O
+
+        )
+        // when
+        val actual = WinnerChecker.getPlayerWinPosition(positions, Owner.X)
+
+        // then
+        assertThat(actual).isEqualTo(CellPosition.TOP)
+    }
 }

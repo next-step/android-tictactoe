@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import camp.nextstep.edu.tictactoe.domain.CellPosition
 import camp.nextstep.edu.tictactoe.domain.Owner
 import camp.nextstep.edu.tictactoe.domain.TictactoeStatus
-import camp.nextstep.edu.tictactoe.mode.Mode
+import camp.nextstep.edu.tictactoe.domain.strategy.Mode
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Rule
@@ -22,18 +22,77 @@ class TictactoeViewModelTest {
     }
 
     @Test
+    fun `2인 플레이 모드에서 X가 한줄을 완성 시키면 X가 승리로 나온다`() {
+        // given
+        viewModel.changeMode(Mode.TWO_PLAYERS)
+
+        // when
+        viewModel.clickCell(CellPosition.TOP_LEFT)
+        viewModel.clickCell(CellPosition.BOTTOM_LEFT)
+        viewModel.clickCell(CellPosition.TOP)
+        viewModel.clickCell(CellPosition.MIDDLE)
+        viewModel.clickCell(CellPosition.TOP_RIGHT)
+
+        // then
+        val result = viewModel.uiState.value
+        assertThat(result).isInstanceOf(GameResultUiState.Status::class.java)
+        val actual = (result as? GameResultUiState.Status)?.status
+        assertThat(actual).isEqualTo(TictactoeStatus.XWin)
+    }
+
+    @Test
+    fun `2인 플레이 모드에서 O가 한줄을 완성 시키면 O가 승리로 나온다`() {
+        // given
+        viewModel.changeMode(Mode.TWO_PLAYERS)
+
+        // when
+        viewModel.clickCell(CellPosition.BOTTOM_LEFT)
+        viewModel.clickCell(CellPosition.TOP_LEFT)
+        viewModel.clickCell(CellPosition.MIDDLE)
+        viewModel.clickCell(CellPosition.TOP)
+        viewModel.clickCell(CellPosition.MIDDLE_RIGHT)
+        viewModel.clickCell(CellPosition.TOP_RIGHT)
+
+        // then
+        val result = viewModel.uiState.value
+        assertThat(result).isInstanceOf(GameResultUiState.Status::class.java)
+        val actual = (result as? GameResultUiState.Status)?.status
+        assertThat(actual).isEqualTo(TictactoeStatus.OWin)
+    }
+
+    @Test
+    fun `2인 플레이 모드에서 모두 선택이 되었는데 승자가 나오지 않는다면 무승부로 나온다`() {
+        // given
+        viewModel.changeMode(Mode.TWO_PLAYERS)
+
+        // when
+        viewModel.clickCell(CellPosition.TOP_LEFT)
+        viewModel.clickCell(CellPosition.TOP)
+        viewModel.clickCell(CellPosition.TOP_RIGHT)
+        viewModel.clickCell(CellPosition.MIDDLE)
+        viewModel.clickCell(CellPosition.MIDDLE_LEFT)
+        viewModel.clickCell(CellPosition.BOTTOM_LEFT)
+        viewModel.clickCell(CellPosition.MIDDLE_RIGHT)
+        viewModel.clickCell(CellPosition.BOTTOM_RIGHT)
+        viewModel.clickCell(CellPosition.BOTTOM)
+
+        // then
+        val result = viewModel.uiState.value
+        assertThat(result).isInstanceOf(GameResultUiState.Status::class.java)
+        val actual = (result as? GameResultUiState.Status)?.status
+        assertThat(actual).isEqualTo(TictactoeStatus.Draw)
+    }
+
+    @Test
     fun `한 곳 입력 후 상태 체크해보면 진행중으로 나온다`() {
         // given
         viewModel.clickCell(CellPosition.TOP_LEFT)
         val result = viewModel.uiState.value
-        // when
-        if (result is GameResultUiState.Status) {
-            val actual = result.status
-            // then
-            assertThat(actual).isEqualTo(TictactoeStatus.Progress)
-        } else {
-            assertThat(result).isInstanceOf(GameResultUiState.Fail::class.java)
-        }
+
+        // then
+        assertThat(result).isInstanceOf(GameResultUiState.Status::class.java)
+        val actual = (result as? GameResultUiState.Status)?.status
+        assertThat(actual).isEqualTo(TictactoeStatus.Progress)
     }
 
     @Test
@@ -42,6 +101,7 @@ class TictactoeViewModelTest {
         viewModel.clickCell(CellPosition.TOP_LEFT)
         viewModel.clickCell(CellPosition.TOP_LEFT)
         val actual = viewModel.uiState.value
+        // then
         assertThat(actual).isInstanceOf(GameResultUiState.Fail::class.java)
     }
 

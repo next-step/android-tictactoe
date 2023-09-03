@@ -14,7 +14,7 @@
         tools:ignore="HardcodedText" />
     <item
         android:id="@+id/menu_draw"
-        android:title="무승부"
+        android:title="중급"
         app:showAsAction="never"
         tools:ignore="HardcodedText" />
 </menu>
