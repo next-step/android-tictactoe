@@ -19,7 +19,7 @@ import camp.nextstep.edu.tictactoe.domain.Turn
 
 class TictactoeViewModel : ViewModel() {
 
-    private val _uiState = MutableLiveData<UiState>(UiState.Inprogress(Board.EMPTY, Turn.X))
+    private val _uiState = MutableLiveData(UiState(GameStatus.InProgress, Board.EMPTY, Turn.X))
     val uiState: LiveData<UiState> = _uiState
 
     private val _uiEffect = SingleLiveEvent<UiEffect>()
@@ -41,21 +41,21 @@ class TictactoeViewModel : ViewModel() {
     private fun checkGameStatus(board: Board) {
         when (manager.checkGameStatus(board)) {
             GameStatus.InProgress -> {
-                _uiState.value = UiState.Inprogress(board, tictactoe.currentTurn())
+                _uiState.value = UiState(GameStatus.InProgress, board, tictactoe.currentTurn())
             }
 
             GameStatus.Draw -> {
-                _uiState.value = UiState.Draw(board, tictactoe.currentTurn())
+                _uiState.value = UiState(GameStatus.Draw, board, tictactoe.currentTurn())
                 _uiEffect.value = UiEffect.ShowToast("무승부로 종료되었습니다.")
             }
 
             GameStatus.WinO -> {
-                _uiState.value = UiState.End(board, Turn.O)
+                _uiState.value = UiState(GameStatus.WinO, board, Turn.O)
                 _uiEffect.value = UiEffect.ShowToast("O 승리.")
             }
 
             GameStatus.WinX -> {
-                _uiState.value = UiState.End(board, Turn.X)
+                _uiState.value = UiState(GameStatus.WinX, board, Turn.X)
                 _uiEffect.value = UiEffect.ShowToast("X 승리.")
             }
         }
@@ -63,30 +63,17 @@ class TictactoeViewModel : ViewModel() {
 
     fun onClickRestart() {
         tictactoe.restart()
-        _uiState.value = UiState.Inprogress(tictactoe.board, tictactoe.currentTurn())
+        _uiState.value = UiState(GameStatus.InProgress, tictactoe.board, tictactoe.currentTurn())
         _uiEffect.value = UiEffect.ShowToast("게임을 다시 시작합니다.")
     }
 
 }
 
-sealed class UiState(
-    open val board: Board,
-    open val turn: Turn
-) {
-    data class Inprogress(
-        override val board: Board,
-        override val turn: Turn
-    ) : UiState(board, turn)
-    data class End(
-        override val board: Board,
-        override val turn: Turn
-    ) : UiState(board, turn)
-
-    data class Draw(
-        override val board: Board,
-        override val turn: Turn
-    ) : UiState(board, turn)
-}
+data class UiState(
+    val status: GameStatus,
+    val board: Board,
+    val turn: Turn
+)
 
 sealed interface UiEffect {
     data class ShowToast(val message: String) : UiEffect
