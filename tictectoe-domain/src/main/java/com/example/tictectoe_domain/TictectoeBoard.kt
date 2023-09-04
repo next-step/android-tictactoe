@@ -1,32 +1,27 @@
 package com.example.tictectoe_domain
 
 class TictectoeBoard {
-    private lateinit var board: MutableList<Player>
-    private var player = Player.PLAYER1
+    private val _tictectoeBoard = MutableList(10) { Cell.NONE }
+    val tictectoeBoard: List<Cell>
+        get() = _tictectoeBoard
 
-    init {
-        initBoard()
-    }
+    var cell = Cell.PLAYER1
+        private set
 
-    fun initBoard() {
-        board = MutableList(10){ Player.NONE}
-        player = Player.PLAYER1
-    }
-
-    fun selectBoard(position: Int) {
-        board[position] = player
-    }
-
-    fun canSelect(position: Int) = board[position] == Player.NONE
-
-    fun getBoard() = board
-    fun getPlayer() = player
-
-    fun changePlayer() {
-        player = if(player == Player.PLAYER1) {
-            Player.PLAYER2
-        } else {
-            Player.PLAYER1
+    fun selectBoard(position: Int, playerTurn: PlayerTurn) {
+        if (playerTurn == PlayerTurn.TURN_PLAYER1) {
+            _tictectoeBoard[position] = Cell.PLAYER1
+            cell = Cell.PLAYER2
+        } else if (playerTurn == PlayerTurn.TURN_PLAYER2) {
+            _tictectoeBoard[position] = Cell.PLAYER2
+            cell = Cell.PLAYER1
         }
     }
+
+    fun boardClear() {
+        _tictectoeBoard.forEachIndexed { index, _ -> _tictectoeBoard[index] = Cell.NONE }
+
+    }
+
+    fun canSelect(position: Int) = _tictectoeBoard[position] == Cell.NONE
 }

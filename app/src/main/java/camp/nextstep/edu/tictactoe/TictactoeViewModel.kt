@@ -1,18 +1,24 @@
 package camp.nextstep.edu.tictactoe
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.tictectoe_domain.Game
-import com.example.tictectoe_domain.Player
-import com.example.tictectoe_domain.PlayerSelectedInfo
+import com.example.tictectoe_domain.Cell
+import com.example.tictectoe_domain.GameMode
+import com.example.tictectoe_domain.GameStatus
 
 class TictactoeViewModel(
    private val game: Game
 ) : ViewModel() {
 
-    private val _clickBoard = SingleLiveEvent<PlayerSelectedInfo>()
-    val clickBoard: LiveData<PlayerSelectedInfo>
-        get() = _clickBoard
+    private val _board = MutableLiveData(game.getBoard())
+    val board: LiveData<List<Cell>>
+        get() = _board
+
+    private var _gameStatus = MutableLiveData(game.gameStatus)
+    val gameStatus: LiveData<GameStatus>
+        get() = _gameStatus
 
     private val _clickRestart = SingleLiveEvent<Unit>()
     val clickRestart: LiveData<Unit>
@@ -23,31 +29,29 @@ class TictactoeViewModel(
         get() = _toastEvent
 
     fun clickBoard(position: Int) {
-        if (game.canSelect(position)) {
-            _clickBoard.value = PlayerSelectedInfo(position, game.getPlayer())
-            game.selectBoard(position)
-            checkGameWin()
+        // 1. 게임 플레이가 가능한 상태인가?
+        if(!game.isPlay()) {
+            return
         }
+
+        // 2. cell을 놓을 수 있는 곳인가?
+        if(!game.canSelect(position)) {
+            return
+        }
+
+        game.selectBoard(position)
+
+        _board.value = game.getBoard()
+        _gameStatus.value = game.gameStatus
     }
 
     fun clickRestart() {
-        game.startGame()
-        _clickRestart.value = Unit
+        game.gameReset()
+        _board.value = game.getBoard()
     }
 
-    private fun checkGameWin() {
-        when (game.checkGameWin()) {
-            Player.PLAYER1 -> {
-                _toastEvent.value = R.string.msg_player1_win
-            }
-            Player.PLAYER2 -> {
-                _toastEvent.value = R.string.msg_player2_win
-            }
-            Player.NONE -> {
-                if (game.checkGameDraw()) {
-                    _toastEvent.value = R.string.msg_draw
-                }
-            }
-        }
+    fun changeGameMode(gameMode: GameMode) {
+        clickRestart()
+        game.changeGameMode(gameMode)
     }
 }
