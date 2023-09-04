@@ -67,12 +67,12 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.menu_two -> {
                 Toast.makeText(this, "2인 모드로 전환", Toast.LENGTH_SHORT).show()
-                viewModel.startTwoPlayerMode()
+                viewModel.changeGameMode(GameMode.TWO_PLAYER)
             }
 
             R.id.menu_random -> {
                 Toast.makeText(this, "랜덤 모드로 전환", Toast.LENGTH_SHORT).show()
-                viewModel.startRandomMode()
+                viewModel.changeGameMode(GameMode.RANDOM)
             }
 
             R.id.menu_draw -> {}

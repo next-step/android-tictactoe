@@ -3,8 +3,7 @@ package camp.nextstep.edu.tictactoe
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.tictectoe_domain.Cell
 import com.example.tictectoe_domain.Game
-import com.example.tictectoe_domain.TictectoeBoard
-import com.example.tictectoe_domain.TictectoeRule
+import com.example.tictectoe_domain.GameMode
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Rule
@@ -31,13 +30,12 @@ class TictactoeViewModelTest {
         // then : 보드의 해당 위치에 플레이어가 등록된다.
         viewModel.board.value?.let { board ->
             assertThat(board[1]).isEqualTo(Cell.PLAYER1)}
-
     }
 
     @Test
     fun `2인 게임 모드에서 보드를 두번째 클릭하면 해당 위치의 Board에 두번째 플레이어가 등록됩니다`() {
         // given :
-        viewModel.startTwoPlayerMode()
+        viewModel.changeGameMode(GameMode.TWO_PLAYER)
 
         // when : 보드를 두곳 클릭한다.
         viewModel.clickBoard(1)

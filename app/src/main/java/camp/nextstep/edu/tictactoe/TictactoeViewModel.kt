@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.tictectoe_domain.Game
 import com.example.tictectoe_domain.Cell
+import com.example.tictectoe_domain.GameMode
 import com.example.tictectoe_domain.GameStatus
 
 class TictactoeViewModel(
@@ -49,13 +50,8 @@ class TictactoeViewModel(
         _board.value = game.getBoard()
     }
 
-    fun startTwoPlayerMode() {
+    fun changeGameMode(gameMode: GameMode) {
         clickRestart()
-        game.changeTwoPlayerMode()
-    }
-
-    fun startRandomMode() {
-        clickRestart()
-        game.changeRandomMode()
+        game.changeGameMode(gameMode)
     }
 }
