@@ -9,6 +9,10 @@ buildscript {
     }
 }
 
+plugins {
+    id("com.google.dagger.hilt.android") version "2.47" apply false
+}
+
 allprojects {
     repositories {
         google()

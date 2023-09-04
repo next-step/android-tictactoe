@@ -49,7 +49,12 @@ dependencies {
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.fragment:fragment-ktx:1.6.1")
+
+    implementation("com.google.dagger:hilt-android:2.47")
+    kapt("com.google.dagger:hilt-android-compiler:2.47")
+
     implementation(project(":tictactoe-domain"))
+
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("com.google.truth:truth:1.1.4")
