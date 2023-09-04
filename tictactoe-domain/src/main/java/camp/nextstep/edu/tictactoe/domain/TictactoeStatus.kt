@@ -1,8 +1,8 @@
 package camp.nextstep.edu.tictactoe.domain
 
 sealed interface TictactoeStatus {
-    object Progress : TictactoeStatus
-    object XWin : TictactoeStatus
-    object OWin : TictactoeStatus
-    object Draw : TictactoeStatus
+    data object Progress : TictactoeStatus
+    data object XWin : TictactoeStatus
+    data object OWin : TictactoeStatus
+    data object Draw : TictactoeStatus
 }

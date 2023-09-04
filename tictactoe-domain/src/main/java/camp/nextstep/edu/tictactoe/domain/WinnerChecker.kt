@@ -49,16 +49,22 @@ object WinnerChecker {
 
     fun getPlayerWinPosition(positions: Map<CellPosition, Owner>, owner: Owner): CellPosition? {
         val markedPositions = getMarkedPositions(owner, positions)
-        WIN_SET.forEach { winPositionSet ->
-            val unMarkedPositions = winPositionSet.filter {
-                it !in markedPositions
-            }
-            if (unMarkedPositions.size == ONE_ITEM) {
-                val unMarkedPosition = unMarkedPositions.first()
-                if (positions[unMarkedPosition] != Owner.NONE) {
-                    return unMarkedPosition
-                }
-            }
+        WIN_SET.forEach { winPositions ->
+            val position = getUnmarkedPosition(markedPositions, winPositions) ?: return@forEach
+            if (positions[position] != Owner.X && positions[position] != Owner.O) return position
+        }
+        return null
+    }
+
+    private fun getUnmarkedPosition(
+        markedPositions: List<CellPosition>,
+        winPositions: List<CellPosition>
+    ): CellPosition? {
+        val unMarkedPositions = winPositions.filter {
+            it !in markedPositions
+        }
+        if (unMarkedPositions.size == ONE_ITEM) {
+            return unMarkedPositions.first()
         }
         return null
     }

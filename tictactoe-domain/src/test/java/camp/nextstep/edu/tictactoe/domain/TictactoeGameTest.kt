@@ -1,5 +1,6 @@
 package camp.nextstep.edu.tictactoe.domain
 
+import camp.nextstep.edu.tictactoe.domain.di.DomainModule
 import camp.nextstep.edu.tictactoe.domain.strategy.FakeStrategy
 import camp.nextstep.edu.tictactoe.domain.strategy.Mode
 import com.google.common.truth.Truth.assertThat
@@ -8,11 +9,15 @@ import org.junit.Before
 import org.junit.Test
 
 class TictactoeGameTest {
+
     private lateinit var game: TictactoeGame
 
     @Before
     fun setUp() {
-        game = TictactoeGame()
+        game = TictactoeGame(
+            DomainModule.provideTictactoeStrategy(),
+            DomainModule.provideTictactoeMap(DomainModule.providePositions())
+        )
     }
 
     @Test
@@ -115,9 +120,9 @@ class TictactoeGameTest {
     @Test
     fun `다시 시작을 하면 게임이 리셋된다`() {
         game.mark(CellPosition.TOP_LEFT)
-        game.gameReset()
-        game.tictactoeMap.positions
-        val actual = game.tictactoeMap.positions.any {
+        game.resetMap()
+        val positions = game.getMapPositions()
+        val actual = positions.any {
             it.value != Owner.NONE
         }
         assertThat(actual).isEqualTo(false)
@@ -152,9 +157,8 @@ class TictactoeGameTest {
     fun `Random모드에서 위치는 무작위로 나와야 한다`() {
         // given
         val positions = mapOf(CellPosition.TOP_LEFT to Owner.X, CellPosition.TOP to Owner.NONE)
-        val fakeStrategy = FakeStrategy(positions)
-        game = TictactoeGame(fakeStrategy)
-        val position = fakeStrategy.getNextTurnPosition(game.tictactoeMap)
+        val fakeStrategy = FakeStrategy()
+        val position = fakeStrategy.getNextTurnPosition(positions)
         assertThat(position).isEqualTo(CellPosition.TOP)
         val actual = game.markByStrategy()
         assertThat(actual).isEqualTo(TictactoeStatus.Progress)

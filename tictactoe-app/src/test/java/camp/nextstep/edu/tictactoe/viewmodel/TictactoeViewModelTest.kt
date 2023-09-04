@@ -3,7 +3,9 @@ package camp.nextstep.edu.tictactoe.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import camp.nextstep.edu.tictactoe.domain.CellPosition
 import camp.nextstep.edu.tictactoe.domain.Owner
+import camp.nextstep.edu.tictactoe.domain.TictactoeGame
 import camp.nextstep.edu.tictactoe.domain.TictactoeStatus
+import camp.nextstep.edu.tictactoe.domain.di.DomainModule
 import camp.nextstep.edu.tictactoe.domain.strategy.Mode
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
@@ -18,7 +20,12 @@ class TictactoeViewModelTest {
 
     @Before
     fun setUp() {
-        viewModel = TictactoeViewModel()
+        viewModel = TictactoeViewModel(
+            TictactoeGame(
+                DomainModule.provideTictactoeStrategy(),
+                DomainModule.provideTictactoeMap(DomainModule.providePositions())
+            )
+        )
     }
 
     @Test
@@ -110,18 +117,21 @@ class TictactoeViewModelTest {
         // when
         viewModel.gameReset()
         // then
-        val actual = viewModel.tictactoeMap.value?.positions
+        val actual = viewModel.tictactoeMap.value
         assertThat(actual?.values).doesNotContain(Owner.X)
         assertThat(actual?.values).doesNotContain(Owner.O)
     }
 
     @Test
     fun `게임 모드 변경을 하는 경우 게임이 초기화 된다`() {
+        // given
+        viewModel.clickCell(CellPosition.TOP_LEFT)
+
         // when
         viewModel.changeMode(Mode.TWO_PLAYERS)
 
         // then
-        val actual = viewModel.tictactoeMap.value?.positions
+        val actual = viewModel.tictactoeMap.value
         assertThat(actual?.values).doesNotContain(Owner.X)
         assertThat(actual?.values).doesNotContain(Owner.O)
     }

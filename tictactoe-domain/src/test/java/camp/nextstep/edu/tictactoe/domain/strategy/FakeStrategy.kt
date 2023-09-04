@@ -2,11 +2,10 @@ package camp.nextstep.edu.tictactoe.domain.strategy
 
 import camp.nextstep.edu.tictactoe.domain.CellPosition
 import camp.nextstep.edu.tictactoe.domain.Owner
-import camp.nextstep.edu.tictactoe.domain.TictactoeMap
 
-class FakeStrategy(private val positions: Map<CellPosition, Owner>) : TictactoeStrategy {
+class FakeStrategy : TictactoeStrategy {
 
-    override fun getNextTurnPosition(tictactoeMap: TictactoeMap): CellPosition {
+    override fun getNextTurnPosition(positions: Map<CellPosition, Owner>): CellPosition {
         val emptyPositions = positions.filter { (_, owner) ->
             owner == Owner.NONE
         }

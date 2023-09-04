@@ -4,6 +4,8 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
     id("org.jlleitschuh.gradle.ktlint") version "11.5.0"
 }
 
@@ -51,10 +53,9 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.6.1")
 
     implementation("com.google.dagger:hilt-android:2.47")
-    kapt("com.google.dagger:hilt-android-compiler:2.47")
+    ksp("com.google.dagger:hilt-android-compiler:2.47")
 
     implementation(project(":tictactoe-domain"))
-
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("com.google.truth:truth:1.1.4")
