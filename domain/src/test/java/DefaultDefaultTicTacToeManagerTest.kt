@@ -20,7 +20,7 @@ class DefaultDefaultTicTacToeManagerTest {
 
     @Before
     fun setUp() {
-        defaultTicTacToeManager = DefaultTicTacToeManager(Mode.PLAYER)
+        defaultTicTacToeManager = DefaultTicTacToeManager()
     }
 
     @Test

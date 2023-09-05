@@ -7,12 +7,21 @@ package camp.nextstep.edu.tictactoe.domain.tictactoe
 
 import camp.nextstep.edu.tictactoe.domain.Board
 import camp.nextstep.edu.tictactoe.domain.Cell
+import camp.nextstep.edu.tictactoe.domain.Mode
 import camp.nextstep.edu.tictactoe.domain.Position
 import camp.nextstep.edu.tictactoe.domain.Turn
 
 internal class DefaultTicTacToe(
     private var currentTurn: Turn = Turn.X,
+    initMode: Mode = Mode.PLAYER
 ) : TicTacToe {
+
+    private var mode: Mode = initMode
+
+    override fun changeMode(mode: Mode) {
+        this.mode = mode
+        restart()
+    }
 
     private var board: Board = Board.EMPTY
     override fun mark(position: Position): Result<Unit> = runCatching {

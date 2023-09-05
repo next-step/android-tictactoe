@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import camp.nextstep.edu.tictactoe.domain.Board
 import camp.nextstep.edu.tictactoe.domain.GameStatus
+import camp.nextstep.edu.tictactoe.domain.Mode
 import camp.nextstep.edu.tictactoe.domain.Position
 import camp.nextstep.edu.tictactoe.domain.Turn
 import camp.nextstep.edu.tictactoe.domain.manager.TicTacToeManager
@@ -62,8 +63,19 @@ class TicTacToeViewModel(
 
     fun onClickRestart() {
         ticTacToe.restart()
-        _uiState.value = UiState(GameStatus.InProgress, ticTacToe.getBoard(), ticTacToe.currentTurn())
+        initBoard()
         _uiEffect.value = UiEffect.ShowToast("게임을 다시 시작합니다.")
+    }
+
+    fun changeMode(mode: Mode) {
+        ticTacToe.changeMode(mode)
+        initBoard()
+        _uiEffect.value = UiEffect.ShowToast("게임 모드가 변경되었습니다.")
+    }
+
+    private fun initBoard() {
+        _uiState.value =
+            UiState(GameStatus.InProgress, ticTacToe.getBoard(), ticTacToe.currentTurn())
     }
 
 }

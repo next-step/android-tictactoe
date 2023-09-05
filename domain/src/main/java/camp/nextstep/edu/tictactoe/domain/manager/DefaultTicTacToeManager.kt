@@ -9,15 +9,10 @@ import camp.nextstep.edu.tictactoe.domain.BOARD_SIZE
 import camp.nextstep.edu.tictactoe.domain.Board
 import camp.nextstep.edu.tictactoe.domain.Cell
 import camp.nextstep.edu.tictactoe.domain.GameStatus
-import camp.nextstep.edu.tictactoe.domain.Mode
 import camp.nextstep.edu.tictactoe.domain.Position
 import camp.nextstep.edu.tictactoe.domain.Turn
 
-internal class DefaultTicTacToeManager(
-    initMode: Mode
-): TicTacToeManager {
-
-    private var mode: Mode = initMode
+internal class DefaultTicTacToeManager: TicTacToeManager {
 
     override fun checkGameStatus(board: Board): GameStatus {
         checkWinner(board)?.let {

@@ -10,6 +10,6 @@ import camp.nextstep.edu.tictactoe.domain.Mode
 import camp.nextstep.edu.tictactoe.domain.di.DomainModule
 
 class TicTacToeApplication : Application() {
-    val ticTacToeManager by lazy { DomainModule.provideTicTacToeManager(Mode.PLAYER) }
-    val ticTacToe by lazy { DomainModule.provideTicTacToe() }
+    val ticTacToeManager by lazy { DomainModule.provideTicTacToeManager() }
+    val ticTacToe by lazy { DomainModule.provideTicTacToe(Mode.PLAYER) }
 }

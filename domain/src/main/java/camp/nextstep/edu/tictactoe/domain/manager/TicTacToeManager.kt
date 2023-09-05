@@ -7,6 +7,7 @@ package camp.nextstep.edu.tictactoe.domain.manager
 
 import camp.nextstep.edu.tictactoe.domain.Board
 import camp.nextstep.edu.tictactoe.domain.GameStatus
+import camp.nextstep.edu.tictactoe.domain.Mode
 
 
 interface TicTacToeManager {

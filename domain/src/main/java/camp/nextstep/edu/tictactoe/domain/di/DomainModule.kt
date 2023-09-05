@@ -7,11 +7,11 @@ import camp.nextstep.edu.tictactoe.domain.tictactoe.DefaultTicTacToe
 import camp.nextstep.edu.tictactoe.domain.tictactoe.TicTacToe
 
 object DomainModule {
-    fun provideTicTacToeManager(initMode: Mode): TicTacToeManager {
-        return DefaultTicTacToeManager(initMode)
+    fun provideTicTacToeManager(): TicTacToeManager {
+        return DefaultTicTacToeManager()
     }
 
-    fun provideTicTacToe(): TicTacToe {
-        return DefaultTicTacToe()
+    fun provideTicTacToe(initMode: Mode): TicTacToe {
+        return DefaultTicTacToe(initMode = initMode)
     }
 }
