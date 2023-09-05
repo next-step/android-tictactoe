@@ -19,7 +19,6 @@ abstract class DomainModule {
     @Binds
     internal abstract fun bindStrategy(strategy: IntermediateStrategy): TictactoeStrategy
 
-
     companion object {
         @Provides
         fun provideTictactoeGame(
@@ -43,6 +42,4 @@ abstract class DomainModule {
             }.toMutableMap()
         }
     }
-
-
 }
