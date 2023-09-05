@@ -25,6 +25,14 @@ data class Board(
         return board.filter(predicate)
     }
 
+    fun getEmptyPositions(): List<Position> {
+        return board.filter { (_, cell) -> cell is Cell.Empty }.keys.toList()
+    }
+
+    fun isFull(): Boolean {
+        return board.all { (_, cell) -> cell !is Cell.Empty }
+    }
+
     companion object {
         val EMPTY = Board(
             setOf(
@@ -39,9 +47,5 @@ data class Board(
                 Cell.Empty(Position.BOTTOM_RIGHT)
             ).associateBy { it.position }
         )
-
-        fun of(vararg cells: Cell): Board {
-            return Board(cells.associateBy { it.position })
-        }
     }
 }

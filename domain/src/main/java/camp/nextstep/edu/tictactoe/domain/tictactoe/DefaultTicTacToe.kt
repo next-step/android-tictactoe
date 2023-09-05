@@ -34,7 +34,24 @@ internal class DefaultTicTacToe(
                 board.set(position, Cell.O(position))
             }
         }
-    }.onSuccess { changeTurn() }
+    }.onSuccess {
+        changeTurn()
+        if (mode == Mode.RANDOM) {
+            checkCurrentMode()
+        }
+    }
+
+    private fun checkCurrentMode() {
+        if (currentTurn == Turn.X || board.isFull()) {
+            return
+        }
+        mark(getRandomPosition())
+    }
+
+    private fun getRandomPosition(): Position {
+        return board.getEmptyPositions().random()
+    }
+
 
     override fun getBoard(): Board {
         return board
