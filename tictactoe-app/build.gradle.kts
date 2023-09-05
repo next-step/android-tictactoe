@@ -57,6 +57,10 @@ dependencies {
 
     implementation(project(":tictactoe-domain"))
 
+    testImplementation("com.google.dagger:hilt-android-testing:2.47")
+    kspTest("com.google.dagger:hilt-android-compiler:2.47")
+
+    testImplementation("org.robolectric:robolectric:4.9")
     testImplementation("junit:junit:4.13.2")
     testImplementation("com.google.truth:truth:1.1.4")
     testImplementation("androidx.arch.core:core-testing:2.2.0")

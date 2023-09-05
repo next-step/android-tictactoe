@@ -5,27 +5,38 @@ import camp.nextstep.edu.tictactoe.domain.CellPosition
 import camp.nextstep.edu.tictactoe.domain.Owner
 import camp.nextstep.edu.tictactoe.domain.TictactoeGame
 import camp.nextstep.edu.tictactoe.domain.TictactoeStatus
-import camp.nextstep.edu.tictactoe.domain.di.DomainModule
 import camp.nextstep.edu.tictactoe.domain.strategy.Mode
 import com.google.common.truth.Truth.assertThat
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+import javax.inject.Inject
 
+@HiltAndroidTest
+@Config(application = HiltTestApplication::class)
+@RunWith(RobolectricTestRunner::class)
 class TictactoeViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var tictactoeGame: TictactoeGame
 
     private lateinit var viewModel: TictactoeViewModel
 
     @Before
     fun setUp() {
-        viewModel = TictactoeViewModel(
-            TictactoeGame(
-                DomainModule.provideTictactoeStrategy(),
-                DomainModule.provideTictactoeMap(DomainModule.providePositions())
-            )
-        )
+        hiltRule.inject()
+        viewModel = TictactoeViewModel(tictactoeGame)
     }
 
     @Test

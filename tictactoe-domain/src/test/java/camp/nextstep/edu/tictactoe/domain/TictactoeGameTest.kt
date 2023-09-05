@@ -2,6 +2,7 @@ package camp.nextstep.edu.tictactoe.domain
 
 import camp.nextstep.edu.tictactoe.domain.di.DomainModule
 import camp.nextstep.edu.tictactoe.domain.strategy.FakeStrategy
+import camp.nextstep.edu.tictactoe.domain.strategy.IntermediateStrategy
 import camp.nextstep.edu.tictactoe.domain.strategy.Mode
 import com.google.common.truth.Truth.assertThat
 import org.junit.Assert.assertThrows
@@ -15,8 +16,8 @@ class TictactoeGameTest {
     @Before
     fun setUp() {
         game = TictactoeGame(
-            DomainModule.provideTictactoeStrategy(),
-            DomainModule.provideTictactoeMap(DomainModule.providePositions())
+            IntermediateStrategy(),
+            TictactoeMap(DomainModule.providePositions())
         )
     }
 
