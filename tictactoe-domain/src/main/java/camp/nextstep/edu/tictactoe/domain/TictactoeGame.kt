@@ -5,12 +5,12 @@ import camp.nextstep.edu.tictactoe.domain.strategy.Mode
 import camp.nextstep.edu.tictactoe.domain.strategy.RandomStrategy
 import camp.nextstep.edu.tictactoe.domain.strategy.TictactoeStrategy
 import camp.nextstep.edu.tictactoe.domain.strategy.TwoPlayersStrategy
+import javax.inject.Inject
 
-class TictactoeGame(
-    private var tictactoeStrategy: TictactoeStrategy = IntermediateStrategy()
+class TictactoeGame @Inject constructor(
+    private var tictactoeStrategy: TictactoeStrategy,
+    private var tictactoeMap: TictactoeMap
 ) {
-    var tictactoeMap = TictactoeMap()
-        private set
     var isXTurn: Boolean = true
         private set
 
@@ -24,21 +24,26 @@ class TictactoeGame(
         isXTurn = !isXTurn
     }
 
-    fun gameReset() {
-        tictactoeMap = TictactoeMap()
-        isXTurn = true
-    }
-
-    fun markByStrategy(): TictactoeStatus? {
-        val position = tictactoeStrategy.getNextTurnPosition(tictactoeMap) ?: return null
-        return mark(position)
-    }
-
     fun setMode(mode: Mode) {
         tictactoeStrategy = when (mode) {
             Mode.TWO_PLAYERS -> TwoPlayersStrategy()
             Mode.RANDOM -> RandomStrategy()
             Mode.INTERMEDIATE -> IntermediateStrategy()
         }
+        resetMap()
+    }
+
+    fun resetMap() {
+        tictactoeMap.reset()
+        isXTurn = true
+    }
+
+    fun markByStrategy(): TictactoeStatus? {
+        val position = tictactoeStrategy.getNextTurnPosition(tictactoeMap.positions) ?: return null
+        return mark(position)
+    }
+
+    fun getMapPositions(): Map<CellPosition, Owner> {
+        return tictactoeMap.positions
     }
 }

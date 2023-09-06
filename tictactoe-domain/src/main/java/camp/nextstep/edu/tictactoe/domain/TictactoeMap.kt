@@ -1,8 +1,10 @@
 package camp.nextstep.edu.tictactoe.domain
 
-class TictactoeMap {
+import javax.inject.Inject
 
-    private var _positions: MutableMap<CellPosition, Owner> = initPositions()
+class TictactoeMap @Inject constructor(
+    private var _positions: MutableMap<CellPosition, Owner>
+) {
     val positions: Map<CellPosition, Owner>
         get() = _positions
 
@@ -17,9 +19,7 @@ class TictactoeMap {
         }
     }
 
-    private fun initPositions(): MutableMap<CellPosition, Owner> {
-        return CellPosition.values().associateWith {
-            Owner.NONE
-        }.toMutableMap()
+    fun reset() {
+        _positions.replaceAll { _, _ -> Owner.NONE }
     }
 }

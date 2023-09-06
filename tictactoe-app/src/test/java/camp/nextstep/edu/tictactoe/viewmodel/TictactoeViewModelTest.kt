@@ -3,22 +3,40 @@ package camp.nextstep.edu.tictactoe.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import camp.nextstep.edu.tictactoe.domain.CellPosition
 import camp.nextstep.edu.tictactoe.domain.Owner
+import camp.nextstep.edu.tictactoe.domain.TictactoeGame
 import camp.nextstep.edu.tictactoe.domain.TictactoeStatus
 import camp.nextstep.edu.tictactoe.domain.strategy.Mode
 import com.google.common.truth.Truth.assertThat
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+import javax.inject.Inject
 
+@HiltAndroidTest
+@Config(application = HiltTestApplication::class)
+@RunWith(RobolectricTestRunner::class)
 class TictactoeViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var tictactoeGame: TictactoeGame
 
     private lateinit var viewModel: TictactoeViewModel
 
     @Before
     fun setUp() {
-        viewModel = TictactoeViewModel()
+        hiltRule.inject()
+        viewModel = TictactoeViewModel(tictactoeGame)
     }
 
     @Test
@@ -110,18 +128,21 @@ class TictactoeViewModelTest {
         // when
         viewModel.gameReset()
         // then
-        val actual = viewModel.tictactoeMap.value?.positions
+        val actual = viewModel.tictactoeMap.value
         assertThat(actual?.values).doesNotContain(Owner.X)
         assertThat(actual?.values).doesNotContain(Owner.O)
     }
 
     @Test
     fun `게임 모드 변경을 하는 경우 게임이 초기화 된다`() {
+        // given
+        viewModel.clickCell(CellPosition.TOP_LEFT)
+
         // when
         viewModel.changeMode(Mode.TWO_PLAYERS)
 
         // then
-        val actual = viewModel.tictactoeMap.value?.positions
+        val actual = viewModel.tictactoeMap.value
         assertThat(actual?.values).doesNotContain(Owner.X)
         assertThat(actual?.values).doesNotContain(Owner.O)
     }

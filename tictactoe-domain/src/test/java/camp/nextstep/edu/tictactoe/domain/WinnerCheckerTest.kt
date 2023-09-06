@@ -72,7 +72,7 @@ class WinnerCheckerTest {
     }
 
     @Test
-    fun `주어진 위치 값에서 대상이 다음에 놓을 수 있는 곳이 있다면 해당 포지션을 가져온다`() {
+    fun `X가 주어진 위치 값에서 대상이 다음에 놓을 수 있는 곳이 있다면 해당 포지션을 가져온다`() {
         // given
         val positions = mapOf(
             CellPosition.TOP_LEFT to Owner.X,
@@ -87,5 +87,23 @@ class WinnerCheckerTest {
 
         // then
         assertThat(actual).isEqualTo(CellPosition.TOP)
+    }
+
+    @Test
+    fun `O가 주어진 위치 값에서 대상이 다음에 놓을 수 있는 곳이 있다면 해당 포지션을 가져온다`() {
+        // given
+        val positions = mapOf(
+            CellPosition.TOP_LEFT to Owner.X,
+            CellPosition.MIDDLE_LEFT to Owner.X,
+            CellPosition.TOP_RIGHT to Owner.X,
+            CellPosition.BOTTOM_LEFT to Owner.O,
+            CellPosition.BOTTOM to Owner.O
+
+        )
+        // when
+        val actual = WinnerChecker.getPlayerWinPosition(positions, Owner.O)
+
+        // then
+        assertThat(actual).isEqualTo(CellPosition.BOTTOM_RIGHT)
     }
 }

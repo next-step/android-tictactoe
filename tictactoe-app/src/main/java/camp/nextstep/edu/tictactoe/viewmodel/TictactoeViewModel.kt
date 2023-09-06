@@ -5,17 +5,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import camp.nextstep.edu.tictactoe.SingleLiveEvent
 import camp.nextstep.edu.tictactoe.domain.CellPosition
+import camp.nextstep.edu.tictactoe.domain.Owner
 import camp.nextstep.edu.tictactoe.domain.TictactoeGame
-import camp.nextstep.edu.tictactoe.domain.TictactoeMap
 import camp.nextstep.edu.tictactoe.domain.TictactoeStatus
 import camp.nextstep.edu.tictactoe.domain.strategy.Mode
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class TictactoeViewModel(
-    private val tictactoeGame: TictactoeGame = TictactoeGame()
+@HiltViewModel
+class TictactoeViewModel @Inject constructor(
+    private val tictactoeGame: TictactoeGame
 ) : ViewModel() {
 
-    private val _tictactoeMap = MutableLiveData(tictactoeGame.tictactoeMap)
-    val tictactoeMap: LiveData<TictactoeMap> = _tictactoeMap
+    private val _tictactoeMap = MutableLiveData(tictactoeGame.getMapPositions())
+    val tictactoeMap: LiveData<Map<CellPosition, Owner>> = _tictactoeMap
 
     private val _uiState = SingleLiveEvent<GameResultUiState>()
     val uiState: LiveData<GameResultUiState> = _uiState
@@ -45,7 +48,7 @@ class TictactoeViewModel(
     }
 
     fun gameReset() {
-        tictactoeGame.gameReset()
+        tictactoeGame.resetMap()
         updateTictactoeMap()
     }
 
@@ -55,7 +58,7 @@ class TictactoeViewModel(
     }
 
     private fun updateTictactoeMap() {
-        _tictactoeMap.value = tictactoeGame.tictactoeMap
+        _tictactoeMap.value = tictactoeGame.getMapPositions()
     }
 }
 

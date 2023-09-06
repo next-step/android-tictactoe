@@ -11,11 +11,12 @@ import camp.nextstep.edu.tictactoe.domain.TictactoeStatus
 import camp.nextstep.edu.tictactoe.domain.strategy.Mode
 import camp.nextstep.edu.tictactoe.viewmodel.GameResultUiState
 import camp.nextstep.edu.tictactoe.viewmodel.TictactoeViewModel
-import camp.nextstep.edu.tictactoe.viewmodel.ViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: TictactoeViewModel by viewModels { ViewModelFactory() }
+    private val viewModel: TictactoeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

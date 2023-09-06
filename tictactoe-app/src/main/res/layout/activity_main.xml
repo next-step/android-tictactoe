@@ -36,7 +36,7 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> model.clickCell(CellPosition.TOP_LEFT)}"
-            owner="@{model.tictactoeMap.positions[CellPosition.TOP_LEFT]}"
+            owner="@{model.tictactoeMap[CellPosition.TOP_LEFT]}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
 
@@ -46,7 +46,7 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> model.clickCell(CellPosition.TOP)}"
-            owner="@{model.tictactoeMap.positions[CellPosition.TOP]}"
+            owner="@{model.tictactoeMap[CellPosition.TOP]}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black" />
 
@@ -56,7 +56,7 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> model.clickCell(CellPosition.TOP_RIGHT)}"
-            owner="@{model.tictactoeMap.positions[CellPosition.TOP_RIGHT]}"
+            owner="@{model.tictactoeMap[CellPosition.TOP_RIGHT]}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
 
@@ -66,7 +66,7 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> model.clickCell(CellPosition.MIDDLE_LEFT)}"
-            owner="@{model.tictactoeMap.positions[CellPosition.MIDDLE_LEFT]}"
+            owner="@{model.tictactoeMap[CellPosition.MIDDLE_LEFT]}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black" />
 
@@ -76,7 +76,7 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> model.clickCell(CellPosition.MIDDLE)}"
-            owner="@{model.tictactoeMap.positions[CellPosition.MIDDLE]}"
+            owner="@{model.tictactoeMap[CellPosition.MIDDLE]}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
 
@@ -86,7 +86,7 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> model.clickCell(CellPosition.MIDDLE_RIGHT)}"
-            owner="@{model.tictactoeMap.positions[CellPosition.MIDDLE_RIGHT]}"
+            owner="@{model.tictactoeMap[CellPosition.MIDDLE_RIGHT]}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black" />
 
@@ -96,7 +96,7 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> model.clickCell(CellPosition.BOTTOM_LEFT)}"
-            owner="@{model.tictactoeMap.positions[CellPosition.BOTTOM_LEFT]}"
+            owner="@{model.tictactoeMap[CellPosition.BOTTOM_LEFT]}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
 
@@ -106,7 +106,7 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> model.clickCell(CellPosition.BOTTOM)}"
-            owner="@{model.tictactoeMap.positions[CellPosition.BOTTOM]}"
+            owner="@{model.tictactoeMap[CellPosition.BOTTOM]}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_o_black" />
 
@@ -116,7 +116,7 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{() -> model.clickCell(CellPosition.BOTTOM_RIGHT)}"
-            owner="@{model.tictactoeMap.positions[CellPosition.BOTTOM_RIGHT]}"
+            owner="@{model.tictactoeMap[CellPosition.BOTTOM_RIGHT]}"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_x_black" />
         <!-- endregion -->
