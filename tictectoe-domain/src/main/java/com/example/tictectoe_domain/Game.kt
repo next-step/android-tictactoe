@@ -1,7 +1,7 @@
 package com.example.tictectoe_domain
 
 class Game(
-    private val board: TictectoeBoard = TictectoeBoard(),
+    private var board: Board = Board.EMPTY,
     private val rule: TictectoeRule = TictectoeRule()
 ) {
     // 게임 상태
@@ -22,27 +22,23 @@ class Game(
         _gameMode = gameMode
     }
 
-    fun getBoard() = board.tictectoeBoard
+    fun getBoard() = board
 
     fun gameReset() {
-        board.boardClear()
+        board = Board.EMPTY
         _gameStatus = GameStatus.PLAYING
         _playerTurn = PlayerTurn.TURN_PLAYER1
     }
 
-    fun selectBoard(position: Int) {
-        _gameMode.selectBoard(board, position, playerTurn)
+    fun selectBoard(position: Position) {
+        if(!board.canMark(position)) return
+        board = _gameMode.selectBoard(board, position, playerTurn)
         if(_gameMode == GameMode.TWO_PLAYER) {
             changeTurn()
         }
-        checkWinAndDraw()
     }
 
-    fun isPlay() = gameStatus == GameStatus.PLAYING
-
-    fun canSelect(position: Int): Boolean {
-        return board.canSelect(position)
-    }
+    fun isPlay() = _gameStatus == GameStatus.PLAYING
 
     // 플레이어 턴 변경
     private fun changeTurn() {
@@ -53,14 +49,8 @@ class Game(
     }
 
     // 승리 확인
-    private fun checkWinAndDraw() {
-        val winningPlayer = rule.getWinningPlayer(board.tictectoeBoard)
-        if(winningPlayer == Cell.PLAYER1) {
-            _gameStatus = GameStatus.PLAYER1_WIN
-        } else if(winningPlayer == Cell.PLAYER2) {
-            _gameStatus = GameStatus.PLAYER2_WIN
-        } else if(rule.isDraw(board.tictectoeBoard)) {
-            _gameStatus = GameStatus.DRAW_GAME
-        }
+    fun checkGameStatus(): GameStatus {
+        _gameStatus = rule.checkGameStatus(board)
+        return _gameStatus
     }
 }

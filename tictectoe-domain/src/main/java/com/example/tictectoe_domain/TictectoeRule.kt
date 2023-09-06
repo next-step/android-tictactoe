@@ -2,36 +2,18 @@ package com.example.tictectoe_domain
 
 
 class TictectoeRule {
-    fun getWinningPlayer(board: List<Cell>): Cell {
-        if (board[1] == board[2] && board[2] == board[3]) {
-            if(board[1] != Cell.NONE) return board[1]
-        }
-        if (board[4] == board[5] && board[5] == board[6]) {
-            if(board[4] != Cell.NONE) return board[4]
-        }
-        if (board[7] == board[8] && board[8] == board[9]) {
-            if(board[7] != Cell.NONE) return board[7]
-        }
-        if (board[1] == board[4] && board[4] == board[7]) {
-            if(board[1] != Cell.NONE) return board[1]
-        }
-        if (board[2] == board[5] && board[5] == board[8]) {
-            if(board[2] != Cell.NONE) return board[2]
-        }
-        if (board[3] == board[6] && board[6] == board[9]) {
-            if(board[3] != Cell.NONE) return board[3]
-        }
-        if (board[1] == board[5] && board[5] == board[9]) {
-            if(board[1] != Cell.NONE) return board[1]
-        }
-        if (board[3] == board[5] && board[5] == board[7]) {
-            if(board[3] != Cell.NONE) return board[3]
+    fun checkGameStatus(board: Board): GameStatus {
+        board.lines.forEach {line ->
+            if(line.count { cell -> cell == Cell.PLAYER1(cell.position) } == 3) return GameStatus.PLAYER1_WIN
+            if(line.count { cell -> cell == Cell.PLAYER2(cell.position) } == 3) return GameStatus.PLAYER2_WIN
         }
 
-        return Cell.NONE
-    }
+        board.getBoard().forEach {
+            if (it.value == Cell.NONE(it.key)) {
+                return GameStatus.PLAYING
+            }
+        }
 
-    fun isDraw(list: List<Cell>): Boolean {
-        return list.count{it == Cell.NONE} == 1
+        return GameStatus.DRAW_GAME
     }
 }

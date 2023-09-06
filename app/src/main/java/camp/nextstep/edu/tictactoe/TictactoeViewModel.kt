@@ -3,17 +3,18 @@ package camp.nextstep.edu.tictactoe
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.tictectoe_domain.Board
 import com.example.tictectoe_domain.Game
-import com.example.tictectoe_domain.Cell
 import com.example.tictectoe_domain.GameMode
 import com.example.tictectoe_domain.GameStatus
+import com.example.tictectoe_domain.Position
 
 class TictactoeViewModel(
    private val game: Game
 ) : ViewModel() {
 
     private val _board = MutableLiveData(game.getBoard())
-    val board: LiveData<List<Cell>>
+    val board: LiveData<Board>
         get() = _board
 
     private var _gameStatus = MutableLiveData(game.gameStatus)
@@ -28,21 +29,16 @@ class TictactoeViewModel(
     val toastEvent: LiveData<Int>
         get() = _toastEvent
 
-    fun clickBoard(position: Int) {
+    fun clickBoard(position: Position) {
         // 1. 게임 플레이가 가능한 상태인가?
         if(!game.isPlay()) {
-            return
-        }
-
-        // 2. cell을 놓을 수 있는 곳인가?
-        if(!game.canSelect(position)) {
             return
         }
 
         game.selectBoard(position)
 
         _board.value = game.getBoard()
-        _gameStatus.value = game.gameStatus
+        _gameStatus.value = game.checkGameStatus()
     }
 
     fun clickRestart() {

@@ -1,47 +1,41 @@
 package com.example.tictectoe_domain
 
-import kotlin.random.Random
-
 enum class GameMode : SelectBoard {
     TWO_PLAYER {
-        override fun selectBoard(board: TictectoeBoard, position: Int, playerTurn: PlayerTurn) {
-            board.selectBoard(position, playerTurn)
+        override fun selectBoard(board: Board, position: Position, playerTurn: PlayerTurn): Board {
+            return when (playerTurn) {
+                PlayerTurn.TURN_PLAYER1 -> {
+                    board.mark(Cell.PLAYER1(position))
+                }
+                PlayerTurn.TURN_PLAYER2 -> {
+                    board.mark(Cell.PLAYER2(position))
+                }
+            }
         }
     },
     RANDOM {
-        override fun selectBoard(board: TictectoeBoard, position: Int, playerTurn: PlayerTurn) {
-            board.selectBoard(position, playerTurn)
-
-            if(board.tictectoeBoard.count { it == Cell.NONE } == 1) {
-                return
+        override fun selectBoard(board: Board, position: Position, playerTurn: PlayerTurn): Board {
+            var newBoard = board.mark(Cell.PLAYER1(position))
+            if(newBoard.isFull()) {
+                return newBoard
             }
 
-            // 빈칸을 찾는다.
-            val playerNoneIndexList = mutableListOf<Int>()
+            val nonSelectPosition = newBoard.getNonSelectPositionList()
+            val selectPosition = nonSelectPosition.shuffled().first()
 
-            // 빈칸 리스트에 추가
-            for ((index, player) in board.tictectoeBoard.withIndex()) {
-                if (player == Cell.NONE) {
-                    playerNoneIndexList.add(index)
-                }
-            }
-            // 빈칸 중 0은 제외 한다.
-            playerNoneIndexList.removeAt(0)
-
-            // 랜덤으로 선택
-            val selectIndex = Random(System.nanoTime()).nextInt(playerNoneIndexList.size)
-
-            board.selectBoard(playerNoneIndexList[selectIndex], PlayerTurn.TURN_PLAYER2)
+            newBoard = newBoard.mark(Cell.PLAYER2(selectPosition))
+            return newBoard
         }
     },
     INTERMEDIATE_LEVEL {
-        override fun selectBoard(board: TictectoeBoard, position: Int, playerTurn: PlayerTurn) {
-            board.selectBoard(position, playerTurn)
+        override fun selectBoard(board: Board, position: Position, playerTurn: PlayerTurn): Board {
+//            board.selectBoard(position, playerTurn)
+            return board
         }
     };
 
 }
 
 interface SelectBoard {
-    fun selectBoard(board: TictectoeBoard, position: Int, playerTurn: PlayerTurn)
+    fun selectBoard(board: Board, position: Position, playerTurn: PlayerTurn): Board
 }
