@@ -8,13 +8,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
 import camp.nextstep.edu.tictactoe.domain.Mode
+import camp.nextstep.edu.tictactoe.domain.di.DomainModule
 
 class TicTacToeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: TicTacToeViewModel by viewModels {
         TicTacToeViewModelFactory(
-            (application as TicTacToeApplication).ticTacToeManager,
-            (application as TicTacToeApplication).ticTacToe
+            DomainModule.provideTicTacToeManager(),
+            DomainModule.provideTicTacToe(Mode.RANDOM)
         )
     }
 
