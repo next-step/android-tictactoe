@@ -37,11 +37,11 @@ internal class DefaultTicTacToe(
     }.onSuccess {
         changeTurn()
         if (mode == Mode.RANDOM) {
-            checkCurrentMode()
+            markRandomPosition()
         }
     }
 
-    private fun checkCurrentMode() {
+    private fun markRandomPosition() {
         if (currentTurn == Turn.X || board.isFull()) {
             return
         }
