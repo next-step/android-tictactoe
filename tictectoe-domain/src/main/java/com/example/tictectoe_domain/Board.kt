@@ -22,11 +22,13 @@ data class Board private constructor(private val board: Map<Position, Cell>) {
     private val rightDiagonalLine = mutableListOf(topLeft, midCenter, bottomRight)
     private val leftDiagonalLine = mutableListOf(topRight, midCenter, bottomLeft)
 
-    val lines = mutableListOf(
+    private val _lines = mutableListOf(
         topHorizontalLine, midHorizontalLine, bottomHorizontalLine,
         leftVerticalLine, centerVerticalLine, rightVerticalLine,
         rightDiagonalLine, leftDiagonalLine
     )
+    val lines: List<List<Cell>>
+        get() = _lines
 
     fun getBoard() = board
 
@@ -64,15 +66,17 @@ data class Board private constructor(private val board: Map<Position, Cell>) {
     companion object {
         val EMPTY: Board = Board(
             setOf(
-                Cell.NONE(Position.TOP_LEFT),
-                Cell.NONE(Position.TOP_CENTER),
-                Cell.NONE(Position.TOP_RIGHT),
-                Cell.NONE(Position.MID_LEFT),
-                Cell.NONE(Position.MID_CENTER),
-                Cell.NONE(Position.MID_RIGHT),
-                Cell.NONE(Position.BOTTOM_LEFT),
-                Cell.NONE(Position.BOTTOM_CENTER),
-                Cell.NONE(Position.BOTTOM_RIGHT)
+                Cell.NONE(Position.TOP_LEFT), Cell.NONE(Position.TOP_CENTER), Cell.NONE(Position.TOP_RIGHT),
+                Cell.NONE(Position.MID_LEFT), Cell.NONE(Position.MID_CENTER), Cell.NONE(Position.MID_RIGHT),
+                Cell.NONE(Position.BOTTOM_LEFT), Cell.NONE(Position.BOTTOM_CENTER), Cell.NONE(Position.BOTTOM_RIGHT)
+            ).associateBy { it.position }
+        )
+
+        val TEST_BOARD = Board(
+            setOf(
+                Cell.PLAYER1(Position.TOP_LEFT), Cell.PLAYER1(Position.TOP_CENTER), Cell.PLAYER1(Position.TOP_RIGHT),
+                Cell.NONE(Position.MID_LEFT), Cell.NONE(Position.MID_CENTER), Cell.NONE(Position.MID_RIGHT),
+                Cell.NONE(Position.BOTTOM_LEFT), Cell.NONE(Position.BOTTOM_CENTER), Cell.NONE(Position.BOTTOM_RIGHT)
             ).associateBy { it.position }
         )
     }

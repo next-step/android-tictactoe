@@ -15,8 +15,6 @@ class Game(
 
     // 게임 모드
     private var _gameMode = GameMode.RANDOM
-    val gameMode: GameMode
-        get() = _gameMode
 
     fun changeGameMode(gameMode: GameMode) {
         _gameMode = gameMode

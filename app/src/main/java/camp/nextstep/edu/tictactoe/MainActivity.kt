@@ -75,7 +75,10 @@ class MainActivity : AppCompatActivity() {
                 viewModel.changeGameMode(GameMode.RANDOM)
             }
 
-            R.id.menu_draw -> {}
+            R.id.menu_intermediate_level -> {
+                Toast.makeText(this, "중급 모드로 전환", Toast.LENGTH_SHORT).show()
+                viewModel.changeGameMode(GameMode.INTERMEDIATE_LEVEL)
+            }
         }
         return true
     }
