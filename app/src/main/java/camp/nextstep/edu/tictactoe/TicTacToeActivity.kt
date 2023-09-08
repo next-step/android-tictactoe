@@ -15,7 +15,8 @@ class TicTacToeActivity : AppCompatActivity() {
     private val viewModel: TicTacToeViewModel by viewModels {
         TicTacToeViewModelFactory(
             DomainModule.provideTicTacToeManager(),
-            DomainModule.provideTicTacToe(Mode.RANDOM)
+            DomainModule.provideTicTacToe(),
+            Mode.RANDOM
         )
     }
 

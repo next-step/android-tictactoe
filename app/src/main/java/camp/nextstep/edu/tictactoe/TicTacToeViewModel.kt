@@ -19,7 +19,8 @@ import camp.nextstep.edu.tictactoe.domain.tictactoe.TicTacToe
 
 class TicTacToeViewModel(
     private val manager: TicTacToeManager,
-    private val ticTacToe: TicTacToe
+    private val ticTacToe: TicTacToe,
+    private var mode: Mode
 ) : ViewModel() {
 
     private val _uiState = MutableLiveData(UiState(GameStatus.InProgress, Board.EMPTY, Turn.X))
@@ -27,8 +28,6 @@ class TicTacToeViewModel(
 
     private val _uiEffect = SingleLiveEvent<UiEffect>()
     val uiEffect: LiveData<UiEffect> = _uiEffect
-
-    private var gameMode: Mode = ticTacToe.getCurrentMode()
 
     fun onClickMark(position: Position) {
         ticTacToe.mark(position)
@@ -65,7 +64,7 @@ class TicTacToeViewModel(
     }
 
     private fun checkGameMode() {
-        when (gameMode) {
+        when (mode) {
             Mode.PLAYER -> Unit
             Mode.RANDOM -> {
                 ticTacToe.markRandomPosition()
@@ -81,7 +80,8 @@ class TicTacToeViewModel(
     }
 
     fun changeMode(mode: Mode) {
-        ticTacToe.changeMode(mode)
+        this.mode = mode
+        ticTacToe.restart()
         initBoard()
         _uiEffect.value = UiEffect.ShowToast("게임 모드가 변경되었습니다.")
     }

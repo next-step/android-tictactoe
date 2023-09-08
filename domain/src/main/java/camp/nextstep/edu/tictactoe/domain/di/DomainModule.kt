@@ -11,7 +11,7 @@ object DomainModule {
         return DefaultTicTacToeManager()
     }
 
-    fun provideTicTacToe(initMode: Mode): TicTacToe {
-        return DefaultTicTacToe(initMode = initMode)
+    fun provideTicTacToe(): TicTacToe {
+        return DefaultTicTacToe()
     }
 }

@@ -16,6 +16,4 @@ interface TicTacToe {
     fun getBoard(): Board
     fun currentTurn(): Turn
     fun restart()
-    fun changeMode(mode: Mode)
-    fun getCurrentMode(): Mode
 }
