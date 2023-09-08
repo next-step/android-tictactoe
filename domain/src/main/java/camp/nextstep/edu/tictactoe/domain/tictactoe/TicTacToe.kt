@@ -12,8 +12,10 @@ import camp.nextstep.edu.tictactoe.domain.Turn
 
 interface TicTacToe {
     fun mark(position: Position): Result<Unit>
+    fun markRandomPosition()
     fun getBoard(): Board
     fun currentTurn(): Turn
     fun restart()
     fun changeMode(mode: Mode)
+    fun getCurrentMode(): Mode
 }

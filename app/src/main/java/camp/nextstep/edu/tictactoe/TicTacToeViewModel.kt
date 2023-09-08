@@ -28,10 +28,13 @@ class TicTacToeViewModel(
     private val _uiEffect = SingleLiveEvent<UiEffect>()
     val uiEffect: LiveData<UiEffect> = _uiEffect
 
+    private var gameMode: Mode = ticTacToe.getCurrentMode()
+
     fun onClickMark(position: Position) {
         ticTacToe.mark(position)
             .onSuccess {
                 checkGameStatus(ticTacToe.getBoard())
+                checkGameMode()
             }
             .onFailure {
                 _uiEffect.value = UiEffect.ShowToast(it.message ?: "알 수 없는 오류가 발생했습니다.")
@@ -57,6 +60,16 @@ class TicTacToeViewModel(
             GameStatus.WinX -> {
                 _uiState.value = UiState(GameStatus.WinX, board, Turn.X)
                 _uiEffect.value = UiEffect.ShowToast("X 승리.")
+            }
+        }
+    }
+
+    private fun checkGameMode() {
+        when (gameMode) {
+            Mode.PLAYER -> Unit
+            Mode.RANDOM -> {
+                ticTacToe.markRandomPosition()
+                checkGameStatus(ticTacToe.getBoard())
             }
         }
     }
