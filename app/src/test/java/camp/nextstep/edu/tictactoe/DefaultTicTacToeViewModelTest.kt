@@ -3,6 +3,7 @@ package camp.nextstep.edu.tictactoe
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import camp.nextstep.edu.tictactoe.domain.Board
 import camp.nextstep.edu.tictactoe.domain.GameStatus
+import camp.nextstep.edu.tictactoe.domain.Mode
 import camp.nextstep.edu.tictactoe.domain.Position
 import camp.nextstep.edu.tictactoe.domain.Turn
 import camp.nextstep.edu.tictactoe.domain.manager.TicTacToeManager
@@ -27,7 +28,7 @@ class DefaultTicTacToeViewModelTest {
 
     @Before
     fun setUp() {
-        viewModel = TicTacToeViewModel(manager, ticTacToe)
+        viewModel = TicTacToeViewModel(manager, ticTacToe, Mode.PLAYER)
     }
 
     @Test
