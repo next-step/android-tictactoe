@@ -10,11 +10,13 @@ class Game(
         get() = _gameStatus
 
     private var _playerTurn = PlayerTurn.TURN_PLAYER1
-    private val playerTurn: PlayerTurn
+    val playerTurn: PlayerTurn
         get() = _playerTurn
 
     // 게임 모드
-    private var _gameMode = GameMode.RANDOM
+    private var _gameMode: GameMode = GameMode.RANDOM_MODE
+    val gameMode: GameMode
+        get() = _gameMode
 
     fun changeGameMode(gameMode: GameMode) {
         _gameMode = gameMode
@@ -28,10 +30,18 @@ class Game(
         _playerTurn = PlayerTurn.TURN_PLAYER1
     }
 
-    fun selectBoard(position: Position) {
-        if(!board.canMark(position)) return
-        board = _gameMode.selectBoard(board, position, playerTurn)
-        if(_gameMode == GameMode.TWO_PLAYER) {
+    fun selectBoard(position: Position, testGameMode: GameMode? = null) {
+        testGameMode?.let { _gameMode = testGameMode }
+
+        if (!board.canMark(position)) return
+
+        board = when (_gameMode) {
+            GameMode.TWO_PLAYER_MODE -> TwoPlayer.markBoard(board, position, playerTurn)
+            GameMode.RANDOM_MODE -> Random.markBoard(board, position, playerTurn)
+            GameMode.INTERMEDIATE_LEVEL_MODE -> IntermediateLevel.markBoard(board, position, playerTurn)
+        }
+
+        if (_gameMode == GameMode.TWO_PLAYER_MODE) {
             changeTurn()
         }
     }
@@ -40,7 +50,7 @@ class Game(
 
     // 플레이어 턴 변경
     private fun changeTurn() {
-        _playerTurn = when(_playerTurn) {
+        _playerTurn = when (_playerTurn) {
             PlayerTurn.TURN_PLAYER1 -> PlayerTurn.TURN_PLAYER2
             PlayerTurn.TURN_PLAYER2 -> PlayerTurn.TURN_PLAYER1
         }

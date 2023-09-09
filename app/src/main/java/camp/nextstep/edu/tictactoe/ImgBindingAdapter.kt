@@ -10,9 +10,11 @@ fun loadImage(imageView: ImageView, cell: Cell) {
         is Cell.PLAYER1 -> {
             imageView.setImageResource(R.drawable.ic_x_black)
         }
+
         is Cell.PLAYER2 -> {
             imageView.setImageResource(R.drawable.ic_o_black)
         }
+
         is Cell.NONE -> {
             imageView.setImageResource(0)
         }

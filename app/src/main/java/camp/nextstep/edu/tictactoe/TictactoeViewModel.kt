@@ -10,7 +10,7 @@ import com.example.tictectoe_domain.GameStatus
 import com.example.tictectoe_domain.Position
 
 class TictactoeViewModel(
-   private val game: Game
+    private val game: Game
 ) : ViewModel() {
 
     private val _board = MutableLiveData(game.getBoard())
@@ -21,17 +21,8 @@ class TictactoeViewModel(
     val gameStatus: LiveData<GameStatus>
         get() = _gameStatus
 
-    private val _clickRestart = SingleLiveEvent<Unit>()
-    val clickRestart: LiveData<Unit>
-        get() = _clickRestart
-
-    private val _toastEvent = SingleLiveEvent<Int>()
-    val toastEvent: LiveData<Int>
-        get() = _toastEvent
-
     fun clickBoard(position: Position) {
-        // 1. 게임 플레이가 가능한 상태인가?
-        if(!game.isPlay()) {
+        if (!game.isPlay()) {
             return
         }
 

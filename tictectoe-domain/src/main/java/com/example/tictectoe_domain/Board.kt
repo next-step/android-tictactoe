@@ -80,9 +80,25 @@ data class Board private constructor(private val board: Map<Position, Cell>) {
             ).associateBy { it.position }
         )
 
+        val TEST_BEFORE_PLAYER1_WIN_BOARD = Board(
+            setOf(
+                Cell.NONE(Position.TOP_LEFT), Cell.PLAYER1(Position.TOP_CENTER), Cell.PLAYER1(Position.TOP_RIGHT),
+                Cell.NONE(Position.MID_LEFT), Cell.NONE(Position.MID_CENTER), Cell.NONE(Position.MID_RIGHT),
+                Cell.NONE(Position.BOTTOM_LEFT), Cell.NONE(Position.BOTTOM_CENTER), Cell.NONE(Position.BOTTOM_RIGHT)
+            ).associateBy { it.position }
+        )
+
         val TEST_DRAW_BOARD = Board(
             setOf(
                 Cell.PLAYER1(Position.TOP_LEFT), Cell.PLAYER1(Position.TOP_CENTER), Cell.PLAYER2(Position.TOP_RIGHT),
+                Cell.PLAYER2(Position.MID_LEFT), Cell.PLAYER1(Position.MID_CENTER), Cell.PLAYER1(Position.MID_RIGHT),
+                Cell.PLAYER1(Position.BOTTOM_LEFT), Cell.PLAYER2(Position.BOTTOM_CENTER), Cell.PLAYER2(Position.BOTTOM_RIGHT)
+            ).associateBy { it.position }
+        )
+
+        val TEST_BEFORE_DRAW_BOARD = Board(
+            setOf(
+                Cell.NONE(Position.TOP_LEFT), Cell.PLAYER1(Position.TOP_CENTER), Cell.PLAYER2(Position.TOP_RIGHT),
                 Cell.PLAYER2(Position.MID_LEFT), Cell.PLAYER1(Position.MID_CENTER), Cell.PLAYER1(Position.MID_RIGHT),
                 Cell.PLAYER1(Position.BOTTOM_LEFT), Cell.PLAYER2(Position.BOTTOM_CENTER), Cell.PLAYER2(Position.BOTTOM_RIGHT)
             ).associateBy { it.position }
