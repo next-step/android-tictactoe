@@ -14,13 +14,12 @@ import camp.nextstep.edu.tictactoe.domain.tictactoe.TicTacToe
 
 class TicTacToeViewModelFactory(
     private val ticTacToeManager: TicTacToeManager,
-    private val ticTacToe: TicTacToe,
-    private val mode: Mode
+    private val ticTacToe: TicTacToe
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(TicTacToeViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return TicTacToeViewModel(ticTacToeManager, ticTacToe, mode) as T
+            return TicTacToeViewModel(ticTacToeManager, ticTacToe) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

@@ -20,7 +20,6 @@ import camp.nextstep.edu.tictactoe.domain.tictactoe.TicTacToe
 class TicTacToeViewModel(
     private val manager: TicTacToeManager,
     private val ticTacToe: TicTacToe,
-    private var mode: Mode
 ) : ViewModel() {
 
     private val _uiState = MutableLiveData(UiState(GameStatus.InProgress, Board.EMPTY, Turn.X))
@@ -33,7 +32,6 @@ class TicTacToeViewModel(
         ticTacToe.mark(position)
             .onSuccess {
                 checkGameStatus(ticTacToe.getBoard())
-                checkGameMode()
             }
             .onFailure {
                 _uiEffect.value = UiEffect.ShowToast(it.message ?: "알 수 없는 오류가 발생했습니다.")
@@ -63,16 +61,6 @@ class TicTacToeViewModel(
         }
     }
 
-    private fun checkGameMode() {
-        when (mode) {
-            Mode.PLAYER -> Unit
-            Mode.RANDOM -> {
-                ticTacToe.markRandomPosition()
-                checkGameStatus(ticTacToe.getBoard())
-            }
-        }
-    }
-
     fun onClickRestart() {
         ticTacToe.restart()
         initBoard()
@@ -80,7 +68,7 @@ class TicTacToeViewModel(
     }
 
     fun changeMode(mode: Mode) {
-        this.mode = mode
+        ticTacToe.changeMode(mode)
         ticTacToe.restart()
         initBoard()
         _uiEffect.value = UiEffect.ShowToast("게임 모드가 변경되었습니다.")

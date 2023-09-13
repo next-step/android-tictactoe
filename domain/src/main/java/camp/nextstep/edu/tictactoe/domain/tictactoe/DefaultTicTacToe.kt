@@ -7,11 +7,13 @@ package camp.nextstep.edu.tictactoe.domain.tictactoe
 
 import camp.nextstep.edu.tictactoe.domain.Board
 import camp.nextstep.edu.tictactoe.domain.Cell
+import camp.nextstep.edu.tictactoe.domain.Mode
 import camp.nextstep.edu.tictactoe.domain.Position
 import camp.nextstep.edu.tictactoe.domain.Turn
 
 internal class DefaultTicTacToe(
     private var currentTurn: Turn = Turn.X,
+    private var mode: Mode = Mode.PLAYER
 ) : TicTacToe {
 
     private var board: Board = Board.EMPTY
@@ -25,10 +27,23 @@ internal class DefaultTicTacToe(
                 board.set(position, Cell.O(position))
             }
         }
-    }.onSuccess { changeTurn() }
+    }.onSuccess {
+        changeTurn()
+        checkCurrentMode()
+    }
+
+    private fun checkCurrentMode() {
+        if(currentTurn != Turn.O) {
+            return
+        }
+        when(mode) {
+            Mode.PLAYER -> return
+            Mode.RANDOM -> markRandomPosition()
+        }
+    }
 
     override fun markRandomPosition() {
-        if (currentTurn == Turn.X || board.isFull()) {
+        if (board.isFull()) {
             return
         }
         mark(getRandomPosition())
@@ -53,5 +68,9 @@ internal class DefaultTicTacToe(
     override fun restart() {
         board = Board.EMPTY
         currentTurn = Turn.X
+    }
+
+    override fun changeMode(mode: Mode) {
+        this.mode = mode
     }
 }
