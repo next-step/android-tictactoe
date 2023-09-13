@@ -28,7 +28,7 @@ class DefaultTicTacToeViewModelTest {
 
     @Before
     fun setUp() {
-        viewModel = TicTacToeViewModel(manager, ticTacToe, Mode.PLAYER)
+        viewModel = TicTacToeViewModel(manager, ticTacToe)
     }
 
     @Test
