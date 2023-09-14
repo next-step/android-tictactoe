@@ -14,7 +14,6 @@ internal object TwoPlayer : GameAlgorithm() {
             }
         }
     }
-
 }
 
 internal object Random : GameAlgorithm() {
@@ -81,6 +80,6 @@ private fun defenseMark(board: Board): Board? {
     return null
 }
 
-interface GamePlay {
+internal interface GamePlay {
     fun markBoard(board: Board, position: Position, playerTurn: PlayerTurn): Board
 }
