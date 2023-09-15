@@ -11,14 +11,14 @@
 
         <variable
             name="viewModel"
-            type="camp.nextstep.edu.tictactoe.TictactoeViewModel" />
+            type="camp.nextstep.edu.tictactoe.TicTacToeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        tools:context=".TictactoeActivity">
+        tools:context=".TicTacToeActivity">
 
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/flow"

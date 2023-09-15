@@ -7,10 +7,17 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import camp.nextstep.edu.tictactoe.databinding.ActivityMainBinding
+import camp.nextstep.edu.tictactoe.domain.Mode
+import camp.nextstep.edu.tictactoe.domain.di.DomainModule
 
-class TictactoeActivity : AppCompatActivity() {
+class TicTacToeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: TictactoeViewModel by viewModels()
+    private val viewModel: TicTacToeViewModel by viewModels {
+        TicTacToeViewModelFactory(
+            DomainModule.provideTicTacToeManager(),
+            DomainModule.provideTicTacToe(Mode.RANDOM),
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,10 +50,12 @@ class TictactoeActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_two ->
-                Toast.makeText(this, "TODO: 2인 모드로 전환", Toast.LENGTH_SHORT).show()
-            R.id.menu_random ->
-                Toast.makeText(this, "TODO: 랜덤 모드로 전환", Toast.LENGTH_SHORT).show()
+            R.id.menu_two -> {
+                viewModel.changeMode(Mode.PLAYER)
+            }
+            R.id.menu_random -> {
+                viewModel.changeMode(Mode.RANDOM)
+            }
             R.id.menu_draw ->
                 Toast.makeText(this, "TODO: 무승부 모드로 전환", Toast.LENGTH_SHORT).show()
         }

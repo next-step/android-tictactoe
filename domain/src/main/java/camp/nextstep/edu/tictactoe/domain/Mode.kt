@@ -7,5 +7,5 @@ package camp.nextstep.edu.tictactoe.domain
 
 
 enum class Mode {
-    DOUBLE, RANDOM,
+    PLAYER, RANDOM,
 }

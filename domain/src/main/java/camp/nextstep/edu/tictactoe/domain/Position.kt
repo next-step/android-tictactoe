@@ -5,6 +5,7 @@
 
 package camp.nextstep.edu.tictactoe.domain
 
+const val BOARD_SIZE = 3
 
 enum class Position {
     TOP_LEFT, TOP_CENTER, TOP_RIGHT,
@@ -13,11 +14,11 @@ enum class Position {
 
     companion object {
         fun getRow(position: Position): Int {
-            return position.ordinal / 3
+            return position.ordinal / BOARD_SIZE
         }
 
         fun getColumn(position: Position): Int {
-            return position.ordinal % 3
+            return position.ordinal % BOARD_SIZE
         }
     }
 }

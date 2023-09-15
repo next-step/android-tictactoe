@@ -3,15 +3,18 @@
  *
  */
 
-package camp.nextstep.edu.tictactoe.domain
+package camp.nextstep.edu.tictactoe.domain.manager
 
-class TicTacToeManager(
-    initMode: Mode
-) {
+import camp.nextstep.edu.tictactoe.domain.BOARD_SIZE
+import camp.nextstep.edu.tictactoe.domain.Board
+import camp.nextstep.edu.tictactoe.domain.Cell
+import camp.nextstep.edu.tictactoe.domain.GameStatus
+import camp.nextstep.edu.tictactoe.domain.Position
+import camp.nextstep.edu.tictactoe.domain.Turn
 
-    private var mode: Mode = initMode
+internal class DefaultTicTacToeManager: TicTacToeManager {
 
-    fun checkGameStatus(board: Board): GameStatus {
+    override fun checkGameStatus(board: Board): GameStatus {
         checkWinner(board)?.let {
             return when (it) {
                 Turn.X -> GameStatus.WinX
@@ -28,14 +31,14 @@ class TicTacToeManager(
 
     private fun checkWinner(board: Board): Turn? {
         // 행
-        for (row in 0 until 3) {
-            checkWinner(board) { position -> position.ordinal.div(3) == row }
+        for (row in 0 until BOARD_SIZE) {
+            checkWinner(board) { position -> position.ordinal.div(BOARD_SIZE) == row }
                 ?.let { return it }
         }
 
         // 열
-        for (col in 0 until 3) {
-            checkWinner(board) { position -> position.ordinal % 3 == col }
+        for (col in 0 until BOARD_SIZE) {
+            checkWinner(board) { position -> position.ordinal % BOARD_SIZE == col }
                 ?.let { return it }
         }
 
@@ -44,7 +47,7 @@ class TicTacToeManager(
             ?.let { return it }
 
         // 왼쪽 대각선
-        checkWinner(board) { position -> Position.getRow(position) + Position.getColumn(position) == 2 }
+        checkWinner(board) { position -> Position.getRow(position) + Position.getColumn(position) == BOARD_SIZE - 1 }
             ?.let { return it }
 
         return null
@@ -68,11 +71,11 @@ class TicTacToeManager(
         board: Board,
         predicate: (Map.Entry<Position, Cell>) -> Boolean
     ): Boolean {
-        return board.filter(predicate).count() == 3
+        return board.filter(predicate).count() == BOARD_SIZE
     }
 
-    private fun isDraw(board: Board): Boolean {
-        return board.boardSize == 9
+    override fun isDraw(board: Board): Boolean {
+        return board.boardSize == BOARD_SIZE * BOARD_SIZE
     }
 }
 

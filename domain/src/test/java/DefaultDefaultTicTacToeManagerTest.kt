@@ -3,7 +3,7 @@ import camp.nextstep.edu.tictactoe.domain.Cell
 import camp.nextstep.edu.tictactoe.domain.GameStatus
 import camp.nextstep.edu.tictactoe.domain.Mode
 import camp.nextstep.edu.tictactoe.domain.Position
-import camp.nextstep.edu.tictactoe.domain.TicTacToeManager
+import camp.nextstep.edu.tictactoe.domain.manager.DefaultTicTacToeManager
 import camp.nextstep.edu.tictactoe.domain.test.getDrawBoard
 import camp.nextstep.edu.tictactoe.domain.test.getInCompleteBoard
 import com.google.common.truth.Truth.assertThat
@@ -15,12 +15,12 @@ import org.junit.Test
  *
  */
 
-class TicTacToeManagerTest {
-    private lateinit var ticTacToeManager: TicTacToeManager
+class DefaultDefaultTicTacToeManagerTest {
+    private lateinit var defaultTicTacToeManager: DefaultTicTacToeManager
 
     @Before
     fun setUp() {
-        ticTacToeManager = TicTacToeManager(Mode.DOUBLE)
+        defaultTicTacToeManager = DefaultTicTacToeManager()
     }
 
     @Test
@@ -35,7 +35,7 @@ class TicTacToeManagerTest {
         )
 
         // when
-        val actual = ticTacToeManager.checkGameStatus(board)
+        val actual = defaultTicTacToeManager.checkGameStatus(board)
 
         // then
         assertThat(actual).isEqualTo(GameStatus.WinX)
@@ -53,7 +53,7 @@ class TicTacToeManagerTest {
         )
 
         // when
-        val actual = ticTacToeManager.checkGameStatus(board)
+        val actual = defaultTicTacToeManager.checkGameStatus(board)
 
         // then
         assertThat(actual).isEqualTo(GameStatus.WinO)
@@ -71,7 +71,7 @@ class TicTacToeManagerTest {
         )
 
         // when
-        val actual = ticTacToeManager.checkGameStatus(board)
+        val actual = defaultTicTacToeManager.checkGameStatus(board)
 
         // then
         assertThat(actual).isEqualTo(GameStatus.WinX)
@@ -89,7 +89,7 @@ class TicTacToeManagerTest {
         )
 
         // when
-        val actual = ticTacToeManager.checkGameStatus(board)
+        val actual = defaultTicTacToeManager.checkGameStatus(board)
 
         // then
         assertThat(actual).isEqualTo(GameStatus.WinX)
@@ -101,7 +101,7 @@ class TicTacToeManagerTest {
         val board = getInCompleteBoard()
 
         // when
-        val actual = ticTacToeManager.checkGameStatus(board)
+        val actual = defaultTicTacToeManager.checkGameStatus(board)
 
         // then
         assertThat(actual).isEqualTo(GameStatus.InProgress)
@@ -113,7 +113,7 @@ class TicTacToeManagerTest {
         val board = getDrawBoard()
 
         // when
-        val actual = ticTacToeManager.checkGameStatus(board)
+        val actual = defaultTicTacToeManager.checkGameStatus(board)
 
         // then
         assertThat(actual).isEqualTo(GameStatus.Draw)
