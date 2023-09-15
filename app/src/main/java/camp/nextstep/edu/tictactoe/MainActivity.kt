@@ -32,10 +32,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initObserve() {
-        viewModel.toastEvent.observe(this) {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-        }
-
         viewModel.gameStatus.observe(this) { gameStatus ->
             val msgId = when (gameStatus) {
                 GameStatus.PLAYER1_WIN -> {
@@ -67,15 +63,18 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.menu_two -> {
                 Toast.makeText(this, "2인 모드로 전환", Toast.LENGTH_SHORT).show()
-                viewModel.changeGameMode(GameMode.TWO_PLAYER)
+                viewModel.changeGameMode(GameMode.TWO_PLAYER_MODE)
             }
 
             R.id.menu_random -> {
                 Toast.makeText(this, "랜덤 모드로 전환", Toast.LENGTH_SHORT).show()
-                viewModel.changeGameMode(GameMode.RANDOM)
+                viewModel.changeGameMode(GameMode.RANDOM_MODE)
             }
 
-            R.id.menu_draw -> {}
+            R.id.menu_intermediate_level -> {
+                Toast.makeText(this, "중급 모드로 전환", Toast.LENGTH_SHORT).show()
+                viewModel.changeGameMode(GameMode.INTERMEDIATE_LEVEL_MODE)
+            }
         }
         return true
     }

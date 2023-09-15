@@ -8,10 +8,8 @@
         <variable
             name="viewModel"
             type="camp.nextstep.edu.tictactoe.TictactoeViewModel" />
-
-        <variable
-            name="CELL"
-            type="com.example.tictectoe_domain.Cell" />
+        
+        <import type="com.example.tictectoe_domain.Position"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,81 +36,81 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> viewModel.clickBoard(1)}"
+            android:onClick="@{() -> viewModel.clickBoard(Position.TOP_LEFT)}"
             tools:ignore="ContentDescription"
-            app:imgRes="@{viewModel.board[1]}" />
+            app:imgRes="@{viewModel.board.topLeft}" />
 
         <ImageView
             android:id="@+id/cell_top"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> viewModel.clickBoard(2)}"
+            android:onClick="@{() -> viewModel.clickBoard(Position.TOP_CENTER)}"
             tools:ignore="ContentDescription"
-            app:imgRes="@{viewModel.board[2]}" />
+            app:imgRes="@{viewModel.board.topCenter}" />
 
         <ImageView
             android:id="@+id/cell_top_right"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> viewModel.clickBoard(3)}"
+            android:onClick="@{() -> viewModel.clickBoard(Position.TOP_RIGHT)}"
             tools:ignore="ContentDescription"
-            app:imgRes="@{viewModel.board[3]}" />
+            app:imgRes="@{viewModel.board.topRight}" />
 
         <ImageView
             android:id="@+id/cell_middle_left"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> viewModel.clickBoard(4)}"
+            android:onClick="@{() -> viewModel.clickBoard(Position.MID_LEFT)}"
             tools:ignore="ContentDescription"
-            app:imgRes="@{viewModel.board[4]}" />
+            app:imgRes="@{viewModel.board.midLeft}" />
 
         <ImageView
             android:id="@+id/cell_middle"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> viewModel.clickBoard(5)}"
+            android:onClick="@{() -> viewModel.clickBoard(Position.MID_CENTER)}"
             tools:ignore="ContentDescription"
-            app:imgRes="@{viewModel.board[5]}" />
+            app:imgRes="@{viewModel.board.midCenter}" />
 
         <ImageView
             android:id="@+id/cell_middle_right"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> viewModel.clickBoard(6)}"
+            android:onClick="@{() -> viewModel.clickBoard(Position.MID_RIGHT)}"
             tools:ignore="ContentDescription"
-            app:imgRes="@{viewModel.board[6]}" />
+            app:imgRes="@{viewModel.board.midRight}" />
 
         <ImageView
             android:id="@+id/cell_bottom_left"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> viewModel.clickBoard(7)}"
+            android:onClick="@{() -> viewModel.clickBoard(Position.BOTTOM_LEFT)}"
             tools:ignore="ContentDescription"
-            app:imgRes="@{viewModel.board[7]}" />
+            app:imgRes="@{viewModel.board.bottomLeft}" />
 
         <ImageView
             android:id="@+id/cell_bottom"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> viewModel.clickBoard(8)}"
+            android:onClick="@{() -> viewModel.clickBoard(Position.BOTTOM_CENTER)}"
             tools:ignore="ContentDescription"
-            app:imgRes="@{viewModel.board[8]}" />
+            app:imgRes="@{viewModel.board.bottomCenter}" />
 
         <ImageView
             android:id="@+id/cell_bottom_right"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> viewModel.clickBoard(9)}"
+            android:onClick="@{() -> viewModel.clickBoard(Position.BOTTOM_RIGHT)}"
             tools:ignore="ContentDescription"
-            app:imgRes="@{viewModel.board[9]}" />
+            app:imgRes="@{viewModel.board.bottomRight}" />
         <!-- endregion -->
 
         <!-- region Divider -->

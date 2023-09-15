@@ -1,7 +1,7 @@
 package com.example.tictectoe_domain
 
 class Game(
-    private val board: TictectoeBoard = TictectoeBoard(),
+    private var board: Board = Board.EMPTY,
     private val rule: TictectoeRule = TictectoeRule()
 ) {
     // 게임 상태
@@ -10,57 +10,52 @@ class Game(
         get() = _gameStatus
 
     private var _playerTurn = PlayerTurn.TURN_PLAYER1
-    private val playerTurn: PlayerTurn
+    val playerTurn: PlayerTurn
         get() = _playerTurn
 
-    // 게임 모드
-    private var _gameMode = GameMode.RANDOM
-    val gameMode: GameMode
-        get() = _gameMode
-
+    private var _gameAlgorithm: GameAlgorithm = Random
+    val gameAlgorithm: GameAlgorithm
+        get() = _gameAlgorithm
     fun changeGameMode(gameMode: GameMode) {
-        _gameMode = gameMode
+        _gameAlgorithm = when(gameMode) {
+            GameMode.TWO_PLAYER_MODE -> TwoPlayer
+            GameMode.RANDOM_MODE -> Random
+            GameMode.INTERMEDIATE_LEVEL_MODE -> IntermediateLevel
+        }
     }
 
-    fun getBoard() = board.tictectoeBoard
+    fun getBoard() = board
 
     fun gameReset() {
-        board.boardClear()
+        board = Board.EMPTY
         _gameStatus = GameStatus.PLAYING
         _playerTurn = PlayerTurn.TURN_PLAYER1
     }
 
-    fun selectBoard(position: Int) {
-        _gameMode.selectBoard(board, position, playerTurn)
-        if(_gameMode == GameMode.TWO_PLAYER) {
+    fun selectBoard(position: Position, testGameAlgorithm: GameAlgorithm? = null) {
+        testGameAlgorithm?.let { _gameAlgorithm = testGameAlgorithm }
+
+        if (!board.canMark(position)) return
+        board = _gameAlgorithm.markBoard(board, position, playerTurn)
+
+        if (_gameAlgorithm == TwoPlayer) {
             changeTurn()
         }
-        checkWinAndDraw()
     }
 
-    fun isPlay() = gameStatus == GameStatus.PLAYING
-
-    fun canSelect(position: Int): Boolean {
-        return board.canSelect(position)
-    }
+    fun isPlay() = _gameStatus == GameStatus.PLAYING
 
     // 플레이어 턴 변경
     private fun changeTurn() {
-        _playerTurn = when(_playerTurn) {
+        _playerTurn = when (_playerTurn) {
             PlayerTurn.TURN_PLAYER1 -> PlayerTurn.TURN_PLAYER2
             PlayerTurn.TURN_PLAYER2 -> PlayerTurn.TURN_PLAYER1
         }
     }
 
     // 승리 확인
-    private fun checkWinAndDraw() {
-        val winningPlayer = rule.getWinningPlayer(board.tictectoeBoard)
-        if(winningPlayer == Cell.PLAYER1) {
-            _gameStatus = GameStatus.PLAYER1_WIN
-        } else if(winningPlayer == Cell.PLAYER2) {
-            _gameStatus = GameStatus.PLAYER2_WIN
-        } else if(rule.isDraw(board.tictectoeBoard)) {
-            _gameStatus = GameStatus.DRAW_GAME
-        }
+    fun checkGameStatus(): GameStatus {
+        _gameStatus = rule.checkGameStatus(board)
+        return _gameStatus
     }
 }
