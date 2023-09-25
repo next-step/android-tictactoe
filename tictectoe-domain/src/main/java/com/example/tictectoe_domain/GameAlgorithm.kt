@@ -2,7 +2,7 @@ package com.example.tictectoe_domain
 
 sealed class GameAlgorithm : GamePlay
 
-internal object TwoPlayer : GameAlgorithm() {
+internal data object TwoPlayer : GameAlgorithm() {
     override fun markBoard(board: Board, position: Position, playerTurn: PlayerTurn): Board {
         return when (playerTurn) {
             PlayerTurn.TURN_PLAYER1 -> {
@@ -16,7 +16,7 @@ internal object TwoPlayer : GameAlgorithm() {
     }
 }
 
-internal object Random : GameAlgorithm() {
+internal data object Random : GameAlgorithm() {
     override fun markBoard(board: Board, position: Position, playerTurn: PlayerTurn): Board {
         val newBoard = board.mark(Cell.PLAYER1(position))
         if (newBoard.isFull()) {
@@ -26,7 +26,7 @@ internal object Random : GameAlgorithm() {
     }
 }
 
-internal object IntermediateLevel : GameAlgorithm() {
+internal data object IntermediateLevel : GameAlgorithm() {
     override fun markBoard(board: Board, position: Position, playerTurn: PlayerTurn): Board {
         val newBoard = board.mark(Cell.PLAYER1(position))
 

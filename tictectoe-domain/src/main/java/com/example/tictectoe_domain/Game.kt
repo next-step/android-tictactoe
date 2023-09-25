@@ -1,8 +1,10 @@
 package com.example.tictectoe_domain
 
-class Game(
-    private var board: Board = Board.EMPTY,
-    private val rule: TictectoeRule = TictectoeRule()
+import javax.inject.Inject
+
+class Game @Inject constructor(
+    private var board: Board,
+    private val rule: TictectoeRule
 ) {
     // 게임 상태
     private var _gameStatus = GameStatus.PLAYING

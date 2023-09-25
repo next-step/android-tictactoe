@@ -8,8 +8,11 @@ import com.example.tictectoe_domain.Game
 import com.example.tictectoe_domain.GameMode
 import com.example.tictectoe_domain.GameStatus
 import com.example.tictectoe_domain.Position
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class TictactoeViewModel(
+@HiltViewModel
+class TictactoeViewModel @Inject constructor(
     private val game: Game
 ) : ViewModel() {
 

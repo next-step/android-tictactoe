@@ -7,6 +7,7 @@ import com.example.tictectoe_domain.Game
 import com.example.tictectoe_domain.GameMode
 import com.example.tictectoe_domain.GameStatus
 import com.example.tictectoe_domain.Position
+import com.example.tictectoe_domain.TictectoeRule
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Rule
@@ -15,12 +16,11 @@ import org.junit.Test
 class TictactoeViewModelTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
-
     private lateinit var viewModel: TictactoeViewModel
 
     @Before
     fun setTest() {
-        viewModel = TictactoeViewModel(Game())
+        viewModel = TictactoeViewModel(Game(Board.EMPTY, TictectoeRule()))
     }
 
     @Test
@@ -52,7 +52,7 @@ class TictactoeViewModelTest {
     @Test
     fun `게임이 Player1의 승리 시 게임 상태는 플레이어1 승리가 된다`() {
         // given : 상단 왼쪽을 선택하면 플에이어1이 승리하는 보드로 게임을 시작한다.
-        viewModel = TictactoeViewModel(Game(board = Board.TEST_BEFORE_PLAYER1_WIN_BOARD))
+        viewModel = TictactoeViewModel(Game(board = Board.TEST_BEFORE_PLAYER1_WIN_BOARD, rule = TictectoeRule()))
 
         // when : 보드의 상단 왼쪽을 선택한다
         viewModel.clickBoard(Position.TOP_LEFT)
@@ -64,7 +64,7 @@ class TictactoeViewModelTest {
     @Test
     fun `게임이 무승부 시 게임 상태는 무승부가 된다`() {
         // given : 상단 왼쪽만 비어있는 무승부 직전의 보드로 게임을 시작한다.
-        viewModel = TictactoeViewModel(Game(board = Board.TEST_BEFORE_DRAW_BOARD))
+        viewModel = TictactoeViewModel(Game(board = Board.TEST_BEFORE_DRAW_BOARD, rule = TictectoeRule()))
 
         // when : 보드의 상단 왼쪽을 선택한다
         viewModel.clickBoard(Position.TOP_LEFT)
@@ -72,6 +72,4 @@ class TictactoeViewModelTest {
         // then : 게임 상태는 무승부가 된다.
         assertThat(viewModel.gameStatus.value).isEqualTo(GameStatus.DRAW_GAME)
     }
-
-
 }
